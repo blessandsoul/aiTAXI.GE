@@ -152,7 +152,10 @@ export function LandingHero() {
         const maxW = measureMaxWidth();
         const caret = el.querySelector<HTMLElement>('.tw-caret');
         const caretW = caret ? caret.getBoundingClientRect().width + 2 : 8;
-        el.style.minWidth = `${Math.ceil(maxW + caretW)}px`;
+        // Cap at the parent width: a reserved box wider than the h1 container
+        // overflows to the right and drags the centered word off-axis.
+        const parentW = el.parentElement ? el.parentElement.clientWidth : Infinity;
+        el.style.minWidth = `${Math.min(Math.ceil(maxW + caretW), parentW)}px`;
       });
     };
 
