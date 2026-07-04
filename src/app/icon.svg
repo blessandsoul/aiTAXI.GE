@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+  <!-- aiTAXI mark: taxi-yellow ground, the three skewed aiNOW-family
+       accent stripes rendered in ink (taxi-plate contrast). -->
+  <rect x="0" y="0" width="512" height="512" rx="96" fill="#FFC400"/>
+  <g transform="translate(120 116) skewX(-15)">
+    <rect x="0" y="0"   width="368" height="64" rx="14" fill="#1A1400"/>
+    <rect x="0" y="108" width="368" height="64" rx="14" fill="#1A1400"/>
+    <rect x="0" y="216" width="368" height="64" rx="14" fill="#1A1400"/>
+  </g>
+</svg>

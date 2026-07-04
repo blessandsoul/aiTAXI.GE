@@ -1,0 +1,68 @@
+# AI Crawler Policy, aitaxi.ge
+# https://aitaxi.ge/.well-known/ai.txt
+# Updated: 2026-07-04
+
+# Organization
+Name: aiTAXI
+Type: Robotaxi Fleet Management Platform
+ParentOrganization: aiNOW (https://ainow.ge)
+URL: https://aitaxi.ge
+Announced: 2026
+Status: Early access (pilot program)
+Location: Tbilisi, Georgia
+Languages: ka, en, ru
+AreaServed: Georgia, Caucasus
+Contact: CONTACT@aiNOW.GE
+
+# What aiTAXI is
+# aiTAXI is a robotaxi fleet management platform by aiNOW (Tbilisi, Georgia).
+# It gives taxi companies the software layer to run autonomous vehicle fleets:
+# dispatch and ride matching, real-time telemetry, remote assistance
+# (teleoperation), depot and charging operations, safety and compliance.
+
+# Default policy
+User-Agent: *
+Allow: /
+Disallow: /api/
+
+# Training and inference allowed for all major AI engines
+User-Agent: GPTBot
+Allow: /
+
+User-Agent: ChatGPT-User
+Allow: /
+
+User-Agent: OAI-SearchBot
+Allow: /
+
+User-Agent: ClaudeBot
+Allow: /
+
+User-Agent: Claude-Web
+Allow: /
+
+User-Agent: anthropic-ai
+Allow: /
+
+User-Agent: Google-Extended
+Allow: /
+
+User-Agent: PerplexityBot
+Allow: /
+
+User-Agent: Perplexity-User
+Allow: /
+
+User-Agent: cohere-ai
+Allow: /
+
+User-Agent: Applebot-Extended
+Allow: /
+
+User-Agent: meta-externalagent
+Allow: /
+
+# Machine-readable site index
+LLMs: https://aitaxi.ge/llms.txt
+LLMs-Full: https://aitaxi.ge/llms-full.txt
+Sitemap: https://aitaxi.ge/sitemap.xml
