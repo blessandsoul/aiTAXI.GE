@@ -2,19 +2,19 @@
 /**
  * IndexNow ping — submit fresh/changed URLs to search engines.
  *
- * The aiNOW blog is MDX-file driven (committed to git, deployed via CI/Coolify),
+ * The aiTAXI blog is MDX-file driven (committed to git, deployed via Coolify),
  * so there is no server-side "publish" event to hook. Run this after a deploy
  * that added or changed pages:
  *
  *   node scripts/indexnow-ping.mjs /blog/my-new-slug
- *   node scripts/indexnow-ping.mjs /blog/a /blog/b https://ainow.ge/pricing
- *   node scripts/indexnow-ping.mjs            # no args → homepage + main pages
+ *   node scripts/indexnow-ping.mjs /blog/a /blog/b https://aitaxi.ge/contact
+ *   node scripts/indexnow-ping.mjs            # no args → every indexed page
  *
- * Key is hosted at https://ainow.ge/d6d665619226455ca703b94c0060ed45.txt
+ * Key is hosted at https://aitaxi.ge/4a0aaf8575561707dedc7833c5ca1c0b.txt
  */
 
-const KEY = process.env.INDEXNOW_KEY || "d6d665619226455ca703b94c0060ed45";
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://ainow.ge";
+const KEY = process.env.INDEXNOW_KEY || "4a0aaf8575561707dedc7833c5ca1c0b";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://aitaxi.ge";
 const HOST = new URL(BASE_URL).host;
 const KEY_LOCATION = `${BASE_URL}/${KEY}.txt`;
 
@@ -24,25 +24,34 @@ const ENDPOINTS = [
   "https://yandex.com/indexnow",
 ];
 
+// Locale-expanded page list (ka unprefixed, en/ru prefixed), mirrors sitemap.ts.
+const STATIC_PATHS = ["", "/blog", "/about", "/contact", "/privacy", "/terms"];
+const ARTICLE_SLUGS = [
+  "what-is-a-robotaxi",
+  "robotaxi-fleet-management-software",
+  "integrate-autonomous-vehicles-existing-taxi-fleet",
+  "robotaxi-economics-cost-per-km",
+  "global-robotaxi-market-2026",
+  "robotaxis-in-georgia-when",
+  "autonomous-taxi-safety-regulation",
+  "robotaxi-depot-operations",
+  "remote-assistance-teleoperation",
+  "taxi-business-digitalization-georgia",
+];
+const LOCALES = ["", "/en", "/ru"]; // "" = ka default
+
 const MAIN_PAGES = [
-  "/",
-  "/services",
-  "/pricing",
-  "/blog",
-  "/projects",
-  "/ai-chatboti",
-  "/ai-agenti",
-  "/ai-konteni",
-  "/ai-biznesistvis",
-  "/vibe-marketing",
-  "/contact",
+  ...STATIC_PATHS.flatMap((p) => LOCALES.map((l) => `${l}${p}` || "/")),
+  ...ARTICLE_SLUGS.flatMap((s) => LOCALES.map((l) => `${l}/blog/${s}`)),
 ];
 
 const args = process.argv.slice(2);
 const inputs = args.length ? args : MAIN_PAGES;
-const urlList = inputs.map((u) =>
-  u.startsWith("http") ? u : `${BASE_URL}${u.startsWith("/") ? "" : "/"}${u}`,
-);
+const urlList = [...new Set(
+  inputs.map((u) =>
+    u.startsWith("http") ? u : `${BASE_URL}${u.startsWith("/") ? "" : "/"}${u}`,
+  ),
+)];
 
 const body = JSON.stringify({ host: HOST, key: KEY, keyLocation: KEY_LOCATION, urlList });
 
