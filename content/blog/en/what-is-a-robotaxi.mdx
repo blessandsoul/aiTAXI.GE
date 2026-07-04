@@ -1,0 +1,72 @@
+---
+title: "What is a robotaxi and how does it work?"
+excerpt: "A plain explanation of robotaxis: the sensors, the software, the remote operations behind a driverless taxi, and where the industry stands in 2026."
+date: 2026-06-18
+author: Andrew Altair
+tags:
+  - "Robotaxi"
+  - "Autonomous Vehicles"
+  - "Technology"
+coverQuery: autonomous car city night lights
+readTime: 7 min
+---
+
+<p>A robotaxi is a taxi that drives itself: a passenger car fitted with sensors and an automated driving system that picks up paying riders and completes trips with no human behind the wheel. The vehicle perceives the road with cameras, radar and usually lidar, plans its path with onboard software, and coordinates with a fleet platform that assigns rides, monitors vehicle health and calls a remote human when the car meets a situation it cannot resolve alone. Robotaxis already operate as public, paid services: <a href="https://techcrunch.com/2026/03/27/waymo-skyrocketing-ridership-in-one-chart/">Waymo reported 500,000 paid rides per week across 10 US cities in March 2026</a>, and Baidu's Apollo Go has crossed <a href="https://ir.baidu.com/news-releases/news-release-details/baidu-announces-first-quarter-2026-results/">22 million cumulative rides</a>. The technology is commercial reality in a growing list of cities, and the operating playbook behind it is what this article explains. The same stack scales from a single test car to a citywide fleet with no driver in any seat.</p>
+
+<h2 id="how-does-a-robotaxi-see-the-road">How does a robotaxi see the road?</h2>
+
+<p>The perception stack combines three sensor families. Cameras read color and texture: traffic lights, lane markings, signage, brake lights. Radar measures speed and distance directly and works through rain and fog. Lidar fires laser pulses and builds a precise three-dimensional map of everything within a couple hundred meters. The onboard computer fuses these streams dozens of times per second into one model of the scene: where the road is, what every object is, how fast it moves, and where it is likely to go next.</p>
+
+<p>On top of perception sits prediction and planning. The software assigns each pedestrian, cyclist and vehicle a set of probable trajectories, then plans a path that keeps safe margins around all of them. The result is a driving style that feels conservative: early braking, wide berths around cyclists, patient behavior at complex intersections.</p>
+
+<h2 id="who-assigns-the-rides">Who assigns the rides if there is no driver?</h2>
+
+<p>A driverless car removes the person who used to make small operational decisions: which ride to accept, where to wait between orders, when to refuel, when to call the office because something looks wrong. Those decisions move into <a href="/en/blog/robotaxi-fleet-management-software">robotaxi fleet management software</a>. The platform matches ride requests to vehicles, balances the fleet across zones so cars wait where demand will appear, routes around closures, and schedules every car's charging and cleaning windows.</p>
+
+<p>This split matters for anyone running taxis today. The autonomous driving system is a product you license or buy with the vehicle. The fleet layer is the part that touches your business: your city, your demand curve, your depot, your dispatchers.</p>
+
+<h2 id="what-happens-when-the-car-gets-confused">What happens when the car gets confused?</h2>
+
+<p>Every serious operator runs a remote assistance desk. When a robotaxi meets an ambiguous scene, an unusual cone pattern, a hand-signaling police officer, a blocked lane, it slows or stops and asks for help. A remote human looks at the camera feeds and answers the car's question, for example confirming which lane to take. In <a href="https://waymo.com/blog/2024/05/fleet-response/">Waymo's Fleet Response model</a> the agent gives context and guidance while the vehicle keeps control and remains responsible for the safe maneuver, and reporting puts the ratio at roughly 70 remote assistants for about 3,000 vehicles. The economics follow from that ratio: one operations person supports dozens of cars instead of one driver per car.</p>
+
+<h2 id="are-robotaxis-safe">Are robotaxis safe?</h2>
+
+<p>The largest public dataset says the safety record beats human benchmarks by a wide margin. Across 56.7 million rider-only miles, <a href="https://waymo.com/safety/impact/">Waymo reports 92% fewer serious-injury crashes than comparable human drivers</a>, with an any-injury crash rate of 0.41 per million miles against a 2.80 human benchmark, an 85% reduction confirmed in a <a href="https://www.tandfonline.com/doi/full/10.1080/15389588.2025.2499887">peer-reviewed study</a>. Regulators are catching up with the evidence: the UN adopted a draft global technical regulation for automated driving systems in January 2026. The full picture, including what it means for smaller markets, is in our guide to <a href="/en/blog/autonomous-taxi-safety-regulation">autonomous taxi safety and regulation</a>.</p>
+
+<h2 id="what-does-a-robotaxi-cost-to-run">What does a robotaxi cost to run?</h2>
+
+<p>Removing the driver removes the largest cost line in a taxi's economics, and replaces it with capital costs (sensors, compute, the vehicle itself) plus fleet operations. Analyst models put the long-run operating cost of a robotaxi on a path toward <a href="https://www.nextbigfuture.com/2025/01/estimating-per-car-robotaxi-revenue-and-expenses.html">$0.25 to $0.35 per mile</a>, against $1.50 to $2.00 per mile for human-driven ride-hail. We break the full cost stack down in <a href="/en/blog/robotaxi-economics-cost-per-km">robotaxi cost per kilometer</a>.</p>
+
+<h2 id="where-do-robotaxis-run-today">Where do robotaxis run today?</h2>
+
+<table>
+<thead>
+<tr><th>Operator</th><th>Scale (2026)</th><th>Where</th></tr>
+</thead>
+<tbody>
+<tr><td>Waymo (Alphabet)</td><td>500,000 paid rides per week</td><td>10 US cities</td></tr>
+<tr><td>Apollo Go (Baidu)</td><td>22M+ cumulative rides, 300,000 weekly</td><td>~27 cities, China and beyond</td></tr>
+<tr><td>Tesla Robotaxi</td><td>~20 unsupervised vehicles</td><td>Austin metro, expanding in Texas</td></tr>
+<tr><td>Zoox (Amazon)</td><td>350,000+ riders carried</td><td>Las Vegas, expanding to SF, Austin, Miami</td></tr>
+</tbody>
+</table>
+
+<p>The pattern behind the table: scale came first to cities with dense demand, mapped streets and cooperative regulators, and each operator pairs its driving system with its own fleet operation. A fuller operator-by-operator breakdown is in our review of the <a href="/en/blog/global-robotaxi-market-2026">global robotaxi market</a>.</p>
+
+<h2 id="what-this-means-for-taxi-companies">What does this mean for taxi companies?</h2>
+
+<p>Taxi companies own the two assets robotaxi operators need in every new market: local demand and local operations. The missing piece is the software layer that runs driverless vehicles day to day. aiTAXI is a robotaxi fleet management platform by aiNOW (Tbilisi, Georgia): dispatch, telemetry, remote assistance and depot operations in one console, built so an existing taxi company can run a hybrid fleet. The platform is in early access, and the <a href="/en">robotaxi fleet management platform</a> pilot program is open for Georgian taxi operators who want to be first in line.</p>
+
+<h2 id="faq">FAQ</h2>
+
+<h3 id="faq-1">Is a robotaxi the same as a self-driving car?</h3>
+<p>A robotaxi is a self-driving car used as a commercial taxi. The distinction is the service: robotaxis carry paying passengers in a defined service area, under an operator responsible for the fleet.</p>
+
+<h3 id="faq-2">Does anyone sit in the driver's seat?</h3>
+<p>In mature deployments, no. Waymo, Apollo Go and Zoox run rider-only trips, and Tesla removed safety monitors from part of its Austin fleet in 2026. New markets usually start with a safety attendant and remove them as the safety case matures.</p>
+
+<h3 id="faq-3">Can a robotaxi drive anywhere?</h3>
+<p>No. Each fleet operates inside a mapped, approved service area, and expands it zone by zone. Weather, road works and local rules shape the boundary.</p>
+
+<h3 id="faq-4">Who is responsible if a robotaxi crashes?</h3>
+<p>The operator and manufacturer carry responsibility under the emerging rules, backed by trip logs and sensor records. The UN's 2026 draft regulation formalizes a safety-case approach that makes the operator document and prove safe behavior across the vehicle's life.</p>

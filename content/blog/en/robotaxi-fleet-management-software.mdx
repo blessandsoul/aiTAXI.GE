@@ -1,0 +1,83 @@
+---
+title: "Robotaxi fleet management software: the complete guide"
+excerpt: "What fleet management software does for a driverless taxi fleet: dispatch, telemetry, remote assistance, depot planning and compliance, explained module by module."
+date: 2026-06-21
+author: Andrew Altair
+tags:
+  - "Robotaxi"
+  - "Fleet Management"
+  - "Operations"
+coverQuery: control room screens dashboard operations
+readTime: 8 min
+---
+
+<p>Robotaxi fleet management software is the control layer that runs a fleet of driverless taxis as a business: it assigns rides to vehicles, monitors every car's state in real time, escalates unusual situations to remote human operators, schedules charging and cleaning at the depot, and produces the safety and compliance records regulators expect. The autonomous driving system inside each car handles steering and braking; the fleet platform handles everything a taxi company's dispatchers, mechanics and managers used to coordinate by phone and habit. The two layers are separate products, and the fleet layer is where a taxi operator keeps its leverage: local demand knowledge, depot infrastructure and operations staff. At scale the pattern is visible in operators like <a href="https://techcrunch.com/2026/03/27/waymo-skyrocketing-ridership-in-one-chart/">Waymo, which coordinates 500,000 paid rides per week across 10 cities</a> through exactly this kind of platform sitting above the vehicles.</p>
+
+<h2 id="why-does-a-driverless-fleet-need-software">Why does a driverless fleet need its own software layer?</h2>
+
+<p>A human driver is a distributed operations department. One person accepts orders, chooses waiting spots, notices a strange noise, decides when to refuel, cleans the seats and calls the office when something breaks. Remove the driver and none of those decisions disappear; they concentrate in software. Understanding <a href="/en/blog/what-is-a-robotaxi">what a robotaxi is</a> makes the split clear: the car drives itself, and the fleet platform runs the business around it.</p>
+
+<p>The consequence for cost is direct. Analyst models project robotaxi operating costs on a path toward <a href="https://www.nextbigfuture.com/2025/01/estimating-per-car-robotaxi-revenue-and-expenses.html">$0.25 to $0.35 per mile</a> against $1.50 to $2.00 for human-driven ride-hail, and most of that gap survives only if the software layer keeps utilization high and downtime short.</p>
+
+<h2 id="what-does-the-dispatch-module-do">What does the dispatch module do?</h2>
+
+<p>Dispatch for driverless cars looks like classic taxi dispatch with the human negotiation removed. The platform matches each ride request to a vehicle using battery state, position, and predicted demand, with no acceptance step and no shift schedule. It rebalances idle cars toward zones where orders will appear, sequences pickups to cut empty kilometers, and routes around closures using the fleet's own recent traces.</p>
+
+<p>Key dispatch functions:</p>
+<ul>
+<li>Ride matching with battery and position constraints</li>
+<li>Predictive rebalancing between city zones</li>
+<li>Routing that learns from the fleet's own trips</li>
+<li>Hybrid mode: human-driven and autonomous cars in one queue</li>
+</ul>
+
+<p>The hybrid queue is the part that matters for an existing operator. A company does not switch to autonomy in one day; it runs both kinds of vehicles side by side for years, and the dispatch layer has to treat them as one fleet. That transition path is the subject of our guide to <a href="/en/blog/integrate-autonomous-vehicles-existing-taxi-fleet">adding autonomous vehicles to an existing fleet</a>.</p>
+
+<h2 id="what-is-vehicle-telemetry-for">What is vehicle telemetry for?</h2>
+
+<p>Telemetry is the fleet's nervous system. Every vehicle streams battery level, sensor health, door state, cabin camera flags, tire pressure and software version to one screen. The platform turns the stream into alerts with thresholds: a battery trending low before a long trip, a sensor reporting degraded range, a door that failed to latch. Operations staff see problems before passengers do, and maintenance moves from a fixed calendar to condition-based scheduling.</p>
+
+<h2 id="how-does-remote-assistance-fit-in">How does remote assistance fit in?</h2>
+
+<p>No automated driving system resolves every scene alone. When a car meets an ambiguous construction layout or a police officer directing traffic by hand, it asks for help, and a remote operator answers with context and guidance. <a href="https://waymo.com/blog/2024/05/fleet-response/">Waymo's Fleet Response</a> works this way: the agent responds to the vehicle's questions while the vehicle keeps control, and reported staffing sits near 70 remote assistants for roughly 3,000 cars. The fleet platform's job is queueing those escalations, giving the operator the right camera views instantly, and logging every intervention. The full picture of how this desk works is in <a href="/en/blog/remote-assistance-teleoperation">remote assistance for driverless fleets</a>.</p>
+
+<h2 id="what-happens-at-the-depot">What happens at the depot?</h2>
+
+<p>Robotaxi fleets today are electric, so the depot is a charging operation with a cleaning and maintenance line attached. The software plans charging windows against demand forecasts so cars top up when the city is quiet, books cleaning slots between peaks, and sequences maintenance so the fewest vehicles are offline at once. Depot planning is a scheduling problem the platform solves continuously, and we walk through a full day of it in <a href="/en/blog/robotaxi-depot-operations">depot operations</a>.</p>
+
+<h2 id="what-records-does-the-platform-keep">What records does the platform keep?</h2>
+
+<p>Every trip produces a log: route, events, interventions, incidents. The UN's draft global regulation for automated driving, adopted by the UNECE working party in January 2026, is built on a <a href="https://unece.org/sustainable-development/press/un-announces-global-regulation-facilitate-safe-introduction-self">safety-case approach with a safety management system across the vehicle's life</a>, which in practice means operators must show documented, auditable fleet records. A fleet platform generates that documentation from live data instead of reconstructing it by hand after the fact.</p>
+
+<h2 id="module-summary">Module summary</h2>
+
+<table>
+<thead>
+<tr><th>Module</th><th>Replaces</th><th>Core output</th></tr>
+</thead>
+<tbody>
+<tr><td>Dispatch and ride matching</td><td>Dispatcher and driver decisions</td><td>Assigned, routed, balanced rides</td></tr>
+<tr><td>Telemetry</td><td>Driver's eyes and ears</td><td>Live vehicle state, alerts</td></tr>
+<tr><td>Remote assistance</td><td>Driver judgment in edge cases</td><td>Resolved escalations, logs</td></tr>
+<tr><td>Depot and charging</td><td>Refueling habits, garage planning</td><td>Charging, cleaning, maintenance schedule</td></tr>
+<tr><td>Safety and compliance</td><td>Paper trip sheets</td><td>Trip logs, incident reports, audit files</td></tr>
+</tbody>
+</table>
+
+<h2 id="what-aitaxi-builds">Where aiTAXI fits</h2>
+
+<p>aiTAXI is a robotaxi fleet management platform by aiNOW (Tbilisi, Georgia): the five modules above in one console, designed for taxi companies that plan to run hybrid fleets in smaller markets rather than for operators building everything in-house. The platform is in early access, and the <a href="/en">robotaxi fleet management platform</a> pilot is open for Georgian taxi companies that want to shape the first integration.</p>
+
+<h2 id="faq">FAQ</h2>
+
+<h3 id="faq-1">Is fleet management software the same as the self-driving system?</h3>
+<p>No. The automated driving system lives in the vehicle and does the driving. Fleet management software lives in the cloud and runs the business: rides, monitoring, depot, records. Operators need both, from the same or different vendors.</p>
+
+<h3 id="faq-2">Can one platform manage vehicles from different manufacturers?</h3>
+<p>That is the goal of vehicle-agnostic platforms. Integration happens per AV platform through APIs for ride assignment, state streaming and assistance escalation, so a fleet can mix vehicle sources as the market matures.</p>
+
+<h3 id="faq-3">Does the software drive the car remotely?</h3>
+<p>No. In the standard model the vehicle always keeps control. Remote operators answer questions and give guidance; direct joystick driving is not part of mainstream robotaxi operations.</p>
+
+<h3 id="faq-4">What does a taxi company gain by adopting the fleet layer early?</h3>
+<p>Operational readiness. Dispatchers learn the console on the existing human-driven fleet, data starts accumulating, and when autonomous vehicles arrive in the market the company plugs them into a running operation instead of starting from zero.</p>

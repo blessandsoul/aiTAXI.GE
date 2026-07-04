@@ -1,0 +1,65 @@
+---
+title: "Robotaxi depot operations: charging, cleaning, maintenance"
+excerpt: "Nobody refuels a driverless taxi from the driver's seat. How depots schedule charging, cleaning and maintenance so the fleet keeps earning."
+date: 2026-07-02
+author: Andrew Altair
+tags:
+  - "Robotaxi"
+  - "Operations"
+  - "Fleet Management"
+coverQuery: electric car charging station fleet night
+readTime: 7 min
+---
+
+<p>Robotaxi depot operations cover everything a driverless taxi cannot do for itself: charging the battery, cleaning the cabin between service blocks, calibrating sensors, and scheduled maintenance. In a human-driven fleet the driver absorbs these tasks invisibly, refueling on the way, wiping seats at the stand, hearing a bearing go bad. In an autonomous fleet they become a depot schedule computed against the demand forecast, because every hour a vehicle spends in the yard is revenue lost on an asset with high fixed costs. The operators running at scale, <a href="https://techcrunch.com/2026/03/27/waymo-skyrocketing-ridership-in-one-chart/">Waymo with 500,000 paid rides per week</a> and <a href="https://ir.baidu.com/news-releases/news-release-details/baidu-announces-first-quarter-2026-results/">Apollo Go with 22 million cumulative rides</a>, treat the depot as a production line: vehicles flow through charging, cleaning and checks in planned windows, and the fleet platform decides who goes in and when. This article walks through the depot day: what gets scheduled, when, and why the yard decides fleet profitability.</p>
+
+<h2 id="why-is-the-depot-the-hidden-half">Why is the depot the hidden half of robotaxi economics?</h2>
+
+<p>The revenue case for robotaxis rests on utilization: a driverless car can serve rides 18 or more hours a day, and analyst cost models that land at <a href="https://www.nextbigfuture.com/2025/01/estimating-per-car-robotaxi-revenue-and-expenses.html">$0.25 to $0.35 per mile</a> assume the car is on the road earning through most of the day. Every unplanned depot hour eats that assumption. Depot software therefore optimizes for two things at once: cars charged and clean when demand peaks, and depot slots full when demand is quiet. The wider cost picture is in <a href="/en/blog/robotaxi-economics-cost-per-km">robotaxi economics</a>.</p>
+
+<h2 id="how-does-charging-scheduling-work">How does charging scheduling work?</h2>
+
+<p>Current robotaxi fleets are electric, so charge state is the depot's clock. The fleet platform watches each vehicle's battery against its assigned trips and books a charging window before range becomes a constraint, preferring night hours when demand is low and electricity is cheap. On a typical day the pattern is simple: morning peak on full batteries, midday partial top-ups in rotation, evening peak covered, deep charging after midnight.</p>
+
+<table>
+<thead>
+<tr><th>Depot task</th><th>Typical window</th><th>Why then</th></tr>
+</thead>
+<tbody>
+<tr><td>Deep charging</td><td>Night, off-peak</td><td>Cheap energy, low demand</td></tr>
+<tr><td>Quick top-ups</td><td>Midday lull</td><td>Keeps evening peak coverage</td></tr>
+<tr><td>Cabin cleaning</td><td>Between service blocks</td><td>Short, frequent, demand-aware</td></tr>
+<tr><td>Sensor check and calibration</td><td>With scheduled maintenance</td><td>Perception depends on it</td></tr>
+<tr><td>Mechanical maintenance</td><td>Staggered across the fleet</td><td>Fewest cars offline at once</td></tr>
+</tbody>
+</table>
+
+<h2 id="what-does-cleaning-look-like">What does cleaning look like without a driver?</h2>
+
+<p>Riders leave cups, umbrellas and worse, and no driver notices between trips. Fleets solve it with cabin cameras that flag issues after each ride plus scheduled cleaning passes at the depot. The platform books a cleaning slot the way it books charging: often together, one stop, both tasks. Interior condition is a brand variable for a robotaxi service, since the cabin is the entire customer experience.</p>
+
+<h2 id="what-about-maintenance-and-sensors">What changes in maintenance?</h2>
+
+<p>Electric drivetrains cut mechanical maintenance: fewer moving parts, no oil changes, regenerative braking that spares the pads. What gets added is the sensor stack. Lidar, radar and cameras need cleaning, alignment checks and recalibration after any impact, because <a href="/en/blog/what-is-a-robotaxi">the whole driving system</a> reads the world through them. Telemetry moves maintenance from calendar-based to condition-based: the car reports degradation, the platform books the bay, covered in <a href="/en/blog/robotaxi-fleet-management-software">fleet management software</a>.</p>
+
+<h2 id="how-big-does-a-depot-need-to-be">How big does a depot need to be?</h2>
+
+<p>Rules of thumb from current deployments: chargers for a fraction of the fleet (staggered schedules mean not every car charges at once), one cleaning bay per few dozen vehicles, and yard space for the overnight trough when most of the fleet sits. Power capacity is the binding constraint in most cities, and it takes the longest to expand, which is why depot planning belongs in the earliest stage of <a href="/en/blog/integrate-autonomous-vehicles-existing-taxi-fleet">integrating AVs into an existing fleet</a>. Remote assistance staffing scales alongside: Waymo's published ratio is about <a href="https://waymo.com/blog/2024/05/fleet-response/">70 remote assistants for 3,000 vehicles</a>, and the desk work is described in <a href="/en/blog/remote-assistance-teleoperation">remote assistance operations</a>.</p>
+
+<h2 id="where-aitaxi-fits">Where aiTAXI fits</h2>
+
+<p>aiTAXI is a robotaxi fleet management platform by aiNOW (Tbilisi, Georgia), and depot operations is one of its five modules: charging windows planned against the demand forecast, cleaning and maintenance slots sequenced so the fewest vehicles are offline at once. The <a href="/en">robotaxi fleet management platform</a> is in early access, and the pilot program is open for Georgian taxi companies that want their depot math done before the vehicles arrive.</p>
+
+<h2 id="faq">FAQ</h2>
+
+<h3 id="faq-1">How often does a robotaxi return to the depot?</h3>
+<p>Typically a few times per day: quick top-ups and cleaning between service blocks, plus a longer overnight stop for deep charging. The exact rhythm follows the city's demand curve.</p>
+
+<h3 id="faq-2">Do robotaxis charge themselves?</h3>
+<p>The vehicle drives itself to the depot, and today a depot worker or automated system connects the charger. Staffed charging remains the norm in current fleets.</p>
+
+<h3 id="faq-3">Can an existing taxi garage become a robotaxi depot?</h3>
+<p>Usually yes, with three upgrades: electrical capacity for chargers, a scheduled cleaning line, and a calibration space for sensors. Location matters as much as equipment, since dead kilometers to the depot are pure cost.</p>
+
+<h3 id="faq-4">What is the single most common depot bottleneck?</h3>
+<p>Grid power. Chargers are easy to buy; megawatts are slow to provision. Fleets size their depot power years ahead of their vehicle count.</p>

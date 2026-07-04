@@ -1,0 +1,77 @@
+---
+title: "How to add autonomous vehicles to an existing taxi fleet"
+excerpt: "A practical integration path for taxi companies: audit, hybrid dispatch, depot upgrades and staff roles, without replacing the business you already run."
+date: 2026-06-24
+author: Andrew Altair
+tags:
+  - "Robotaxi"
+  - "Fleet Management"
+  - "Taxi Business"
+coverQuery: taxi fleet parking city yellow
+readTime: 7 min
+---
+
+<p>Adding autonomous vehicles to an existing taxi fleet means running two kinds of cars in one operation: human-driven vehicles that keep earning today, and driverless vehicles that join the same dispatch queue as the technology and regulation allow. The integration path has four stages: audit the current operation, deploy a fleet platform that handles hybrid dispatch, upgrade the depot for electric charging and sensor care, and retrain part of the staff from driving to fleet operations. Taxi companies that follow this path keep their two strongest assets, local demand and local infrastructure, while the driving itself gradually shifts to machines. The prize is the cost curve: analyst models put robotaxi operating costs on a path toward <a href="https://www.nextbigfuture.com/2025/01/estimating-per-car-robotaxi-revenue-and-expenses.html">$0.25 to $0.35 per mile</a>, far below the $1.50 to $2.00 per mile of human-driven ride-hail, and the operators who integrate early capture that margin first.</p>
+
+<h2 id="why-integrate-instead-of-watch">Why integrate instead of waiting it out?</h2>
+
+<p>Robotaxi services grew from novelty to volume in about two years: <a href="https://techcrunch.com/2026/03/27/waymo-skyrocketing-ridership-in-one-chart/">Waymo went from roughly 50,000 weekly rides in May 2024 to 500,000 by March 2026</a>, and <a href="https://ir.baidu.com/news-releases/news-release-details/baidu-announces-first-quarter-2026-results/">Apollo Go carried 3.2 million fully driverless rides in the first quarter of 2026 alone</a>. When this wave reaches a new country, the local companies that already run dispatch, depots and customer relationships are either partners for it or bypassed by it. Integration is how an incumbent stays the operator instead of becoming the displaced party.</p>
+
+<h2 id="stage-1-fleet-audit">Stage 1: what does a fleet audit cover?</h2>
+
+<p>The audit maps the operation you already have, because the hybrid fleet inherits it. Four questions matter:</p>
+
+<ul>
+<li>Zones and demand: where do orders concentrate by hour, and which zones have the simple road patterns autonomous vehicles handle best?</li>
+<li>Dispatch flow: how do orders reach cars today, and through which app or switchboard?</li>
+<li>Depot reality: parking, power capacity, space for chargers, cleaning line.</li>
+<li>Economics: cost per kilometer of the current fleet, as the baseline the autonomous cars must beat. Our breakdown of <a href="/en/blog/robotaxi-economics-cost-per-km">robotaxi economics</a> shows which numbers to collect.</li>
+</ul>
+
+<h2 id="stage-2-hybrid-dispatch">Stage 2: how does hybrid dispatch work?</h2>
+
+<p>The core move is putting human-driven and autonomous vehicles into one queue under one <a href="/en/blog/robotaxi-fleet-management-software">fleet management software</a> layer. The platform routes simple, well-mapped trips to autonomous cars and keeps complex ones, airport runs with luggage help, unmapped villages, unusual pickups, with human drivers. Riders see one service; the platform decides which kind of vehicle serves each order.</p>
+
+<p>Hybrid dispatch also de-risks the rollout. The autonomous share starts at a few percent of orders inside a small geofence and grows only as reliability data accumulates. No customer-facing switch gets flipped; the mix shifts gradually.</p>
+
+<h2 id="stage-3-depot-upgrade">Stage 3: what changes at the depot?</h2>
+
+<p>Robotaxis in current deployments are electric, so the depot gains chargers, a scheduled cleaning line (nobody wipes the seats between riders anymore) and a calibration bay for sensors. Charging windows get planned against the demand forecast so vehicles top up during quiet hours. The full daily cycle, charging, cleaning, maintenance, sensor checks, is covered in <a href="/en/blog/robotaxi-depot-operations">charging and depot planning</a>.</p>
+
+<h2 id="stage-4-people">Stage 4: what happens to the people?</h2>
+
+<p>Roles shift rather than disappear at fleet level. Dispatchers become fleet operators watching telemetry. Experienced drivers make strong remote assistance operators, the people who answer a car's question when it meets a strange intersection, because they know the city's edge cases. Mechanics add high-voltage and sensor skills. In Waymo's published model, remote support runs near <a href="https://waymo.com/blog/2024/05/fleet-response/">70 assistants for roughly 3,000 vehicles</a>, which shows the shape of the new staffing pyramid: fewer people per car, higher skill per person.</p>
+
+<h2 id="integration-timeline">What does the sequence look like end to end?</h2>
+
+<table>
+<thead>
+<tr><th>Stage</th><th>What runs</th><th>Exit criterion</th></tr>
+</thead>
+<tbody>
+<tr><td>Audit</td><td>Current fleet, measured</td><td>Zone map, cost baseline, depot plan</td></tr>
+<tr><td>Platform</td><td>Human fleet on the new dispatch</td><td>Dispatchers fluent, data flowing</td></tr>
+<tr><td>Pilot AVs</td><td>Small geofence, few vehicles</td><td>Stable utilization, clean incident log</td></tr>
+<tr><td>Scale</td><td>Growing AV share in the mix</td><td>Unit economics beat the human baseline</td></tr>
+</tbody>
+</table>
+
+<p>The platform stage deserves emphasis: adopting the fleet software before any autonomous vehicle arrives means the organization learns the tools on familiar cars, and the eventual AV pilot lands in a running operation. Timing depends on the market; our analysis of <a href="/en/blog/robotaxis-in-georgia-when">when robotaxis reach Georgia</a> maps the preconditions for one specific country, and the broader digitalization story is in <a href="/en/blog/taxi-business-digitalization-georgia">taxi digitalization in Georgia</a>.</p>
+
+<h2 id="where-aitaxi-fits">Where aiTAXI fits</h2>
+
+<p>aiTAXI is a robotaxi fleet management platform by aiNOW (Tbilisi, Georgia), built around exactly this integration path: hybrid dispatch, telemetry, remote assistance and depot planning in one console that an existing taxi company can adopt before its first autonomous vehicle arrives. The platform is in early access, and the <a href="/en">robotaxi fleet management platform</a> pilot program is open for Georgian taxi operators.</p>
+
+<h2 id="faq">FAQ</h2>
+
+<h3 id="faq-1">Do I need to buy autonomous vehicles to start?</h3>
+<p>No. The audit and platform stages run entirely on the existing human-driven fleet. The point is to be operationally ready before the vehicles are purchasable in your market.</p>
+
+<h3 id="faq-2">Will autonomous cars replace all my drivers?</h3>
+<p>Not in any realistic planning horizon. Hybrid fleets keep human drivers for complex trips and peak coverage for years, while some staff move into fleet operations, remote assistance and depot roles.</p>
+
+<h3 id="faq-3">Which vehicles will the platform support?</h3>
+<p>A vehicle-agnostic platform integrates with whichever AV systems enter your market. Committing to a fleet layer does not lock you into one car manufacturer.</p>
+
+<h3 id="faq-4">What is the first concrete step for a taxi company?</h3>
+<p>A fleet audit: zones, demand curves, dispatch flow, depot capacity and the cost baseline. It costs planning time, produces the integration roadmap, and every later stage builds on it.</p>
