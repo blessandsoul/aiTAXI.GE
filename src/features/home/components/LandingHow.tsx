@@ -28,7 +28,7 @@ export function LandingHow() {
         </div>
 
         {/* Step rail */}
-        <ol className="relative flex flex-col gap-6 border-l border-[#e5e5e5] pl-8 md:gap-8">
+        <ol className="relative flex flex-col gap-6 border-l-2 border-[#ffc400]/50 pl-8 md:gap-8">
           {STEPS.map((step, i) => (
             <li key={step} className="relative">
               <span

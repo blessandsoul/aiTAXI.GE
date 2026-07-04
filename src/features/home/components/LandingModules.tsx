@@ -34,7 +34,7 @@ export function LandingModules() {
 
         <div className="mt-10 grid gap-4 md:grid-cols-6">
           {/* Lead cell: dispatch, spans wide */}
-          <article className="glass-card group relative overflow-hidden rounded-3xl border border-[#e5e5e5] bg-white p-8 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg md:col-span-4 md:p-10">
+          <article className="glass-card group relative overflow-hidden rounded-3xl p-8 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg md:col-span-4 md:p-10">
             <div
               className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full opacity-60 blur-3xl"
               style={{ background: 'radial-gradient(circle, rgba(255,196,0,0.35) 0%, transparent 70%)' }}
@@ -62,7 +62,7 @@ export function LandingModules() {
           </article>
 
           {/* Tall support cell */}
-          <article className="glass-card rounded-3xl border border-[#e5e5e5] bg-white p-8 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg md:col-span-2">
+          <article className="glass-card rounded-3xl p-8 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg md:col-span-2">
             <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ffc400]/15 text-[#b45309]">
               <Ico name={SUPPORT_MODULES[0].icon} className="h-6 w-6" />
             </span>
@@ -78,7 +78,7 @@ export function LandingModules() {
           {SUPPORT_MODULES.slice(1).map(({ key, icon }) => (
             <article
               key={key}
-              className="glass-card rounded-3xl border border-[#e5e5e5] bg-white p-8 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg md:col-span-2"
+              className="glass-card rounded-3xl p-8 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg md:col-span-2"
             >
               <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ffc400]/15 text-[#b45309]">
                 <Ico name={icon} className="h-6 w-6" />

@@ -203,18 +203,22 @@
 
 /* Glass card — subtle frosted glass */
 .glass-card {
-  background: oklch(0.16 0.006 270 / 60%);
+  background: oklch(0.995 0.008 90 / 82%);
   backdrop-filter: blur(24px) saturate(1.2);
-  border: 1px solid oklch(0.24 0.006 270 / 50%);
+  border: 1px solid oklch(0.9 0.05 88 / 55%);
+  box-shadow:
+    0 0 0 1px oklch(0.85 0.09 88 / 22%),
+    0 10px 28px -12px oklch(0.72 0.15 70 / 30%),
+    0 2px 6px oklch(0.72 0.15 70 / 10%);
 }
 
-/* Gradient text — pink→sapphire→aqua brand trio, animated shimmer */
+/* Gradient text — taxi gold trio (deep amber→gold→light gold), animated shimmer */
 .gradient-text {
   background: linear-gradient(90deg,
-      oklch(0.64 0.24 1),
-      oklch(0.56 0.21 269),
-      oklch(0.78 0.12 222),
-      oklch(0.64 0.24 1));
+      oklch(0.62 0.16 55),
+      oklch(0.8 0.17 85),
+      oklch(0.72 0.16 70),
+      oklch(0.62 0.16 55));
   background-size: 300% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

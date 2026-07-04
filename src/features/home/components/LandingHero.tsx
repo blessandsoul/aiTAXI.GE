@@ -236,9 +236,9 @@ export function LandingHero() {
     }
 
     const PARAMS = {
-      color1: [0xff / 255, 0x9f / 255, 0xfc / 255], // #FF9FFC
-      color2: [0x52 / 255, 0x27 / 255, 0xff / 255], // #5227FF
-      color3: [0xb4 / 255, 0x97 / 255, 0xcf / 255], // #B497CF
+      color1: [0xff / 255, 0xd5 / 255, 0x4f / 255], // #FFD54F light gold
+      color2: [0xff / 255, 0x8f / 255, 0x00 / 255], // #FF8F00 deep amber
+      color3: [0xff / 255, 0xf3 / 255, 0xd6 / 255], // #FFF3D6 warm cream
       timeSpeed: 0.25,
       colorBalance: 0,
       warpStrength: 1,

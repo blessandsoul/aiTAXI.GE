@@ -36,15 +36,15 @@ export function LandingRoadmap() {
           {PHASES.map(({ key, live }, i) => (
             <article
               key={key}
-              className={`rounded-3xl border border-[#e5e5e5] bg-white p-8 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg ${
+              className={`glass-card rounded-3xl p-8 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 ${
                 i === 1 ? 'md:translate-y-6' : i === 2 ? 'md:translate-y-12' : ''
               }`}
             >
               <span
                 className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${
                   live
-                    ? 'bg-[#ffc400]/20 text-[#7a4d00]'
-                    : 'bg-neutral-100 text-neutral-500'
+                    ? 'bg-[#ffc400]/25 text-[#6b4400]'
+                    : 'bg-[#fff3d6] text-[#8a6a1f]'
                 }`}
               >
                 {live && (
