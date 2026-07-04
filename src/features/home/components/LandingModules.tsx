@@ -33,17 +33,17 @@ export function LandingModules() {
         </p>
 
         <div className="mt-10 grid gap-4 md:grid-cols-6">
-          {/* Lead cell: dispatch, spans wide */}
+          {/* Lead cell: dispatch, spans wide. Icon pinned top-right, text starts top-left. */}
           <article className="glass-card group relative overflow-hidden rounded-3xl p-8 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg md:col-span-4 md:p-10">
             <div
               className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full opacity-60 blur-3xl"
               style={{ background: 'radial-gradient(circle, rgba(255,196,0,0.35) 0%, transparent 70%)' }}
               aria-hidden="true"
             />
-            <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ffc400]/15 text-[#b45309]">
+            <span className="absolute right-8 top-8 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ffc400]/15 text-[#b45309] md:right-10 md:top-10">
               <Ico name="solar:routing-2-bold-duotone" className="h-6 w-6" />
             </span>
-            <h3 className="mt-5 text-balance font-display text-2xl font-bold tracking-tight text-neutral-900 md:text-3xl">
+            <h3 className="max-w-[calc(100%-4rem)] text-balance font-display text-2xl font-bold tracking-tight text-neutral-900 md:text-3xl">
               {t('dispatch.title')}
             </h3>
             <p className="mt-3 max-w-xl text-pretty text-sm leading-relaxed text-neutral-600 md:text-base">
@@ -62,11 +62,11 @@ export function LandingModules() {
           </article>
 
           {/* Tall support cell */}
-          <article className="glass-card rounded-3xl p-8 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg md:col-span-2">
-            <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ffc400]/15 text-[#b45309]">
+          <article className="glass-card relative rounded-3xl p-8 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg md:col-span-2">
+            <span className="absolute right-8 top-8 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ffc400]/15 text-[#b45309]">
               <Ico name={SUPPORT_MODULES[0].icon} className="h-6 w-6" />
             </span>
-            <h3 className="mt-5 text-balance font-display text-xl font-bold tracking-tight text-neutral-900">
+            <h3 className="max-w-[calc(100%-4rem)] text-balance font-display text-xl font-bold tracking-tight text-neutral-900">
               {t('telemetry.title')}
             </h3>
             <p className="mt-3 text-pretty text-sm leading-relaxed text-neutral-600">
@@ -78,12 +78,12 @@ export function LandingModules() {
           {SUPPORT_MODULES.slice(1).map(({ key, icon }) => (
             <article
               key={key}
-              className="glass-card rounded-3xl p-8 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg md:col-span-2"
+              className="glass-card relative rounded-3xl p-8 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg md:col-span-2"
             >
-              <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ffc400]/15 text-[#b45309]">
+              <span className="absolute right-8 top-8 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ffc400]/15 text-[#b45309]">
                 <Ico name={icon} className="h-6 w-6" />
               </span>
-              <h3 className="mt-5 text-balance font-display text-xl font-bold tracking-tight text-neutral-900">
+              <h3 className="max-w-[calc(100%-4rem)] text-balance font-display text-xl font-bold tracking-tight text-neutral-900">
                 {t(`${key}.title`)}
               </h3>
               <p className="mt-3 text-pretty text-sm leading-relaxed text-neutral-600">

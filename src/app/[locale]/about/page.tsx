@@ -117,7 +117,7 @@ export default function AboutPage() {
               {t("teamTitle")}
             </h2>
           </FadeIn>
-          <div className="mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mx-auto mt-12 grid max-w-3xl gap-8 sm:grid-cols-2">
             {team.map((member, i) => (
               <FadeIn key={member.name} delay={i * 0.08}>
                 <div className="group flex h-full flex-col items-center rounded-2xl border border-[#e5e5e5] bg-white p-8 text-center shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">

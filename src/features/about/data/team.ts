@@ -9,10 +9,8 @@ export interface TeamMemberData {
   tags?: string[];
 }
 
-// Mirrors the team shown on the landing page (LandingTeam): two founders
-// (Andro, Tornike) + Giorgi as Head of Sales (not a founder, his role string
-// reflects that). Roles/bios are localized (ka/en); the /about page falls back
-// to `en` for other locales.
+// The two founders (Andro, Tornike). Roles/bios are localized (ka/en);
+// the /about page falls back to `en` for other locales.
 export const team: TeamMemberData[] = [
   {
     name: "Andro Kasparovi",
@@ -37,17 +35,5 @@ export const team: TeamMemberData[] = [
     image: "/team/tornike.jpg",
     accent: "from-blue-500 to-cyan-500",
     tags: ["Full-stack", "AI Eng", "Scale"],
-  },
-  {
-    name: "Giorgi Darbaiseli",
-    nameKa: "გიორგი დარბაისელი",
-    role: { ka: "გაყიდვების ხელმძღვანელი", en: "Head of Sales" },
-    bio: {
-      ka: "გაყიდვები, კლიენტთან მუშაობა და გარიგებების დახურვა. გადააქცევს საუბრებს კონტრაქტებად.",
-      en: "Sales, client relationships, and closing deals. Turns conversations into contracts.",
-    },
-    image: "/team/giorgi.jpg",
-    accent: "from-emerald-500 to-cyan-500",
-    tags: ["Sales", "Closing", "Clients"],
   },
 ];

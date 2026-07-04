@@ -2,6 +2,7 @@ import type React from 'react';
 
 import { useTranslations } from 'next-intl';
 
+import { Ico } from '@/components/common/Ico';
 import { SocialLinks } from '@/components/layout/SocialLinks';
 import { Link } from '@/i18n/navigation';
 import { FooterLanguageSwitcher } from './FooterLanguageSwitcher';
@@ -53,6 +54,12 @@ export function LandingFooter(): React.ReactElement {
               {t('tagline')}
             </p>
 
+            {/* Stacked demo box + copyright below the desktop 2-col breakpoint */}
+            <div className="mt-10 flex flex-col lg:hidden">
+              <DemoBox />
+              <span className="mt-3">{copyright}</span>
+            </div>
+
             {/* Sitemap columns, up to 4 across at md+ */}
             <div className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 lg:mt-16">
               <FooterColumn title={t('productsHeading')}>
@@ -103,11 +110,11 @@ export function LandingFooter(): React.ReactElement {
             </div>
           </div>
 
-          {/* RIGHT, copyright (desktop) */}
-          <div className="hidden w-full flex-col justify-end lg:flex">
-            <span className="self-end">{copyright}</span>
+          {/* RIGHT, desktop demo box + copyright */}
+          <div className="hidden w-full flex-col lg:flex">
+            <DemoBox />
+            <span className="mt-3 self-end">{copyright}</span>
           </div>
-          <div className="lg:hidden">{copyright}</div>
         </div>
 
         {/* GIANT BRAND CTA, the early-access conversion route */}
@@ -122,6 +129,27 @@ export function LandingFooter(): React.ReactElement {
         </div>
       </div>
     </footer>
+  );
+}
+
+/* Decorative 16:9 brand-tinted box with a centered play button. No real video
+   source yet, a visual block matching the aiNOW footer placement; swap in a
+   product reel when one exists. */
+function DemoBox(): React.ReactElement {
+  return (
+    <div
+      className="group relative w-full overflow-hidden rounded-2xl pb-[56.25%]"
+      style={{ background: 'color-mix(in srgb, var(--primary) 14%, transparent)' }}
+    >
+      <span className="pointer-events-none absolute inset-0 flex items-center justify-center">
+        <span
+          className="flex h-14 w-14 items-center justify-center rounded-full pl-[3px] shadow-lg [transition:transform_.3s_ease] md:h-20 md:w-20 md:group-hover:scale-110"
+          style={{ background: 'var(--primary)' }}
+        >
+          <Ico name="solar:play-bold-duotone" className="h-5 w-5 text-neutral-950 md:h-7 md:w-7" />
+        </span>
+      </span>
+    </div>
   );
 }
 
