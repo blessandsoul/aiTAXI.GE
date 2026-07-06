@@ -81,11 +81,11 @@ export function LandingFooter(): React.ReactElement {
                 ))}
               </FooterColumn>
 
-              <div>
+              <div className="min-w-0">
                 <span className="whitespace-nowrap text-[12px] uppercase tracking-wide text-neutral-900/40">
                   {t('legalHeading')}
                 </span>
-                <ul className="mt-5 flex flex-col items-start gap-3 sm:mt-4">
+                <ul className="mt-5 flex flex-col gap-3 sm:mt-4">
                   <FooterRouteLink href="/privacy">{tNav('privacy')}</FooterRouteLink>
                   <FooterRouteLink href="/terms">{tNav('terms')}</FooterRouteLink>
                 </ul>
@@ -170,7 +170,7 @@ function FooterColumn({ title, children }: FooterColumnProps): React.ReactElemen
 }
 
 const LINK_CLASS =
-  'text-sm text-neutral-900/70 transition-colors duration-150 active:opacity-70 md:hover:text-neutral-900';
+  'text-sm break-words text-neutral-900/70 transition-colors duration-150 active:opacity-70 md:hover:text-neutral-900';
 
 function FooterExternalLink({ href, children }: { href: string; children: React.ReactNode }): React.ReactElement {
   return (

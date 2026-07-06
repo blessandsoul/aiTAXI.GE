@@ -524,7 +524,7 @@ void main(){vec4 o=vec4(0.0); mainImage(o,gl_FragCoord.xy); fragColor=o;}`;
 
         <h1
           data-split-text="1"
-          className="leading-[1.15] tracking-tight text-[clamp(1.75rem,4vw,3.5rem)] text-neutral-900"
+          className="leading-[1.15] tracking-tight text-[clamp(1.3rem,4vw,3.5rem)] text-neutral-900"
         >
           <SplitText className="hero-lead" text={t('lead')} />
           <span

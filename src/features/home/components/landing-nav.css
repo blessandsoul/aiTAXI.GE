@@ -215,6 +215,7 @@
   left: 0;
   right: 0;
   height: 100vh;
+  height: 100dvh; /* dynamic-viewport unit: always fills the visible area on mobile, no gap under the toolbar */
   z-index: -1;
   opacity: 0;
   pointer-events: none;

@@ -43,9 +43,10 @@
   .split-char { opacity: 1 !important; transform: none !important; animation: none !important; }
 }
 
-/* === Hero - flex center, ALWAYS 100vh === */
+/* === Hero - flex center, fills the viewport === */
 #hero {
   min-height: 100vh;
+  min-height: 100svh; /* small-viewport unit: no reflow when the mobile address bar shows/hides */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -155,6 +156,7 @@
   letter-spacing: normal;
   font-feature-settings: "kern" 1, "liga" 1;
   white-space: nowrap;
+  max-width: 100%; /* guard: a longer rotating word clips itself, never widens the hero column */
   margin: 32px auto 0;
   font-weight: 700;
 }
