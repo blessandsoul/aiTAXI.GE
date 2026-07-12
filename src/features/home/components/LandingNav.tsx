@@ -9,14 +9,11 @@ import { SITE } from '@/config/site';
 import { MagneticButton } from '@/components/common/MagneticButton';
 import './landing-nav.css';
 
-/* Floating glass navbar, ported from the ainow handoff and trimmed to a single
-   product landing: a product wordmark, in-page section anchors, a language pill
-   and the lead CTA. The agency service/pricing/partners/blog routes are gone. */
+/* Floating family navbar with aiTAXI's existing page routes and section links. */
 
 // In-page sections (ids live on the home landing components).
 const SECTIONS = {
-  showcase: 'showcase',
-  work: 'work',
+  products: 'products',
   faq: 'faq',
   cta: 'cta',
 } as const;
@@ -43,6 +40,7 @@ function Chevron({ className }: { className: string }) {
 
 export function LandingNav() {
   const t = useTranslations('landingNav');
+  const tNav = useTranslations('nav');
   const locale = useLocale();
   const pathname = usePathname(); // locale-stripped, so "/" === home
   const isHome = pathname === '/';
@@ -98,12 +96,6 @@ export function LandingNav() {
     </div>
   );
 
-  const sectionLinks = [
-    { id: SECTIONS.showcase, label: t('showcase') },
-    { id: SECTIONS.work, label: t('process') },
-    { id: SECTIONS.faq, label: t('faq') },
-  ];
-
   return (
     <nav className={navClassName} data-family-header="true">
       <div className="glass-nav-bg" />
@@ -127,17 +119,27 @@ export function LandingNav() {
         </Link>
 
         <ul className="nav-menu">
-          {sectionLinks.map((s) => (
-            <li key={s.id}>
-              <Link
-                href={sectionHref(s.id)}
-                className="nav-link"
-                onClick={(e) => handleSection(e, s.id)}
-              >
-                {s.label}
-              </Link>
-            </li>
-          ))}
+          <li>
+            <Link
+              href={sectionHref(SECTIONS.products)}
+              className="nav-link"
+              onClick={(e) => handleSection(e, SECTIONS.products)}
+            >
+              {t('products')}
+            </Link>
+          </li>
+          <li><Link href="/blog" className="nav-link">{tNav('blog')}</Link></li>
+          <li><Link href="/about" className="nav-link">{tNav('about')}</Link></li>
+          <li>
+            <Link
+              href={sectionHref(SECTIONS.faq)}
+              className="nav-link"
+              onClick={(e) => handleSection(e, SECTIONS.faq)}
+            >
+              {t('faq')}
+            </Link>
+          </li>
+          <li><Link href="/contact" className="nav-link">{tNav('contact')}</Link></li>
         </ul>
 
         <div className="nav-actions">
@@ -174,23 +176,34 @@ export function LandingNav() {
       <div className="nav-drawer" id="landing-nav-drawer">
         <div className="nav-drawer-bg" />
         <ul className="nav-drawer-menu">
-          {sectionLinks.map((s, i) => (
-            <li key={s.id}>
-              <Link
-                href={sectionHref(s.id)}
-                className="nav-drawer-link"
-                data-i={i + 1}
-                onClick={(e) => handleSection(e, s.id)}
-              >
-                {s.label}
-              </Link>
-            </li>
-          ))}
+          <li>
+            <Link
+              href={sectionHref(SECTIONS.products)}
+              className="nav-drawer-link"
+              data-i="1"
+              onClick={(e) => handleSection(e, SECTIONS.products)}
+            >
+              {t('products')}
+            </Link>
+          </li>
+          <li><Link href="/blog" className="nav-drawer-link" data-i="2" onClick={closeMenu}>{tNav('blog')}</Link></li>
+          <li><Link href="/about" className="nav-drawer-link" data-i="3" onClick={closeMenu}>{tNav('about')}</Link></li>
+          <li>
+            <Link
+              href={sectionHref(SECTIONS.faq)}
+              className="nav-drawer-link"
+              data-i="4"
+              onClick={(e) => handleSection(e, SECTIONS.faq)}
+            >
+              {t('faq')}
+            </Link>
+          </li>
+          <li><Link href="/contact" className="nav-drawer-link" data-i="5" onClick={closeMenu}>{tNav('contact')}</Link></li>
           <li>
             <Link
               href={sectionHref(SECTIONS.cta)}
               className="nav-drawer-link"
-              data-i={sectionLinks.length + 1}
+              data-i="6"
               onClick={(e) => handleSection(e, SECTIONS.cta)}
             >
               {t('cta')}

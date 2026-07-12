@@ -633,10 +633,9 @@ void main(){vec4 o=vec4(0.0); mainImage(o,gl_FragCoord.xy); fragColor=o;}`;
                 </svg>
               </a>
             </MagneticButton>
-            {/* The second call to action is gone. A ghost "book a call" next to the primary
-                button is what a page offers when it does not trust the first one: it splits the
-                click and it tells the reader you would rather talk than show. The phone number
-                lives in the footer, where somebody who wants it will go and look. */}
+            <a href="#products" className="btn-ghost w-full justify-center sm:w-auto">
+              <span>{t('ctaSecondary')}</span>
+            </a>
           </div>
 
           {/* THE COMMITMENT. aiNOW owns the process check, setup, and result shown here. */}
