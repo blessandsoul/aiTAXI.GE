@@ -141,7 +141,9 @@
   "landingNav": {
     "products": "Platform",
     "faq": "FAQ",
-    "cta": "Early access"
+    "cta": "Early access",
+    "showcase": "Platform",
+    "process": "How it works"
   },
   "landingFooter": {
     "company": "aiTAXI, a product of aiNOW",
@@ -156,7 +158,11 @@
     "earlyAccess": "Early access",
     "about": "About",
     "contact": "Contact",
-    "ctaHuge": "Request early access"
+    "ctaHuge": "Request early access",
+    "sectionShowcase": "Platform",
+    "sectionWork": "How it works",
+    "sectionFaq": "Questions",
+    "copyright": "© {year} aitaxi.ge, an aiNOW product. All rights reserved."
   },
   "about": {
     "title": "Building the fleet layer for autonomous taxis",
@@ -180,20 +186,29 @@
     "value3": "Open knowledge",
     "value3Desc": "The research and analysis ship in the blog, for everyone."
   },
-  "home": {
+  "product": {
     "hero": {
       "taglinePrefix": "autonomy that",
       "taglineWorks": "works",
-      "lead": "Your taxi fleet, ready for ",
-      "typewriterPrefill": "robotaxis",
-      "typewriterWords": "robotaxis,autonomy,driverless taxis,what comes next",
+      "lead": "When the car drives itself, nobody is left to",
+      "typewriterPrefill": "accept the ride",
+      "typewriterWords": "accept the ride,clean it,charge it,get it unstuck,answer the passenger",
       "pillDispatch": "Dispatch",
       "pillTelemetry": "Telemetry",
       "pillRemote": "Remote assistance",
       "pillDepot": "Depot ops",
       "sloganTogether": "built by",
       "ctaPrimary": "Request early access",
-      "ctaSecondary": "See the modules"
+      "ctaSecondary": "See the modules",
+      "audience": "For taxi companies and fleet operators",
+      "sub": "aiTAXI is the control layer that does. Dispatch, telemetry, remote assistance and depot operations, in one board. The platform is pre-launch and this page says so.",
+      "signedBy": "Andrew Altair. I am the one who calls you back.",
+      "commitment": "The platform is pre-launch and this page says so plainly. The research is public, the pilot programme is open, and one call is all it takes to find out whether your fleet fits it.",
+      "ctaResults": "Request early access",
+      "sloganCreates": "creates",
+      "sloganAds": "advertises",
+      "sloganSells": "sells",
+      "sloganManages": "manages"
     },
     "modules": {
       "eyebrow": "Platform",
@@ -221,6 +236,56 @@
       "safety": {
         "title": "Safety and compliance",
         "desc": "Trip logs, incident reports and the documentation a regulator asks for, generated from fleet data instead of collected by hand."
+      }
+    },
+    "demos": {
+      "eyebrow": "Five operating moments",
+      "heading": "Watch the fleet make the next safe move",
+      "subtitle": "Each scenario follows one operating rhythm: a problem appears, aiTAXI coordinates the response, and the fleet returns to a clear service state.",
+      "disclaimer": "Pre-launch simulation. These scenarios show intended platform behaviour, not a fleet currently operated by aiTAXI.",
+      "problem": "Problem",
+      "aiAction": "AI action",
+      "result": "Result",
+      "replay": "Replay scenario",
+      "dispatch": {
+        "title": "Match a ride without a driver handoff",
+        "description": "A request reaches the shared queue. The platform checks proximity, charge and accessibility before assigning a vehicle.",
+        "problem": "Ride request: Rustaveli Avenue to Vake, with wheelchair space required.",
+        "aiAction": "AV-12 is the nearest compatible vehicle. Route set; pickup ETA is 4 minutes.",
+        "result": "AV-12 reached the pickup point and the passenger pickup is confirmed.",
+        "outcome": "Pickup confirmed"
+      },
+      "telemetry": {
+        "title": "From warning to safe replacement",
+        "description": "Fleet health is checked continuously. A vehicle stops receiving new rides when battery or sensor readings leave the safe range.",
+        "problem": "AV-08 battery fell to 18% and a sensor warning was raised.",
+        "aiAction": "AV-08 was removed from service; the ride moved to fully checked AV-14.",
+        "result": "A safe vehicle took the ride and overall service coverage held.",
+        "outcome": "Safe service maintained"
+      },
+      "depot": {
+        "title": "Ready before demand peaks",
+        "description": "The demand forecast shows when every vehicle needs to be available. aiTAXI places depot work inside the quiet window.",
+        "problem": "The forecast shows a 17:00 demand peak; three vehicles need attention first.",
+        "aiAction": "Charging, cleaning and maintenance were placed in the 01:00–05:00 quiet window.",
+        "result": "All three vehicles are ready by 17:00, leaving the full fleet available for the peak.",
+        "outcome": "Fleet ready for the peak"
+      },
+      "compliance": {
+        "title": "From incident to regulator report",
+        "description": "The system brings incident telemetry, route history, a camera reference and operator actions into one traceable record.",
+        "problem": "INC-024 was recorded; its evidence sits across separate operating logs.",
+        "aiAction": "aiTAXI links the telemetry, route, camera reference and operator actions.",
+        "result": "A report with the full timeline and all four source references is ready for the regulator.",
+        "outcome": "Regulator-ready report"
+      },
+      "hybrid": {
+        "title": "One queue, two kinds of vehicle",
+        "description": "Human-driven and autonomous vehicles take work from one request queue. The pilot can expand without dropping service zones.",
+        "problem": "Four evening requests are queued; the autonomous pilot covers only one zone.",
+        "aiAction": "The system assigns rides across human-driven and autonomous cars, extending AV coverage to a second zone.",
+        "result": "Autonomous pilot coverage expanded while overall service coverage stayed at 100%.",
+        "outcome": "AV pilot expanded; coverage held"
       }
     },
     "how": {
@@ -292,6 +357,23 @@
       "phoneSubmit": "Request early access",
       "phoneNote": "No spam. One call to qualify the pilot.",
       "orWrite": "Or write to"
+    },
+    "proof": {
+      "fleet": "Fleet, live",
+      "moving": "en route",
+      "idle": "idle",
+      "stuck": "stuck",
+      "assist": "Remote assistance",
+      "assistNote": "Car 7 stopped for a delivery van. No driver in it. An operator takes the wheel from the depot.",
+      "resolved": "resolved, back en route",
+      "note": "Pre-launch. This board is what the platform does, not a fleet we are running."
+    },
+    "wordmark": {
+      "line": "One control layer for a fleet with nobody in it."
+    },
+    "seo": {
+      "title": "aiTAXI, fleet operations for autonomous taxis",
+      "description": "Dispatch, telemetry, remote assistance and depot operations for a taxi fleet with no drivers in it. Pre-launch, and this page says so. Pilot programme open to Georgian taxi companies."
     }
   }
 }

@@ -10,13 +10,16 @@
     "indexnow": "node scripts/indexnow-ping.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:showcase": "node --test src/features/showcase/taxi-demos/*.test.mjs src/messages/showcase-locales.test.mjs"
   },
   "dependencies": {
     "@dagrejs/dagre": "^2.0.4",
     "@hello-pangea/dnd": "^18.0.1",
     "@hookform/resolvers": "^5.2.2",
     "@iconify/react": "^6.0.2",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
     "@sneas/telephone": "^1.1.2",
     "@vercel/og": "^0.8.6",
     "@xyflow/react": "^12.10.0",
