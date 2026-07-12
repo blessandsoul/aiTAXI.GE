@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type ReactNode, type MouseEvent } from 'react';
 import { useTranslations } from 'next-intl';
+import { SITE } from '@/config/site';
 import './landing-faq.css';
 
 /* =========================================================================
@@ -68,21 +69,26 @@ function toggleFaq(e: MouseEvent<HTMLDetailsElement>) {
   }
 }
 
-const brandMark = () => (
-  <span className="brand-mark"><span className="bm-prefix">ai</span><span className="bm-mark">TAXI</span></span>
-);
+function renderBrandMark() {
+  return (
+    <span className="brand-mark"><span className="bm-prefix">{SITE.wordmark.prefix}</span><span className="bm-mark">{SITE.wordmark.mark}</span></span>
+  );
+}
 
 export function LandingFaq() {
   const t = useTranslations('product.faq');
-  // 10 questions, must stay in sync with HOME_FAQ_COUNT in StructuredData.tsx
-  // (the FAQPage JSON-LD mirrors this visible accordion).
-  const FAQS: Faq[] = [
-    { q: t.rich('q1', { brand: brandMark }), a: t('a1') },
-    ...Array.from({ length: 9 }, (_, i) => {
-      const n = i + 2;
-      return { q: t(`q${n}`), a: t(`a${n}`) };
-    }),
-  ];
+
+  // HOW MANY QUESTIONS IS A PER-SITE FACT, so it is counted, not declared. This loop was a
+  // hardcoded 14 and it broke twice for the same reason: once when it ran to 15 against 14 keys
+  // (MISSING_MESSAGE on every build), and again when aiTAXI arrived with 10. A shared component
+  // that hardcodes the length of a per-site list is a coupling that will keep breaking, so it
+  // now walks until the copy runs out.
+  const FAQS: Faq[] = [];
+  // q1 alone: it is the one that can carry the inline brand wordmark.
+  FAQS.push({ q: t.rich('q1', { brand: renderBrandMark }), a: t('a1') });
+  for (let n = 2; t.has(`q${n}`) && t.has(`a${n}`); n += 1) {
+    FAQS.push({ q: t(`q${n}`), a: t(`a${n}`) });
+  }
   const rootRef = useRef<HTMLElement>(null);
 
   // Scroll-triggered fade-up (source-exact), scoped to this section.
