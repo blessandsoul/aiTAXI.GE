@@ -157,8 +157,7 @@ export function LandingHero() {
         const availableW = el.parentElement
           ? el.parentElement.getBoundingClientRect().width
           : Infinity;
-        const clampToAvailable = !window.matchMedia('(min-width: 1024px)').matches;
-        el.style.minWidth = `${clampTypewriterReservedWidth(maxW, caretW, availableW, clampToAvailable)}px`;
+        el.style.minWidth = `${clampTypewriterReservedWidth(maxW, caretW, availableW, true)}px`;
       });
     };
 

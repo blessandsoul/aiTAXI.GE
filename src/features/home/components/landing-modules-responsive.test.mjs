@@ -167,6 +167,24 @@ test('the per-site brand tokens load after shared CSS so every ai prefix remains
   }
 });
 
+test('the desktop hero grid cannot be widened by the typewriter text', () => {
+  const css = read('landing-hero.css');
+  const desktopGridRule = css.indexOf('.hero-content > .grid { width: 100%; min-width: 0; }');
+  const mobileOnlyRule = css.indexOf('@media (max-width: 1023px)');
+
+  assert.ok(desktopGridRule >= 0, 'hero grid needs an all-width min-width reset');
+  assert.ok(
+    mobileOnlyRule < 0 || desktopGridRule < mobileOnlyRule,
+    'hero grid reset must not be limited to mobile widths',
+  );
+  assert.match(css, /\.hero-content > \.grid > \* \{ width: 100%; min-width: 0; \}/u);
+  assert.doesNotMatch(
+    css,
+    /@media \(min-width: 768px\)\s*\{\s*\.typewriter\s*\{[^}]*white-space:\s*nowrap/su,
+    'desktop typewriter text must wrap instead of widening the first grid column',
+  );
+});
+
 test('the showcase command includes home, demo, and locale contracts', () => {
   const pkg = JSON.parse(read('../../../../package.json', COMPONENT_ROOT));
   const command = pkg.scripts?.['test:showcase'] ?? '';

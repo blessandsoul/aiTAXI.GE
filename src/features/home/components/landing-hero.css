@@ -181,10 +181,8 @@
 .hero-extras { opacity: 1; }
 
 .hero-content { width: 100%; min-width: 0; }
-@media (max-width: 1023px) {
-  .hero-content > .grid { width: 100%; min-width: 0; }
-  .hero-content > .grid > * { width: 100%; min-width: 0; }
-}
+.hero-content > .grid { width: 100%; min-width: 0; }
+.hero-content > .grid > * { width: 100%; min-width: 0; }
 
 /* Typewriter - its own line, centered, fixed-width container */
 .typewriter {
@@ -200,7 +198,7 @@
   font-weight: 700;
 }
 @media (min-width: 768px) {
-  .typewriter { margin-top: 48px; white-space: nowrap; }
+  .typewriter { margin-top: 48px; }
 }
 .tw-text { letter-spacing: 0.06em; }
 .tw-caret {
