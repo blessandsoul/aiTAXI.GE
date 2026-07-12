@@ -81,6 +81,8 @@ export function LandingNav() {
     };
   }, [menuOpen]);
 
+  const closeMenu = () => setMenuOpen(false);
+
   // Smooth-scroll on home; on other pages let <Link> navigate to /#id.
   const handleSection = (e: MouseEvent<HTMLAnchorElement>, id: string) => {
     setMenuOpen(false);
