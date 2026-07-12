@@ -1,9 +1,15 @@
 'use client';
 
+import { Ico } from '@/components/common/Ico';
 import { TaxiDemoFrame } from './TaxiDemoFrame';
 import { useTaxiDemoTimeline } from './useTaxiDemoTimeline';
 
-const SOURCES = ['TLM-01', 'GPS-02', 'CAM-03', 'OPS-04'];
+const SOURCES = [
+  { code: 'TLM-01', icon: 'solar:radar-2-bold-duotone' },
+  { code: 'GPS-02', icon: 'solar:routing-2-bold-duotone' },
+  { code: 'CAM-03', icon: 'solar:camera-bold-duotone' },
+  { code: 'OPS-04', icon: 'solar:headphones-round-sound-bold-duotone' },
+] as const;
 
 export function ComplianceReportDemo() {
   const { containerRef, frame, replay } = useTaxiDemoTimeline('compliance');
@@ -22,7 +28,7 @@ export function ComplianceReportDemo() {
         <div className="grid grid-cols-2 gap-2">
           {SOURCES.map((source, index) => (
             <div
-              key={source}
+              key={source.code}
               className={`rounded-xl border p-3 transition-all duration-500 ${
                 assembled
                   ? 'border-[#ffc400]/30 bg-[#ffc400]/[0.06]'
@@ -31,17 +37,26 @@ export function ComplianceReportDemo() {
                     : 'translate-y-1 border-white/12 bg-white/[0.035]'
               }`}
             >
-              <span className="font-mono text-[10px] text-white/48">{source}</span>
-              <span className={`mt-3 grid h-6 w-6 place-items-center rounded-full border text-xs ${
+              <span className="flex items-center gap-2 font-mono text-[10px] text-white/48">
+                <Ico name={source.icon} className="size-4 text-[#ffc400]" />
+                {source.code}
+              </span>
+              <span className={`mt-3 grid h-6 w-6 place-items-center rounded-full border ${
                 assembled ? 'border-[#ffc400] text-[#ffc400]' : 'border-white/15 text-white/25'
               }`}>
-                {assembled ? '✓' : String(index + 1)}
+                <Ico
+                  name={assembled ? 'solar:check-circle-bold-duotone' : 'solar:clock-circle-bold-duotone'}
+                  className="size-3.5"
+                />
               </span>
             </div>
           ))}
         </div>
 
-        <span className={`hidden text-lg transition-colors sm:block ${assembled ? 'text-[#ffc400]' : 'text-white/20'}`}>→</span>
+        <Ico
+          name="solar:alt-arrow-right-bold-duotone"
+          className={`hidden size-5 transition-colors sm:block ${assembled ? 'text-[#ffc400]' : 'text-white/20'}`}
+        />
 
         <div className={`relative min-h-36 rounded-xl border p-4 transition-all duration-500 ${
           complete
@@ -49,7 +64,10 @@ export function ComplianceReportDemo() {
             : 'border-white/10 bg-white/[0.025] opacity-35'
         }`}>
           <div className="flex items-center justify-between">
-            <span className="font-mono text-xs text-white/55">RPT-024</span>
+            <span className="inline-flex items-center gap-2 font-mono text-xs text-white/55">
+              <Ico name="solar:document-text-bold-duotone" className="size-4 text-[#ffc400]" />
+              RPT-024
+            </span>
             <span className="font-mono text-xs font-bold text-[#ffc400]">4 / 4</span>
           </div>
           <div className="mt-4 space-y-2">
@@ -57,10 +75,13 @@ export function ComplianceReportDemo() {
             <span className="block h-1.5 w-4/5 rounded-full bg-white/15" />
             <span className="block h-1.5 w-2/3 rounded-full bg-white/15" />
           </div>
-          <span className={`absolute bottom-3 right-3 grid h-8 w-8 place-items-center rounded-full border font-bold ${
+          <span className={`absolute bottom-3 right-3 grid h-8 w-8 place-items-center rounded-full border ${
             complete ? 'border-[#ffc400] bg-[#ffc400] text-[#151518]' : 'border-white/15 text-white/20'
           }`}>
-            {complete ? '✓' : '·'}
+            <Ico
+              name={complete ? 'solar:check-circle-bold-duotone' : 'solar:clock-circle-bold-duotone'}
+              className="size-4"
+            />
           </span>
         </div>
       </div>

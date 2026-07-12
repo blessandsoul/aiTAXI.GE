@@ -1,10 +1,15 @@
 'use client';
 
+import { Ico } from '@/components/common/Ico';
 import { TaxiDemoFrame } from './TaxiDemoFrame';
 import { useTaxiDemoTimeline } from './useTaxiDemoTimeline';
 
 const DEMAND = [26, 20, 17, 22, 34, 48, 67, 96, 84, 62, 44, 31];
-const DEPOT_JOBS = ['⚡', '✦', '◇'];
+const DEPOT_JOBS = [
+  { vehicle: 'AV-03', icon: 'solar:bolt-circle-bold-duotone' },
+  { vehicle: 'AV-04', icon: 'solar:broom-bold-duotone' },
+  { vehicle: 'AV-05', icon: 'solar:settings-bold-duotone' },
+] as const;
 
 export function DepotPlannerDemo() {
   const { containerRef, frame, replay } = useTaxiDemoTimeline('depot');
@@ -40,18 +45,21 @@ export function DepotPlannerDemo() {
         </div>
 
         <div className="mt-3 grid grid-cols-3 gap-2">
-          {DEPOT_JOBS.map((symbol, index) => (
+          {DEPOT_JOBS.map((job) => (
             <div
-              key={symbol}
+              key={job.vehicle}
               className={`flex min-h-16 items-center justify-between rounded-xl border px-3 transition-all duration-500 ${
                 planned
                   ? 'translate-y-0 border-[#ffc400]/35 bg-[#ffc400]/[0.07] opacity-100'
                   : 'translate-y-2 border-white/10 bg-white/[0.025] opacity-35'
               }`}
             >
-              <span className="text-lg text-[#ffc400]">{symbol}</span>
-              <span className="font-mono text-xs text-white/55">AV-{String(index + 3).padStart(2, '0')}</span>
-              {ready && <span className="text-sm font-bold text-[#ffc400]">✓</span>}
+              <Ico name={job.icon} className="size-5 text-[#ffc400]" />
+              <span className="font-mono text-xs text-white/55">{job.vehicle}</span>
+              <Ico
+                name={ready ? 'solar:check-circle-bold-duotone' : 'solar:clock-circle-bold-duotone'}
+                className={`size-4 ${ready ? 'text-[#ffc400]' : 'text-white/25'}`}
+              />
             </div>
           ))}
         </div>

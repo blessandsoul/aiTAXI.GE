@@ -3,6 +3,7 @@
 import type { ReactNode, RefObject } from 'react';
 import { useTranslations } from 'next-intl';
 
+import { Ico } from '@/components/common/Ico';
 import { PHASES } from './timeline.mjs';
 import type {
   TaxiDemoFrameState,
@@ -42,7 +43,7 @@ export function TaxiDemoFrame({
     <article
       ref={containerRef}
       aria-labelledby={titleId}
-      className="relative flex h-full flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-[#151518] text-white shadow-[0_28px_70px_-48px_rgba(0,0,0,0.9)]"
+      className="relative flex h-full min-w-0 flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-[#151518] text-white shadow-[0_28px_70px_-48px_rgba(0,0,0,0.9)] [contain:inline-size]"
     >
       <div
         aria-hidden="true"
@@ -50,10 +51,11 @@ export function TaxiDemoFrame({
       />
 
       <div className="flex flex-col gap-5 p-5 sm:p-7">
-        <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="max-w-xl">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#ffc400]">
-              {demoId}
+        <header className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0 max-w-xl">
+            <p className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[#ffc400]">
+              <Ico name="solar:routing-2-bold-duotone" className="size-4" />
+              {translate('scenarioLabel')}
             </p>
             <h3
               id={titleId}
@@ -71,7 +73,7 @@ export function TaxiDemoFrame({
             onClick={replay}
             className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 self-start rounded-full border border-white/15 bg-white/[0.06] px-4 text-sm font-semibold text-white transition-colors hover:border-[#ffc400]/60 hover:bg-[#ffc400]/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffc400]"
           >
-            <span aria-hidden="true" className="text-lg leading-none">↻</span>
+            <Ico name="solar:refresh-bold-duotone" className="size-4" />
             {translate('replay')}
           </button>
         </header>
@@ -90,9 +92,16 @@ export function TaxiDemoFrame({
                 }`}
               >
                 <span className="flex items-center gap-2">
-                  <span className="font-mono text-[10px] font-bold tabular-nums" aria-hidden="true">
-                    {complete ? '✓' : String(index + 1).padStart(2, '0')}
-                  </span>
+                  <Ico
+                    name={
+                      complete
+                        ? 'solar:check-circle-bold-duotone'
+                        : current
+                          ? 'solar:alt-arrow-right-bold-duotone'
+                          : 'solar:clock-circle-bold-duotone'
+                    }
+                    className="size-4 shrink-0"
+                  />
                   <span className="truncate text-[10px] font-semibold uppercase tracking-[0.08em] sm:text-xs">
                     {translate(PHASE_LABELS[phase])}
                   </span>
@@ -121,14 +130,14 @@ export function TaxiDemoFrame({
               {translate('result')}
             </p>
             <p className="mt-2 font-display text-lg font-bold leading-tight text-white">
-              {frame.phase === 'result' ? translate(frame.resultKey) : '—'}
+              {frame.phase === 'result' ? translate(frame.resultKey) : translate('waiting')}
             </p>
           </div>
         </div>
       </div>
 
       <p className="mt-auto border-t border-white/10 bg-white/[0.035] px-5 py-4 text-xs leading-relaxed text-white/52 sm:px-7">
-        <span aria-hidden="true" className="mr-2 text-[#ffc400]">●</span>
+        <Ico name="solar:shield-warning-bold-duotone" className="mr-2 inline size-4 text-[#ffc400]" />
         {translate('disclaimer')}
       </p>
     </article>

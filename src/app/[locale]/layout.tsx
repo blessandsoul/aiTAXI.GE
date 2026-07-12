@@ -13,6 +13,7 @@ import { StructuredData } from "@/components/seo/StructuredData";
 import { ScrollToTop } from "@/components/common/ScrollToTop";
 import "@/app/globals.css";
 import "@/app/site-new.css";
+import "@/app/brand.css";
 
 export const viewport: Viewport = {
   themeColor: [

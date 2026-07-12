@@ -1,5 +1,6 @@
 import { useTranslations } from 'next-intl';
 
+import { Ico } from '@/components/common/Ico';
 import { ComplianceReportDemo } from './ComplianceReportDemo';
 import { DepotPlannerDemo } from './DepotPlannerDemo';
 import { FleetTelemetryDemo } from './FleetTelemetryDemo';
@@ -10,12 +11,7 @@ export function TaxiDemos() {
   const t = useTranslations('product.demos');
 
   return (
-    <section id="fleet-scenarios" className="relative overflow-hidden px-6 py-16 md:py-24">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-28 mx-auto h-64 max-w-5xl rounded-full bg-[#ffc400]/10 blur-3xl"
-      />
-
+    <section id="fleet-scenarios" className="relative overflow-hidden px-4 py-16 sm:px-6 md:py-24 lg:px-8">
       <div className="relative mx-auto max-w-[1280px]">
         <div className="max-w-3xl">
           <p className="font-mono text-xs uppercase tracking-[0.22em] text-[#b45309]">
@@ -29,8 +25,13 @@ export function TaxiDemos() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-5 xl:grid-cols-2">
-          <div className="xl:col-span-2">
+        <div className="mt-8 flex min-w-0 items-start gap-3 rounded-2xl border border-amber-300/60 bg-amber-50 p-4 text-sm leading-relaxed text-amber-950 sm:p-5">
+          <Ico name="solar:shield-warning-bold-duotone" className="mt-0.5 size-5 shrink-0 text-[#9a6c00]" />
+          <p className="min-w-0">{t('disclaimer')}</p>
+        </div>
+
+        <div className="mt-6 grid min-w-0 gap-5 xl:grid-cols-2">
+          <div className="min-w-0 xl:col-span-2">
             <RideDispatchDemo />
           </div>
           <FleetTelemetryDemo />

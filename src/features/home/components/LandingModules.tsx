@@ -1,94 +1,83 @@
 import { useTranslations } from 'next-intl';
+
 import { Ico } from '@/components/common/Ico';
 
-/* =========================================================================
-   LandingModules, "#products": the aiTAXI platform modules.
-   Asymmetric bento (one wide lead cell + four support cells), NOT an
-   equal-card row. Cells reuse the glass-card motif from globals.css.
-   Copy lives in home.modules.*; entity keywords stay in the visible text
-   (robotaxi, dispatch, telemetry, teleoperation, depot) for GEO.
-   ========================================================================= */
-
-const SUPPORT_MODULES = [
-  { key: 'telemetry', icon: 'solar:chart-2-bold-duotone' },
+const MODULES = [
+  { key: 'dispatch', icon: 'solar:routing-2-bold-duotone' },
+  { key: 'telemetry', icon: 'solar:radar-2-bold-duotone' },
   { key: 'remote', icon: 'solar:headphones-round-sound-bold-duotone' },
-  { key: 'depot', icon: 'solar:bolt-circle-bold-duotone' },
-  { key: 'safety', icon: 'solar:shield-check-bold-duotone' },
+  { key: 'depot', icon: 'solar:battery-charge-bold-duotone' },
+  { key: 'safety', icon: 'solar:document-text-bold-duotone' },
+] as const;
+
+const LEVELS = [
+  { key: 'task', copySuffix: '.task', icon: 'solar:clipboard-list-bold-duotone' },
+  { key: 'action', copySuffix: '.action', icon: 'solar:settings-bold-duotone' },
+  { key: 'result', copySuffix: '.result', icon: 'solar:check-circle-bold-duotone' },
 ] as const;
 
 export function LandingModules() {
-  const t = useTranslations('home.modules');
+  const t = useTranslations('product.modules');
+  const translate = (key: string) => t(key as never);
 
   return (
-    <section id="products" className="scroll-mt-24 px-6 py-16 md:py-24">
+    <section id="products" className="scroll-mt-24 px-4 py-16 sm:px-6 md:py-24 lg:px-8">
       <div className="mx-auto max-w-[1280px]">
-        <p className="text-xs font-mono uppercase tracking-[0.22em] text-[#b45309]">
-          {t('eyebrow')}
-        </p>
-        <h2 className="mt-3 max-w-2xl text-balance font-display text-3xl font-extrabold tracking-tight text-neutral-900 md:text-5xl">
-          {t('heading')}
-        </h2>
-        <p className="mt-4 max-w-2xl text-pretty text-base leading-relaxed text-neutral-600 md:text-lg">
-          {t('subtitle')}
-        </p>
+        <div className="max-w-3xl">
+          <p className="font-mono text-xs uppercase tracking-[0.18em] text-[#9a6c00]">
+            {t('eyebrow')}
+          </p>
+          <h2 className="mt-3 text-balance font-display text-3xl font-extrabold tracking-tight text-neutral-900 md:text-5xl">
+            {t('heading')}
+          </h2>
+          <p className="mt-4 text-pretty text-base leading-relaxed text-neutral-600 md:text-lg">
+            {t('subtitle')}
+          </p>
+        </div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-6">
-          {/* Lead cell: dispatch, spans wide. Icon pinned top-right, text starts top-left. */}
-          <article className="glass-card group relative overflow-hidden rounded-3xl p-8 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg md:col-span-4 md:p-10">
-            <div
-              className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full opacity-60 blur-3xl"
-              style={{ background: 'radial-gradient(circle, rgba(255,196,0,0.35) 0%, transparent 70%)' }}
-              aria-hidden="true"
-            />
-            <span className="absolute right-8 top-8 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ffc400]/15 text-[#b45309] md:right-10 md:top-10">
-              <Ico name="solar:routing-2-bold-duotone" className="h-6 w-6" />
-            </span>
-            <h3 className="max-w-[calc(100%-4rem)] text-balance font-display text-2xl font-bold tracking-tight text-neutral-900 md:text-3xl">
-              {t('dispatch.title')}
-            </h3>
-            <p className="mt-3 max-w-xl text-pretty text-sm leading-relaxed text-neutral-600 md:text-base">
-              {t('dispatch.desc')}
-            </p>
-            <ul className="mt-6 flex flex-wrap gap-2">
-              {[1, 2, 3].map((n) => (
-                <li
-                  key={n}
-                  className="rounded-full border border-[#ffc400]/40 bg-[#ffc400]/10 px-3 py-1 text-xs font-medium text-neutral-800"
-                >
-                  {t(`dispatch.chip${n}`)}
-                </li>
-              ))}
-            </ul>
-          </article>
+        <div className="mt-8 flex min-w-0 items-start gap-3 rounded-2xl border border-amber-300/60 bg-amber-50 p-4 text-sm leading-relaxed text-amber-950 sm:p-5">
+          <Ico name="solar:shield-warning-bold-duotone" className="mt-0.5 size-5 shrink-0 text-[#9a6c00]" />
+          <p className="min-w-0">{t('prelaunch')}</p>
+        </div>
 
-          {/* Tall support cell */}
-          <article className="glass-card relative rounded-3xl p-8 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg md:col-span-2">
-            <span className="absolute right-8 top-8 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ffc400]/15 text-[#b45309]">
-              <Ico name={SUPPORT_MODULES[0].icon} className="h-6 w-6" />
-            </span>
-            <h3 className="max-w-[calc(100%-4rem)] text-balance font-display text-xl font-bold tracking-tight text-neutral-900">
-              {t('telemetry.title')}
-            </h3>
-            <p className="mt-3 text-pretty text-sm leading-relaxed text-neutral-600">
-              {t('telemetry.desc')}
-            </p>
-          </article>
-
-          {/* Three lower cells, deliberately uneven spans (2/2/2 under a 4+2 top) */}
-          {SUPPORT_MODULES.slice(1).map(({ key, icon }) => (
+        <div className="mt-6 grid min-w-0 gap-4 lg:grid-cols-2">
+          {MODULES.map(({ key, icon }, index) => (
             <article
               key={key}
-              className="glass-card relative rounded-3xl p-8 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg md:col-span-2"
+              className={`glass-card min-w-0 rounded-3xl border border-neutral-200/80 bg-white/80 p-5 shadow-[0_18px_44px_-36px_rgba(0,0,0,0.45)] sm:p-7 ${
+                index === 0 ? 'lg:col-span-2' : ''
+              }`}
             >
-              <span className="absolute right-8 top-8 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ffc400]/15 text-[#b45309]">
-                <Ico name={icon} className="h-6 w-6" />
-              </span>
-              <h3 className="max-w-[calc(100%-4rem)] text-balance font-display text-xl font-bold tracking-tight text-neutral-900">
-                {t(`${key}.title`)}
-              </h3>
-              <p className="mt-3 text-pretty text-sm leading-relaxed text-neutral-600">
-                {t(`${key}.desc`)}
-              </p>
+              <header className="flex min-w-0 items-start gap-4">
+                <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-2xl bg-[#ffc400]/16 text-[#8a6200]">
+                  <Ico name={icon} className="size-6" />
+                </span>
+                <div className="min-w-0">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-neutral-400">
+                    {String(index + 1).padStart(2, '0')}
+                  </p>
+                  <h3 className="mt-1 text-balance font-display text-xl font-bold tracking-tight text-neutral-900 sm:text-2xl">
+                    {translate(`${key}.title`)}
+                  </h3>
+                </div>
+              </header>
+
+              <dl className={`mt-6 grid min-w-0 gap-3 ${index === 0 ? 'lg:grid-cols-3' : ''}`}>
+                {LEVELS.map((level) => (
+                  <div
+                    key={level.key}
+                    className="min-w-0 rounded-2xl border border-neutral-200/75 bg-white px-4 py-4"
+                  >
+                    <dt className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.13em] text-neutral-500">
+                      <Ico name={level.icon} className="size-4 shrink-0 text-[#9a6c00]" />
+                      {translate(`${level.key}Label`)}
+                    </dt>
+                    <dd className="mt-2 text-sm leading-relaxed text-neutral-700">
+                      {translate(`${key}${level.copySuffix}`)}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </article>
           ))}
         </div>

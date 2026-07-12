@@ -9,7 +9,7 @@ import { useTranslations } from 'next-intl';
 const STEPS = ['audit', 'integrate', 'operate'] as const;
 
 export function LandingHow() {
-  const t = useTranslations('home.how');
+  const t = useTranslations('product.how');
 
   return (
     <section className="px-6 py-16 md:py-24">

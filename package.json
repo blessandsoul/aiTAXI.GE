@@ -11,7 +11,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:showcase": "node --test src/features/showcase/taxi-demos/*.test.mjs src/messages/showcase-locales.test.mjs"
+    "test:showcase": "node --test src/features/home/components/*.test.mjs src/features/showcase/taxi-demos/*.test.mjs src/messages/*.test.mjs"
   },
   "dependencies": {
     "@dagrejs/dagre": "^2.0.4",

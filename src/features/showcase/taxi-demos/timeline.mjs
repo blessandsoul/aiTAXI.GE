@@ -1,5 +1,6 @@
 export const DEMO_IDS = ['dispatch', 'telemetry', 'depot', 'compliance', 'hybrid'];
 export const PHASES = ['problem', 'ai-action', 'result'];
+export const HERO_BEATS = ['fleet', 'blocked', 'assisting', 'resolved'];
 
 const RESULT_KEYS = {
   dispatch: 'dispatch.outcome',
@@ -33,14 +34,16 @@ export function frameFor(demoId, phase) {
   };
 }
 
-export function createTimelinePlayer({
+function createStagePlayer({
+  stages,
+  durationMs,
   schedule = globalThis.setTimeout,
   cancel = globalThis.clearTimeout,
   reducedMotion = false,
   onFrame,
 }) {
   const timers = new Set();
-  const phaseInterval = 7200 / (PHASES.length - 1);
+  const phaseInterval = durationMs / (stages.length - 1);
 
   const stop = () => {
     for (const timer of timers) cancel(timer);
@@ -51,13 +54,13 @@ export function createTimelinePlayer({
     stop();
 
     if (reducedMotion) {
-      onFrame(PHASES.at(-1));
+      onFrame(stages.at(-1));
       return;
     }
 
-    onFrame(PHASES[0]);
+    onFrame(stages[0]);
 
-    PHASES.slice(1).forEach((phase, index) => {
+    stages.slice(1).forEach((phase, index) => {
       let timer;
       timer = schedule(() => {
         timers.delete(timer);
@@ -67,9 +70,29 @@ export function createTimelinePlayer({
     });
   };
 
+  const reset = () => {
+    stop();
+    onFrame(stages[0]);
+  };
+
+  const showFinal = () => {
+    stop();
+    onFrame(stages.at(-1));
+  };
+
   return {
     play,
     replay: play,
+    reset,
+    showFinal,
     stop,
   };
+}
+
+export function createTimelinePlayer(options) {
+  return createStagePlayer({ ...options, stages: PHASES, durationMs: 7200 });
+}
+
+export function createHeroTimelinePlayer(options) {
+  return createStagePlayer({ ...options, stages: HERO_BEATS, durationMs: 7200 });
 }

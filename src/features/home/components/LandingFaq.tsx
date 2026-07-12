@@ -73,7 +73,7 @@ const brandMark = () => (
 );
 
 export function LandingFaq() {
-  const t = useTranslations('home.faq');
+  const t = useTranslations('product.faq');
   // 10 questions, must stay in sync with HOME_FAQ_COUNT in StructuredData.tsx
   // (the FAQPage JSON-LD mirrors this visible accordion).
   const FAQS: Faq[] = [

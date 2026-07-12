@@ -18,11 +18,13 @@ export interface TaxiDemoFrameState {
 }
 
 type TimelinePlayer = ReturnType<typeof createTimelinePlayer>;
+type DemoController = ReturnType<typeof createTaxiDemoVisibilityGate>;
 
 export function useTaxiDemoTimeline(demoId: TaxiDemoId) {
   const reducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLElement | null>(null);
   const playerRef = useRef<TimelinePlayer | null>(null);
+  const controllerRef = useRef<DemoController | null>(null);
   const [frame, setFrame] = useState<TaxiDemoFrameState>(
     () => frameFor(demoId, 'problem') as TaxiDemoFrameState,
   );
@@ -36,20 +38,22 @@ export function useTaxiDemoTimeline(demoId: TaxiDemoId) {
     });
     playerRef.current = player;
 
-    const cleanupVisibility = createTaxiDemoVisibilityGate({
+    const controller = createTaxiDemoVisibilityGate({
       target: containerRef.current,
       player,
       reducedMotion: Boolean(reducedMotion),
     });
+    controllerRef.current = controller;
 
     return () => {
-      cleanupVisibility();
+      controller.cleanup();
+      if (controllerRef.current === controller) controllerRef.current = null;
       if (playerRef.current === player) playerRef.current = null;
     };
   }, [demoId, reducedMotion]);
 
   const replay = useCallback(() => {
-    playerRef.current?.replay();
+    controllerRef.current?.replay();
   }, []);
 
   return { containerRef, frame, replay };

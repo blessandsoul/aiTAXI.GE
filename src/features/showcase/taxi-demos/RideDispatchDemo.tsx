@@ -1,5 +1,6 @@
 'use client';
 
+import { Ico } from '@/components/common/Ico';
 import { TaxiDemoFrame } from './TaxiDemoFrame';
 import { useTaxiDemoTimeline } from './useTaxiDemoTimeline';
 
@@ -22,24 +23,29 @@ export function RideDispatchDemo() {
       replay={replay}
       translationNamespace="product.demos"
     >
-      <div aria-hidden="true" className="grid min-h-48 gap-4 sm:grid-cols-[0.72fr_1.1fr]">
-        <div className="relative flex flex-col justify-between overflow-hidden rounded-xl border border-white/10 bg-white/[0.045] p-4">
+      <div aria-hidden="true" className="grid min-h-48 min-w-0 gap-4 lg:grid-cols-[0.72fr_1.1fr]">
+        <div className="flex min-w-0 flex-col justify-between overflow-hidden rounded-xl border border-white/10 bg-white/[0.045] p-4">
           <div className="flex items-center justify-between gap-3">
             <span className="font-mono text-xs text-white/45">REQ-184</span>
-            <span className="grid h-8 w-8 place-items-center rounded-full bg-[#ffc400] font-bold text-[#151518]">♿</span>
+            <span className="grid size-9 place-items-center rounded-xl bg-[#ffc400] text-[#151518]">
+              <Ico name="solar:accessibility-bold-duotone" className="size-5" />
+            </span>
           </div>
           <div className="mt-8 flex items-center gap-3">
-            <span className="h-3 w-3 rounded-full border-2 border-[#ffc400]" />
-            <span className="h-px flex-1 border-t border-dashed border-white/25" />
-            <span className={`grid h-7 w-7 place-items-center rounded-full border text-xs font-bold transition-all ${
+            <Ico name="solar:map-point-bold-duotone" className="size-5 shrink-0 text-[#ffc400]" />
+            <span className="h-px min-w-0 flex-1 border-t border-dashed border-white/25" />
+            <span className={`grid size-8 shrink-0 place-items-center rounded-full border transition-all ${
               arrived ? 'border-[#ffc400] bg-[#ffc400] text-[#151518]' : 'border-white/25 text-white/45'
             }`}>
-              {arrived ? '✓' : 'B'}
+              <Ico
+                name={arrived ? 'solar:check-circle-bold-duotone' : 'solar:map-point-bold-duotone'}
+                className="size-4"
+              />
             </span>
           </div>
           <div className="mt-4 flex items-end justify-between font-mono text-[10px] text-white/38">
             <span>41.7001</span>
-            <span className={assigned ? 'text-[#ffc400]' : ''}>{assigned ? '00:04' : '—'}</span>
+            <span className={assigned ? 'text-[#ffc400]' : ''}>{assigned ? '00:04' : '00:00'}</span>
           </div>
         </div>
 
@@ -56,13 +62,19 @@ export function RideDispatchDemo() {
                 }`}
               >
                 <span className="flex items-center gap-3">
-                  <span className={`h-2.5 w-2.5 rounded-full ${selected ? 'bg-[#ffc400]' : 'bg-white/20'}`} />
+                  <Ico
+                    name={selected ? 'solar:routing-2-bold-duotone' : 'solar:radar-2-bold-duotone'}
+                    className={`size-4 ${selected ? 'text-[#ffc400]' : 'text-white/25'}`}
+                  />
                   <span className="font-mono text-sm font-semibold text-white">{vehicle.id}</span>
                 </span>
                 <span className="flex items-center gap-3 font-mono text-xs tabular-nums">
                   {vehicle.distance}
                   <span className="grid h-6 w-6 place-items-center rounded-full border border-white/15">
-                    {selected ? '✓' : '·'}
+                    <Ico
+                      name={selected ? 'solar:check-circle-bold-duotone' : 'solar:clock-circle-bold-duotone'}
+                      className="size-3.5"
+                    />
                   </span>
                 </span>
               </div>

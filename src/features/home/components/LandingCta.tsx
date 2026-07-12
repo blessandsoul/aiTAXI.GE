@@ -21,7 +21,7 @@ import './landing-cta.css';
 export function LandingCta() {
   const rootRef = useRef<HTMLElement>(null);
   const t = useTranslations('contact');
-  const tc = useTranslations('home.cta');
+  const tc = useTranslations('product.cta');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {

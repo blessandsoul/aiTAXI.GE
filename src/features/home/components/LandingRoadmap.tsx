@@ -14,7 +14,7 @@ const PHASES = [
 ] as const;
 
 export function LandingRoadmap() {
-  const t = useTranslations('home.roadmap');
+  const t = useTranslations('product.roadmap');
 
   return (
     <section className="px-6 py-16 md:py-24">

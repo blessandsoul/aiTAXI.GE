@@ -3,9 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import { buildAlternates } from '@/i18n/seo-locales';
 import { HomeFaqSchema } from '@/components/seo/StructuredData';
 import { LandingHero } from '@/features/home/components/LandingHero';
-import { LandingModules } from '@/features/home/components/LandingModules';
-import { LandingHow } from '@/features/home/components/LandingHow';
-import { LandingRoadmap } from '@/features/home/components/LandingRoadmap';
+import { LandingBody } from '@/features/home/components/LandingBody';
 import { LandingFaq } from '@/features/home/components/LandingFaq';
 import { LandingCta } from '@/features/home/components/LandingCta';
 import { LandingWordmark } from '@/features/home/components/LandingWordmark';
@@ -45,9 +43,7 @@ export default async function HomePage({ params }: Props) {
       <HomeFaqSchema locale={locale} />
       <div className="landing-page">
         <LandingHero />
-        <LandingModules />
-        <LandingHow />
-        <LandingRoadmap />
+        <LandingBody />
         <LandingFaq />
         <LandingCta />
         <LandingWordmark />

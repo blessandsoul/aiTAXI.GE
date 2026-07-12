@@ -137,19 +137,44 @@ test('stop cancels every pending frame', () => {
   assert.deepEqual(seen, ['problem']);
 });
 
-test('reduced motion emits only the result and schedules nothing', () => {
+test('reset and showFinal are timer-free explicit states', () => {
   const clock = createClock();
   const seen = [];
   const player = createTimelinePlayer({
     schedule: clock.schedule,
     cancel: clock.cancel,
-    reducedMotion: true,
     onFrame: (phase) => seen.push(phase),
   });
 
   player.play();
+  player.reset();
+  assert.equal(seen.at(-1), 'problem');
+  assert.equal(clock.pendingCount, 0);
 
-  assert.deepEqual(seen, ['result']);
+  player.showFinal();
+  assert.equal(seen.at(-1), 'result');
+  assert.equal(clock.pendingCount, 0);
+});
+
+test('the hero reaches its resolved state at exactly 7200ms', async () => {
+  const { HERO_BEATS, createHeroTimelinePlayer } = await import('./timeline.mjs');
+  const clock = createClock();
+  const seen = [];
+  const player = createHeroTimelinePlayer({
+    schedule: clock.schedule,
+    cancel: clock.cancel,
+    onFrame: (beat) => seen.push(beat),
+  });
+
+  assert.deepEqual(HERO_BEATS, ['fleet', 'blocked', 'assisting', 'resolved']);
+  player.play();
+  assert.deepEqual(seen, ['fleet']);
+
+  clock.advance(7199);
+  assert.notEqual(seen.at(-1), 'resolved');
+  clock.advance(1);
+
+  assert.equal(seen.at(-1), 'resolved');
   assert.equal(clock.pendingCount, 0);
 });
 

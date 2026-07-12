@@ -1,5 +1,6 @@
 'use client';
 
+import { Ico } from '@/components/common/Ico';
 import { TaxiDemoFrame } from './TaxiDemoFrame';
 import { useTaxiDemoTimeline } from './useTaxiDemoTimeline';
 
@@ -38,8 +39,10 @@ export function HybridRolloutDemo() {
             assigned ? 'border-white/15 bg-white/[0.04]' : 'border-white/10 bg-white/[0.02] opacity-40'
           }`}>
             <div className="flex items-center gap-2">
-              <span className="grid h-8 w-8 place-items-center rounded-full border border-white/20 text-sm">●</span>
-              <span className="font-mono text-xs text-white/55">R-201 · R-203</span>
+              <span className="grid h-8 w-8 place-items-center rounded-full border border-white/20">
+                <Ico name="solar:user-hands-bold-duotone" className="size-4 text-white/55" />
+              </span>
+              <span className="font-mono text-xs text-white/55">R-201 / R-203</span>
             </div>
           </div>
           <div className={`rounded-xl border p-4 transition-all ${
@@ -47,7 +50,7 @@ export function HybridRolloutDemo() {
           }`}>
             <div className="flex items-center gap-2">
               <span className="grid h-8 min-w-8 place-items-center rounded-full border border-[#ffc400]/50 font-mono text-[9px] text-[#ffc400]">AV</span>
-              <span className="font-mono text-xs text-white/55">R-202 · R-204</span>
+              <span className="font-mono text-xs text-white/55">R-202 / R-204</span>
             </div>
           </div>
         </div>
@@ -55,7 +58,10 @@ export function HybridRolloutDemo() {
         <div className="grid grid-cols-2 gap-2">
           <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
             <div className="flex items-center justify-between font-mono text-xs">
-              <span className="text-white/45">AV</span>
+              <span className="inline-flex items-center gap-1.5 text-white/45">
+                <Ico name="solar:routing-2-bold-duotone" className="size-4" />
+                AV
+              </span>
               <span className="font-bold text-[#ffc400]">{expanded ? '2 / 2' : '1 / 2'}</span>
             </div>
             <span className="mt-2 block h-1.5 overflow-hidden rounded-full bg-white/10">
@@ -64,7 +70,10 @@ export function HybridRolloutDemo() {
           </div>
           <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
             <div className="flex items-center justify-between font-mono text-xs">
-              <span className="text-white/45">Σ</span>
+              <span className="inline-flex items-center gap-1.5 text-white/45">
+                <Ico name="solar:check-circle-bold-duotone" className="size-4" />
+                ALL
+              </span>
               <span className="font-bold text-white">4 / 4</span>
             </div>
             <span className="mt-2 block h-1.5 rounded-full bg-white/75" />
