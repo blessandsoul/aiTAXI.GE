@@ -1,5 +1,5 @@
 /* =========================================================================
-   LandingFooter — self-contained styles so the footer renders correctly
+   LandingFooter, self-contained styles so the footer renders correctly
    site-wide, not just inside the home page's `.landing-page` wrapper.
 
    On the home page the footer borrowed two style hooks from elsewhere:
@@ -8,7 +8,7 @@
    - the `--font-mono` token scoped to `.landing-page` in landing-hero.css.
    Now that LandingFooter is the global footer (rendered by LayoutShell on
    every page), it carries those here so it looks identical everywhere.
-   The `.brand-mark` rules are mirrored from landing-team.css lines 14–38;
+   The `.brand-mark` rules are mirrored from landing-team.css lines 14-38;
    they are identical, so no conflict on the home page where both load.
    ========================================================================= */
 
@@ -16,6 +16,14 @@
    globally via the Google Fonts <link> in layout.tsx <head>). */
 .landing-footer {
   --font-mono: 'JetBrains Mono', 'Noto Sans Georgian', monospace;
+}
+
+.landing-footer .wordmark-3d.ainow-parent .wm-prefix {
+  background: linear-gradient(130deg, #2f6bff 0%, #8b3dff 45%, #e040fb 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 /* ===== Inline brand mark - matches logo recipe (mirrors landing-team.css) ===== */
@@ -32,9 +40,9 @@
   font-family: "Space Mono", monospace;
   font-style: italic;
   font-weight: 700;
-  color: #ffc400;
+  color: var(--brand);
   background: none !important;
-  -webkit-text-fill-color: #ffc400 !important;
+  -webkit-text-fill-color: var(--brand) !important;
 }
 .brand-mark .bm-mark {
   font-family: "Bricolage Grotesque", "Noto Sans Georgian", sans-serif;

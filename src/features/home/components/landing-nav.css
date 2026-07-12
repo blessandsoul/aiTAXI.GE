@@ -1,5 +1,5 @@
 /* =========================================================================
-   LandingNav — floating glass navbar + aiNOW wordmark
+   LandingNav, floating glass navbar + aiNOW wordmark
    Ported verbatim from ainow_handoff/index.html (v9_real_ge.html).
    Only change vs. source: literal font names ('Space Mono', 'Bricolage
    Grotesque', 'Noto Sans Georgian') are routed through the next/font CSS
@@ -23,8 +23,8 @@
   font-family: 'Space Mono', monospace;
   font-weight: 400;
   letter-spacing: -0.02em;
-  /* vivid brand gradient (blue -> violet -> magenta) clipped to the "ai" glyphs */
-  background: linear-gradient(130deg, #ffd54f 0%, #ffc400 45%, #ff8f00 100%);
+  /* per-product brand gradient clipped to the "ai" glyphs (host product color) */
+  background: linear-gradient(130deg, var(--brand) 0%, var(--brand-soft) 55%, var(--brand) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -37,7 +37,7 @@
   color: #0a0a0a;
   margin-left: 0.04em;
 }
-/* THREE accent bars at top-right CORNER of NOW — matches the business card
+/* THREE accent bars at top-right CORNER of NOW, matches the business card
    (ainow_handoff/business_cards/print_ready.html): pink #ec4899 / blue #2563eb /
    emerald #10b981 = the three sub-brands (aiCONTENT / aiSTAFF / iAI). Painted as
    three skewed stripes via a single element background, so EVERY .wordmark-3d on
@@ -48,9 +48,9 @@
   display: inline-block;
   /* Card-exact placement (print_ready.html): flex-start pins the bar cluster to
      the top-right CORNER of NOW, hugging the caps. margin-top 0.18em is the card's
-     own value. This relies on a UNIFORM line-height across contexts — hero/footer
+     own value. This relies on a UNIFORM line-height across contexts, hero/footer
      are forced to 0.92 by the rule below (they default to 1 via Tailwind
-     leading-none) — so the cluster lands at the same corner everywhere, not higher
+     leading-none), so the cluster lands at the same corner everywhere, not higher
      in the hero. */
   align-self: flex-start;
   width: 0.46em;
@@ -58,6 +58,9 @@
   margin-top: 0.18em;
   margin-left: 0.12em;
   transform: skewX(-15deg);
+  /* The 3 accent stripes are the UNIFIED aiNOW family mark (pink / blue / green),
+     identical on every product and matching the favicon, so the logo + footer
+     wordmark always carry the same tri-color stripes (not a single brand hue). */
   background-image:
     linear-gradient(#ec4899, #ec4899),
     linear-gradient(#2563eb, #2563eb),
@@ -66,11 +69,19 @@
   background-size: 100% 0.085em;
   background-position: 0 0, 0 0.16em, 0 0.32em;
 }
+/* Cross-sell family bar keeps the original pink/blue/emerald tri-color stripe
+   (the three sub-brands), independent of the active product. */
+.slogan-pill .wm-accent {
+  background-image:
+    linear-gradient(#ec4899, #ec4899),
+    linear-gradient(#2563eb, #2563eb),
+    linear-gradient(#10b981, #10b981);
+}
 .wordmark-3d .wm-accent::before,
 .wordmark-3d .wm-accent::after { content: none; }
 /* Uniform tight line-height for the wordmark in EVERY context (incl. hero +
    footer, which otherwise inherit line-height:1 from Tailwind `leading-none`) so
-   the flex-start accent bars hug the caps identically everywhere — exactly like
+   the flex-start accent bars hug the caps identically everywhere, exactly like
    the business card (line-height 0.92). */
 .wordmark-3d.text-3xl, .wordmark-3d.text-xl, .wordmark-3d.text-lg, .wordmark-3d.text-sm,
 .wordmark-3d.hero-wordmark, .wordmark-3d.footer-wordmark { line-height: 0.92 !important; }
@@ -124,18 +135,22 @@
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: #1a1400;
-  background: linear-gradient(135deg, #ffc400 0%, #ff8f00 100%);
+  color: var(--primary-foreground, #fff);
+  background: linear-gradient(135deg, var(--brand-cta, var(--brand)) 0%, var(--accent-cta, var(--accent)) 100%);
   border-radius: 999px;
   box-shadow:
-    0 4px 14px -3px rgba(255,143,0,0.45),
-    inset 0 1px 0 rgba(255,255,255,0.35);
+    0 4px 14px -3px rgba(124,58,237,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.22);
   font-family: var(--font-bricolage), 'Bricolage Grotesque', var(--font-noto-georgian), 'Noto Sans Georgian', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .glass-nav-inner { height: 44px; }
 }
 
 @media (max-width: 640px) {
   .glass-nav { padding: 4px; }
-  .glass-nav-inner { padding: 0 8px 0 16px; height: 44px; gap: 8px; }
+  .glass-nav-inner { padding: 0 8px 0 16px; gap: 8px; }
   .glass-cta { padding: 7px 12px; font-size: 10px; letter-spacing: 0.06em; }
 }
 
@@ -144,6 +159,12 @@
   opacity: 1;
   transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity;
+}
+.nav-logo-slot {
+  block-size: 24px;
+  display: inline-flex;
+  align-items: center;
+  line-height: 0.92;
 }
 .glass-nav.is-top .nav-logo {
   opacity: 0;
@@ -167,7 +188,7 @@
   white-space: nowrap;
   transition: color 200ms;
 }
-.nav-link:hover { color: #b45309; }
+.nav-link:hover { color: var(--brand); }
 @media (min-width: 900px) {
   .nav-menu { display: flex; }
   .nav-burger { display: none !important; }
@@ -192,7 +213,7 @@
   transition: background 220ms, transform 220ms;
 }
 .nav-burger:hover { background: rgba(255,255,255,0.85); }
-.nav-burger:active { transform: scale(0.96); }
+.nav-burger:active { transform: scale(0.94); }
 .nav-burger span {
   width: 16px;
   height: 1.8px;
@@ -215,7 +236,6 @@
   left: 0;
   right: 0;
   height: 100vh;
-  height: 100dvh; /* dynamic-viewport unit: always fills the visible area on mobile, no gap under the toolbar */
   z-index: -1;
   opacity: 0;
   pointer-events: none;
@@ -224,7 +244,7 @@
 .nav-drawer-bg {
   position: absolute;
   inset: 0;
-  /* Source value — blur now works since .glass-nav no longer uses transform. */
+  /* Source value, blur now works since .glass-nav no longer uses transform. */
   background: rgba(255,255,255,0.92);
   backdrop-filter: blur(32px) saturate(180%);
 }
@@ -254,7 +274,7 @@
   transform: translateY(20px);
   transition: opacity 380ms ease, transform 380ms cubic-bezier(0.22, 1, 0.36, 1), color 200ms;
 }
-.nav-drawer-link:active { color: #ffc400; }
+.nav-drawer-link:active { color: var(--brand); }
 .glass-nav.menu-open .nav-drawer {
   opacity: 1;
   pointer-events: auto;
@@ -296,7 +316,7 @@
   cursor: pointer;
   transition: color 200ms;
 }
-.nav-services-trigger:hover { color: #ffc400; }
+.nav-services-trigger:hover { color: var(--brand); }
 .nav-services-chevron {
   width: 12px;
   height: 12px;
@@ -361,7 +381,7 @@
   text-decoration: none;
   transition: background 180ms, color 180ms;
 }
-.nav-dd-link:hover { background: rgba(255, 143, 0, 0.08); color: #ffc400; }
+.nav-dd-link:hover { background: color-mix(in srgb, var(--brand) 8%, transparent); color: var(--brand); }
 .nav-dd-icon {
   display: inline-flex;
   align-items: center;
@@ -369,8 +389,8 @@
   width: 26px;
   height: 26px;
   border-radius: 8px;
-  background: linear-gradient(135deg, rgba(255, 143, 0, 0.12), rgba(255, 143, 0, 0.12));
-  color: #ffc400;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.12), rgba(224, 64, 251, 0.12));
+  color: var(--brand);
   flex-shrink: 0;
 }
 .nav-dd-icon svg {
@@ -407,7 +427,7 @@
   cursor: pointer;
   transition: background 220ms, color 200ms;
 }
-.nav-lang-trigger:hover { background: rgba(255, 255, 255, 0.85); color: #ffc400; }
+.nav-lang-trigger:hover { background: rgba(255, 255, 255, 0.85); color: var(--brand); }
 .nav-lang-globe { width: 14px; height: 14px; flex-shrink: 0; }
 .nav-lang-chevron {
   width: 11px;
@@ -433,8 +453,8 @@
   transform: translateY(0);
 }
 .nav-lang-dropdown .nav-dd-link.is-current {
-  background: rgba(255, 143, 0, 0.08);
-  color: #ffc400;
+  background: color-mix(in srgb, var(--brand) 8%, transparent);
+  color: var(--brand);
   font-weight: 700;
 }
 
@@ -482,12 +502,12 @@
   text-decoration: none;
   letter-spacing: -0.01em;
 }
-.nav-drawer-sublink:active { color: #ffc400; }
+.nav-drawer-sublink:active { color: var(--brand); }
 
 /* Section anchors clear the fixed glass nav when scrolled/linked to */
 #products, #team, #work, #faq, #cta { scroll-margin-top: 88px; }
 
-/* ===== "More" dropdown (desktop) — single-column glass panel ===== */
+/* ===== "More" dropdown (desktop), single-column glass panel ===== */
 .nav-more { position: relative; display: flex; align-items: center; }
 .nav-more:hover .nav-services-chevron,
 .nav-more:focus-within .nav-services-chevron { transform: rotate(180deg); }

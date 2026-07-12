@@ -5,22 +5,24 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Ico } from '@/components/common/Ico';
 import { Link, usePathname } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
+import { SITE } from '@/config/site';
+import { MagneticButton } from '@/components/common/MagneticButton';
 import './landing-nav.css';
 
-/* Floating glass navbar, ported from the aiNOW site and slimmed down to the
-   aiTAXI IA: Platform (#products), Blog, About, FAQ (#faq), Contact, plus the
-   early-access CTA (#cta). Section links smooth-scroll on home and navigate
-   to the home section from other pages. */
+/* Floating glass navbar, ported from the ainow handoff and trimmed to a single
+   product landing: a product wordmark, in-page section anchors, a language pill
+   and the lead CTA. The agency service/pricing/partners/blog routes are gone. */
 
 // In-page sections (ids live on the home landing components).
 const SECTIONS = {
-  products: 'products',
+  showcase: 'showcase',
+  work: 'work',
   faq: 'faq',
   cta: 'cta',
 } as const;
 
 // Locale switcher entries, derived from routing.locales so the pill stays in
-// sync when locales are added/removed. Labels = native names.
+// sync. Labels = native names.
 const LOCALE_LABELS: Record<string, string> = {
   ka: 'ქართული',
   en: 'English',
@@ -30,16 +32,6 @@ const LOCALES = routing.locales.map((code) => ({
   code,
   label: LOCALE_LABELS[code] ?? code.toUpperCase(),
 }));
-
-function Wordmark() {
-  return (
-    <div className="wordmark-3d text-lg leading-none">
-      <span className="wm-prefix">ai</span>
-      <span className="wm-mark">TAXI</span>
-      <span className="wm-accent" aria-hidden="true" />
-    </div>
-  );
-}
 
 function Chevron({ className }: { className: string }) {
   return (
@@ -51,7 +43,6 @@ function Chevron({ className }: { className: string }) {
 
 export function LandingNav() {
   const t = useTranslations('landingNav');
-  const tNav = useTranslations('nav');
   const locale = useLocale();
   const pathname = usePathname(); // locale-stripped, so "/" === home
   const isHome = pathname === '/';
@@ -59,15 +50,8 @@ export function LandingNav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Home section target as a next-intl Link href. The object form keeps the
-  // locale prefix correct (`/#faq` for ka, `/en#faq` for en) and lets <Link>
-  // navigate client-side from other pages (no full reload). Smooth-scroll on
-  // home is handled in handleSection below.
   const sectionHref = (id: string) => ({ pathname: '/', hash: id });
 
-  // Glass + nav-logo fade in once scrolled past 30px, but ONLY on the home
-  // page, where the hero shows its own big wordmark. On other pages the nav
-  // always shows the glass + logo.
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
     onScroll();
@@ -91,7 +75,7 @@ export function LandingNav() {
 
   const closeMenu = () => setMenuOpen(false);
 
-  // Smooth-scroll on home; on other pages let <Link> navigate client-side to /#id.
+  // Smooth-scroll on home; on other pages let <Link> navigate to /#id.
   const handleSection = (e: MouseEvent<HTMLAnchorElement>, id: string) => {
     setMenuOpen(false);
     if (isHome) {
@@ -106,8 +90,22 @@ export function LandingNav() {
     .filter(Boolean)
     .join(' ');
 
+  const Wordmark = () => (
+    <div className="wordmark-3d text-lg leading-none">
+      <span className="wm-prefix">{SITE.wordmark.prefix}</span>
+      <span className="wm-mark">{SITE.wordmark.mark}</span>
+      <span className="wm-accent" aria-hidden="true" />
+    </div>
+  );
+
+  const sectionLinks = [
+    { id: SECTIONS.showcase, label: t('showcase') },
+    { id: SECTIONS.work, label: t('process') },
+    { id: SECTIONS.faq, label: t('faq') },
+  ];
+
   return (
-    <nav className={navClassName}>
+    <nav className={navClassName} data-family-header="true">
       <div className="glass-nav-bg" />
 
       <div className="glass-nav-inner">
@@ -124,50 +122,25 @@ export function LandingNav() {
           <span />
         </button>
 
-        <Link href="/" className="nav-logo" aria-label="aiTAXI, home">
+        <Link href="/" className="nav-logo nav-logo-slot" aria-label={`${SITE.wordmark.prefix}${SITE.wordmark.mark} home`}>
           <Wordmark />
         </Link>
 
         <ul className="nav-menu">
-          <li>
-            <Link
-              href={sectionHref(SECTIONS.products)}
-              className="nav-link"
-              onClick={(e) => handleSection(e, SECTIONS.products)}
-            >
-              {t('products')}
-            </Link>
-          </li>
-          <li>
-            <Link href="/blog" className="nav-link">
-              {tNav('blog')}
-            </Link>
-          </li>
-          <li>
-            <Link href="/about" className="nav-link">
-              {tNav('about')}
-            </Link>
-          </li>
-          <li>
-            <Link
-              href={sectionHref(SECTIONS.faq)}
-              className="nav-link"
-              onClick={(e) => handleSection(e, SECTIONS.faq)}
-            >
-              {t('faq')}
-            </Link>
-          </li>
-          <li>
-            <Link href="/contact" className="nav-link">
-              {tNav('contact')}
-            </Link>
-          </li>
+          {sectionLinks.map((s) => (
+            <li key={s.id}>
+              <Link
+                href={sectionHref(s.id)}
+                className="nav-link"
+                onClick={(e) => handleSection(e, s.id)}
+              >
+                {s.label}
+              </Link>
+            </li>
+          ))}
         </ul>
 
         <div className="nav-actions">
-          {/* Language switcher, visible at every breakpoint (the mobile drawer
-              sits under the bar, so this one pill serves desktop AND mobile).
-              Opens on hover/focus-within; locale links keep the current path. */}
           <div className="nav-lang">
             <button type="button" className="nav-lang-trigger" aria-haspopup="true" aria-label="Switch language">
               <Ico name="solar:global-bold-duotone" className="nav-lang-globe" />
@@ -189,9 +162,11 @@ export function LandingNav() {
             </ul>
           </div>
 
-          <Link href={sectionHref(SECTIONS.cta)} className="glass-cta" onClick={(e) => handleSection(e, SECTIONS.cta)}>
-            {t('cta')}
-          </Link>
+          <MagneticButton>
+            <Link href={sectionHref(SECTIONS.cta)} className="glass-cta" onClick={(e) => handleSection(e, SECTIONS.cta)}>
+              {t('cta')}
+            </Link>
+          </MagneticButton>
         </div>
       </div>
 
@@ -199,29 +174,26 @@ export function LandingNav() {
       <div className="nav-drawer" id="landing-nav-drawer">
         <div className="nav-drawer-bg" />
         <ul className="nav-drawer-menu">
+          {sectionLinks.map((s, i) => (
+            <li key={s.id}>
+              <Link
+                href={sectionHref(s.id)}
+                className="nav-drawer-link"
+                data-i={i + 1}
+                onClick={(e) => handleSection(e, s.id)}
+              >
+                {s.label}
+              </Link>
+            </li>
+          ))}
           <li>
-            <Link href={sectionHref(SECTIONS.products)} className="nav-drawer-link" data-i="1" onClick={(e) => handleSection(e, SECTIONS.products)}>
-              {t('products')}
-            </Link>
-          </li>
-          <li>
-            <Link href="/blog" className="nav-drawer-link" data-i="2" onClick={closeMenu}>
-              {tNav('blog')}
-            </Link>
-          </li>
-          <li>
-            <Link href="/about" className="nav-drawer-link" data-i="3" onClick={closeMenu}>
-              {tNav('about')}
-            </Link>
-          </li>
-          <li>
-            <Link href={sectionHref(SECTIONS.faq)} className="nav-drawer-link" data-i="4" onClick={(e) => handleSection(e, SECTIONS.faq)}>
-              {t('faq')}
-            </Link>
-          </li>
-          <li>
-            <Link href="/contact" className="nav-drawer-link" data-i="5" onClick={closeMenu}>
-              {tNav('contact')}
+            <Link
+              href={sectionHref(SECTIONS.cta)}
+              className="nav-drawer-link"
+              data-i={sectionLinks.length + 1}
+              onClick={(e) => handleSection(e, SECTIONS.cta)}
+            >
+              {t('cta')}
             </Link>
           </li>
         </ul>

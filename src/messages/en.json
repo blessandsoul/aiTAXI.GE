@@ -140,9 +140,9 @@
   },
   "landingNav": {
     "products": "Platform",
-    "faq": "FAQ",
-    "cta": "Early access",
-    "showcase": "Platform",
+    "faq": "Questions",
+    "cta": "Request access",
+    "showcase": "See the platform",
     "process": "How it works"
   },
   "landingFooter": {
@@ -159,7 +159,7 @@
     "about": "About",
     "contact": "Contact",
     "ctaHuge": "Request early access",
-    "sectionShowcase": "Platform",
+    "sectionShowcase": "See the platform",
     "sectionWork": "How it works",
     "sectionFaq": "Questions",
     "copyright": "© {year} aitaxi.ge, an aiNOW product. All rights reserved."
@@ -197,18 +197,13 @@
       "pillTelemetry": "Telemetry",
       "pillRemote": "Remote assistance",
       "pillDepot": "Depot ops",
-      "sloganTogether": "built by",
       "ctaPrimary": "Request early access",
       "ctaSecondary": "See the modules",
       "audience": "For taxi companies and fleet operators",
       "sub": "aiTAXI is the control layer that does. Dispatch, telemetry, remote assistance and depot operations, in one board. The platform is pre-launch and this page says so.",
-      "signedBy": "Andrew Altair. I am the one who calls you back.",
+      "signedBy": "aiNOW checks this process on your data, sets it up, and shows you the result.",
       "commitment": "The platform is pre-launch and this page says so plainly. The research is public, the pilot programme is open, and one call is all it takes to find out whether your fleet fits it.",
-      "ctaResults": "Request early access",
-      "sloganCreates": "creates",
-      "sloganAds": "advertises",
-      "sloganSells": "sells",
-      "sloganManages": "manages"
+      "ctaResults": "Request early access"
     },
     "modules": {
       "eyebrow": "Platform",
@@ -348,7 +343,7 @@
       "q9": "Which autonomous vehicle platforms does aiTAXI support?",
       "a9": "aiTAXI is vehicle-agnostic by design: integration targets the AV platforms that enter the Georgian market. The pilot defines the first integration together with the partner fleet.",
       "q10": "Who builds aiTAXI?",
-      "a10": "aiTAXI is built by aiNOW, an AI company in Tbilisi founded by Andrew Altair. aiNOW ships AI systems for Georgian businesses: chatbots, automation and content platforms."
+      "a10": "aiTAXI is built by aiNOW, an AI company in Tbilisi. aiNOW builds AI systems for Georgian businesses: chatbots, automation and content platforms."
     },
     "cta": {
       "heading": "Join the aiTAXI pilot",

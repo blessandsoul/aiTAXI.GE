@@ -3,23 +3,24 @@
 import { memo, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
+import { SITE } from '@/config/site';
+import { MagneticButton } from '@/components/common/MagneticButton';
+import { Ico } from '@/components/common/Ico';
+// PER-SITE. The one thing in this shared component that every landing must supply for itself:
+// the product, in a single frame, above the fold. See src/features/showcase/HeroProof.tsx.
+import { HeroProof } from '@/features/showcase/HeroProof';
 import { clampTypewriterReservedWidth } from './hero-typewriter-width.mjs';
 import './landing-hero.css';
+
+/* hex -> normalized [r,g,b] for the WebGL grainient uniforms */
+const hexToRgb = (hex: string): [number, number, number] => {
+  const n = hex.replace('#', '');
+  return [parseInt(n.slice(0, 2), 16) / 255, parseInt(n.slice(2, 4), 16) / 255, parseInt(n.slice(4, 6), 16) / 255];
+};
 
 /* Hero, ported 1:1 from ainow_handoff/index.html (#hero section).
    Copy is i18n-ized via the home.hero namespace. The typewriter word list and
    its prefill are a single comma-joined string per locale. */
-
-/* aiNOW-style wordmark (ai + NOW + diagonal accent bars) */
-function Wordmark({ prefix, mark }: { prefix: string; mark: string }) {
-  return (
-    <span className="wordmark-3d">
-      <span className="wm-prefix">{prefix}</span>
-      <span className="wm-mark">{mark}</span>
-      <span className="wm-accent" aria-hidden="true" />
-    </span>
-  );
-}
 
 /* Hero-lead text style (stable reference so the memoized SplitText below never
    re-renders and the imperative split is never clobbered). */
@@ -91,7 +92,7 @@ const SplitText = memo(function SplitText({
 });
 
 export function LandingHero() {
-  const t = useTranslations('home.hero');
+  const t = useTranslations('product.hero');
   const typewriterWords = t('typewriterWords');
   const typewriterPrefill = t('typewriterPrefill');
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -209,7 +210,12 @@ export function LandingHero() {
     };
   }, []);
 
-  // Grainient WebGL2 animated gradient background (ported from source)
+  // Grainient WebGL2 animated gradient background (ported from source).
+  // Colors come from the active product's shader; a stable comma-joined key
+  // drives the dep array so the effect re-inits only when the product changes,
+  // not on every render.
+  const shaderKey = SITE.shader.join(',');
+  const shader = SITE.shader;
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -241,9 +247,9 @@ export function LandingHero() {
     }
 
     const PARAMS = {
-      color1: [0xff / 255, 0xd5 / 255, 0x4f / 255], // #FFD54F light gold
-      color2: [0xff / 255, 0x8f / 255, 0x00 / 255], // #FF8F00 deep amber
-      color3: [0xff / 255, 0xf3 / 255, 0xd6 / 255], // #FFF3D6 warm cream
+      color1: hexToRgb(shader[0]),
+      color2: hexToRgb(shader[1]),
+      color3: hexToRgb(shader[2]),
       timeSpeed: 0.25,
       colorBalance: 0,
       warpStrength: 1,
@@ -455,7 +461,7 @@ void main(){vec4 o=vec4(0.0); mainImage(o,gl_FragCoord.xy); fragColor=o;}`;
     };
     canvas.addEventListener('webglcontextlost', onContextLost as EventListener, false);
 
-    // Pause when the tab is backgrounded or the hero scrolls out of view -
+    // Pause when the tab is backgrounded or the hero scrolls out of view ,
     // frees GPU/battery and keeps memory headroom on weak devices.
     const onVisibility = () => {
       if (document.hidden) stop();
@@ -491,13 +497,16 @@ void main(){vec4 o=vec4(0.0); mainImage(o,gl_FragCoord.xy); fragColor=o;}`;
       gl.deleteBuffer(buf);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shaderKey]);
 
   return (
     <section
       id="hero"
       className="pt-24 md:pt-32 pb-10 md:pb-12 px-6 relative overflow-hidden"
     >
+      {/* Grainient softened to 0.22 (was 0.42 in CSS) so the 3D glass reads as the
+          focal layer; the grainient stays a faint, brand-tinted base beneath it. */}
       <canvas
         ref={canvasRef}
         id="grainient-canvas"
@@ -505,87 +514,162 @@ void main(){vec4 o=vec4(0.0); mainImage(o,gl_FragCoord.xy); fragColor=o;}`;
       />
       <div className="grainient-fade" />
 
-      <div className="hero-content mx-auto w-full min-w-0 max-w-[1100px] text-center relative z-10">
-        {/* 3D wordmark + brand tagline (from the business card: "AI რომელიც მუშაობს") */}
-        <div className="flex flex-col items-center mb-8 md:mb-12">
-          <div
-            className={cn(
-              'wordmark-3d hero-wordmark text-[clamp(3rem,9vw,7.5rem)] leading-none',
-              heroScrolled && 'scrolled',
-            )}
-          >
-            <span className="wm-prefix">ai</span>
-            <span className="wm-mark">TAXI</span>
-            <span className="wm-accent" aria-hidden="true" />
-          </div>
-          <div className={cn('hero-tagline', heroScrolled && 'scrolled')}>
-            <span className="ht-text">{t('taglinePrefix')} <span className="ht-works">{t('taglineWorks')}</span></span>
-            <span className="ht-rule" aria-hidden="true" />
-          </div>
-        </div>
+      {/* THE HERO, REBUILT after the five-second audit failed all six pages.
+          What was wrong, and it was the same thing every time:
+            - the LARGEST element on the page was the logo, and the demo that explains the
+              service sat three screens below the fold, so a stranger spent his five seconds
+              looking at a wordmark;
+            - not one page said WHO it was for above the fold;
+            - the headline named the mechanism and never the pain;
+            - two calls to action, and a second CTA is what a page offers when it does not
+              trust the first;
+            - everything centred, on all six, which is on the short list of things that make
+              a page read as machine-made.
+          So: a two column hero. Left is the argument (audience, pain, one button, the
+          promise). Right is the PRODUCT, in one frame, rendered by a per-site HeroProof.
+          The wordmark stays, because it is the family mark, but it is a lockup now and not
+          a billboard. */}
+      {/* Three blocks, not two columns, because the phone needs a different ORDER than the desktop
+          and not just a narrower one. On the desktop: the argument on the left, the product on the
+          right. On the phone: the words that say what this is (A), THEN the product (B), THEN the
+          explanation and the button and the promise (C). The first cut of this shipped the panel
+          above everything with `order-first`, so a phone opened on a black call widget with no
+          brand and no headline anywhere on screen: the product before the reader knew whose it was.
+          At lg the explicit col/row starts fold A and C back into one column and let B span both. */}
+      <div className="hero-content mx-auto w-full min-w-0 max-w-[1180px] relative z-10">
+        <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-x-16 lg:gap-y-6">
+          {/* A. identity, audience, the pain */}
+          <div className="order-1 text-center lg:order-0 lg:col-start-1 lg:row-start-1 lg:text-left">
+            <div className="flex flex-col items-center lg:items-start">
+              <div
+                className={cn(
+                  'wordmark-3d hero-wordmark text-[clamp(1.75rem,4vw,2.75rem)] leading-none',
+                  heroScrolled && 'scrolled',
+                )}
+              >
+                <span className="wm-prefix">{SITE.wordmark.prefix}</span>
+                <span className="wm-mark">{SITE.wordmark.mark}</span>
+                <span className="wm-accent" aria-hidden="true" />
+              </div>
+              <div className={cn('hero-tagline', heroScrolled && 'scrolled')}>
+                <span className="ht-text">
+                  {t('taglinePrefix')} <span className="ht-works">{t('taglineWorks')}</span>
+                </span>
+                <span className="ht-rule" aria-hidden="true" />
+              </div>
+            </div>
 
-        <h1
-          data-split-text="1"
-          className="leading-[1.15] tracking-tight text-[clamp(1.3rem,4vw,3.5rem)] text-neutral-900"
-        >
-          <SplitText className="hero-lead" text={t('lead')} />
-          <span
-            ref={typewriterRef}
-            className="typewriter"
-            data-words={typewriterWords}
-            data-prefill={typewriterPrefill}
-            style={{
-              fontFamily:
-                "'DachiLynx', var(--font-noto-georgian), 'Noto Sans Georgian', sans-serif",
-              color: '#ffc400',
-              WebkitTextFillColor: '#ffc400',
-            }}
-          >
-            <span className="tw-text">{typewriterPrefill}</span>
-            <span className="tw-caret">|</span>
-          </span>
-        </h1>
+            {/* WHO IT IS FOR. The audit's second finding: not one of the six named its buyer
+                above the fold, and a reader who cannot see himself in the first screen leaves,
+                and he is right to. Plain nouns, not a segment. */}
+            <p className="hero-audience mt-7 text-[13px] font-semibold uppercase tracking-[0.09em] text-neutral-900/45 md:text-[13.5px]">
+              {t('audience')}
+            </p>
+
+            {/* THE PAIN, not the mechanism. */}
+            <h1
+              data-split-text="1"
+              className="mt-3 text-balance leading-[1.12] tracking-tight text-[clamp(1.85rem,3.6vw,3.1rem)] text-neutral-900"
+            >
+              <SplitText className="hero-lead" text={t('lead')} />
+              <span
+                ref={typewriterRef}
+                className="typewriter"
+                data-words={typewriterWords}
+                data-prefill={typewriterPrefill}
+                /* THE INK, NOT THE FILL. This is the single biggest word on the page and it
+                   was painted in --brand, which measured 1.51:1 on aiAPP's lime and 1.60:1 on
+                   aiTAXI's yellow: below even the large-text bar, and it read like a highlighter
+                   that had run out. --brand-ink is the same hue, darkened until a letterform
+                   survives on the page. On aiDOCS and vibecoding, whose brands are already dark
+                   enough, the two tokens are the same colour and nothing changes. */
+                style={{
+                  fontFamily:
+                    "'DachiLynx', var(--font-noto-georgian), 'Noto Sans Georgian', sans-serif",
+                  color: 'var(--brand-ink, var(--brand))',
+                  WebkitTextFillColor: 'var(--brand-ink, var(--brand))',
+                }}
+              >
+                <span className="tw-text">{typewriterPrefill}</span>
+                <span className="tw-caret">|</span>
+              </span>
+            </h1>
+          </div>
+
+          {/* B. THE PRODUCT, in one frame.
+              This is the fix the audit put first. Every one of the six pages used to open with a
+              giant wordmark and hide the demo three screens down, so a stranger spent his five
+              seconds looking at a logo and left knowing nothing. HeroProof is per-site and it is
+              the one thing on this screen that answers "what is it" without a single word being
+              read: aiCALL shows a call confirming a row, aiDOCS shows a receipt collapsing into a
+              ledger line, vibecoding shows a redacted key it just found. */}
+          <div className="relative order-2 lg:order-0 lg:col-start-2 lg:row-start-1 lg:row-span-2">
+            <HeroProof />
+          </div>
+
+          {/* C. how it works, the one button, the promise, the family */}
+          <div className="order-3 text-center lg:order-0 lg:col-start-1 lg:row-start-2 lg:text-left">
+            <p className="mx-auto max-w-xl text-pretty text-[16px] leading-relaxed text-[#525252] lg:mx-0 md:text-[17px]">
+              {t('sub')}
+            </p>
 
         <div className="hero-extras">
-          <div className="slogan-bar mt-10 mx-auto">
-            <span className="slogan-pill slogan-content">{t('pillDispatch')}</span>
-            <span className="slogan-sep" aria-hidden="true" />
-            <span className="slogan-pill slogan-ads">{t('pillTelemetry')}</span>
-            <span className="slogan-sep" aria-hidden="true" />
-            <span className="slogan-pill slogan-staff">{t('pillRemote')}</span>
-            <span className="slogan-sep" aria-hidden="true" />
-            <span className="slogan-pill slogan-iai">{t('pillDepot')}</span>
-            <span className="slogan-sep slogan-sep-strong" aria-hidden="true" />
-            <a
-              href="https://ainow.ge"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="slogan-pill slogan-together"
-            >
-              {t('sloganTogether')} <Wordmark prefix="ai" mark="NOW" />
-            </a>
+          <div className="mt-8 flex flex-col sm:flex-row justify-center lg:justify-start items-center gap-3 sm:gap-4">
+            <MagneticButton className="w-full sm:w-auto">
+              <a href="#cta" className="btn-primary w-full justify-center sm:w-auto">
+                <span>{t('ctaResults')}</span>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </a>
+            </MagneticButton>
+            {/* The second call to action is gone. A ghost "book a call" next to the primary
+                button is what a page offers when it does not trust the first one: it splits the
+                click and it tells the reader you would rather talk than show. The phone number
+                lives in the footer, where somebody who wants it will go and look. */}
           </div>
 
-          <div className="mt-10 md:mt-12 flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4">
-            <a href="#cta" className="btn-primary w-full justify-center sm:w-auto">
-              <span>{t('ctaPrimary')}</span>
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+          {/* THE COMMITMENT. aiNOW owns the process check, setup, and result shown here. */}
+          <div className="hero-commitment mx-auto mt-8 max-w-xl text-center lg:mx-0 lg:text-left">
+            <p className="text-pretty text-[14px] leading-relaxed text-neutral-900/60 md:text-[15px]">
+              <span
+                className="mr-2 inline-block h-1.5 w-1.5 translate-y-[-2px] rounded-full align-middle"
+                style={{ background: 'var(--brand)' }}
+                aria-hidden="true"
+              />
+              {t('commitment')}
+            </p>
+            <p className="mt-3 flex items-center justify-center gap-2.5 text-[13px] text-neutral-900/45 lg:justify-start">
+              <span
+                className="inline-flex h-7 w-7 items-center justify-center rounded-full text-white"
+                style={{ background: 'var(--brand)' }}
+                aria-hidden="true"
               >
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
-            </a>
-            <a href="#products" className="btn-ghost w-full justify-center sm:w-auto">
-              <span>{t('ctaSecondary')}</span>
-            </a>
+                <Ico name="solar:shield-check-bold-duotone" className="h-4 w-4" />
+              </span>
+              {t('signedBy')}
+            </p>
+          </div>
+
+          {/* THE FAMILY STRIP IS GONE, and it belongs on ainow.ge and nowhere else.
+
+              It ran the four sibling wordmarks across the bottom of every product hero, so the
+              most valuable pixels on a page selling THIS product were spent naming four others,
+              and a stranger who had just worked out what aiCALL does was immediately handed
+              aiCONTENT, aiADS, aiSTAFF and iAI to work out as well. A product page sells ONE
+              thing. The parent's page is where the family stands together, and the footer still
+              carries the directory for anyone who goes looking for it. */}
+          </div>
           </div>
         </div>
       </div>
