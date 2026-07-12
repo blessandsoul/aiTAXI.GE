@@ -149,19 +149,27 @@
    base rule is the no-JS fallback (loader script never runs → stays visible). */
 .hero-extras { opacity: 1; }
 
+.hero-content { width: 100%; min-width: 0; }
+@media (max-width: 1023px) {
+  .hero-content > .grid { width: 100%; min-width: 0; }
+  .hero-content > .grid > * { width: 100%; min-width: 0; }
+}
+
 /* Typewriter - its own line, centered, fixed-width container */
 .typewriter {
   display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   text-align: center;
   letter-spacing: normal;
   font-feature-settings: "kern" 1, "liga" 1;
-  white-space: nowrap;
-  max-width: 100%; /* guard: a longer rotating word clips itself, never widens the hero column */
+  white-space: normal;
   margin: 32px auto 0;
   font-weight: 700;
 }
 @media (min-width: 768px) {
-  .typewriter { margin-top: 48px; }
+  .typewriter { margin-top: 48px; white-space: nowrap; }
 }
 .tw-text { letter-spacing: 0.06em; }
 .tw-caret {

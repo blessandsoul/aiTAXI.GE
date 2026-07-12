@@ -3,6 +3,7 @@
 import { memo, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
+import { clampTypewriterReservedWidth } from './hero-typewriter-width.mjs';
 import './landing-hero.css';
 
 /* Hero, ported 1:1 from ainow_handoff/index.html (#hero section).
@@ -152,10 +153,11 @@ export function LandingHero() {
         const maxW = measureMaxWidth();
         const caret = el.querySelector<HTMLElement>('.tw-caret');
         const caretW = caret ? caret.getBoundingClientRect().width + 2 : 8;
-        // Cap at the parent width: a reserved box wider than the h1 container
-        // overflows to the right and drags the centered word off-axis.
-        const parentW = el.parentElement ? el.parentElement.clientWidth : Infinity;
-        el.style.minWidth = `${Math.min(Math.ceil(maxW + caretW), parentW)}px`;
+        const availableW = el.parentElement
+          ? el.parentElement.getBoundingClientRect().width
+          : Infinity;
+        const clampToAvailable = !window.matchMedia('(min-width: 1024px)').matches;
+        el.style.minWidth = `${clampTypewriterReservedWidth(maxW, caretW, availableW, clampToAvailable)}px`;
       });
     };
 
@@ -503,7 +505,7 @@ void main(){vec4 o=vec4(0.0); mainImage(o,gl_FragCoord.xy); fragColor=o;}`;
       />
       <div className="grainient-fade" />
 
-      <div className="max-w-[1100px] mx-auto text-center relative z-10">
+      <div className="hero-content mx-auto w-full min-w-0 max-w-[1100px] text-center relative z-10">
         {/* 3D wordmark + brand tagline (from the business card: "AI რომელიც მუშაობს") */}
         <div className="flex flex-col items-center mb-8 md:mb-12">
           <div
