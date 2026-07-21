@@ -11,13 +11,13 @@ export function TaxiDemos() {
   const t = useTranslations('product.demos');
 
   return (
-    <section id="fleet-scenarios" className="relative overflow-hidden px-4 py-16 sm:px-6 md:py-24 lg:px-8">
-      <div className="relative mx-auto max-w-[1280px]">
+    <section id="fleet-scenarios" className="relative overflow-hidden py-16 md:py-24 xl:py-28">
+      <div className="relative mx-auto w-[calc(100%-48px)] max-w-[1216px]">
         <div className="max-w-3xl">
-          <p className="font-mono text-xs uppercase tracking-[0.22em] text-[#b45309]">
+          <p className="font-mono text-xs uppercase tracking-[0.22em] text-[#52525b]">
             {t('eyebrow')}
           </p>
-          <h2 className="mt-3 text-balance font-display text-3xl font-extrabold tracking-tight text-neutral-900 md:text-5xl">
+          <h2 id="fleet-scenarios-heading" className="mt-3 text-balance font-display text-[30px] font-extrabold leading-[33px] tracking-tight text-[#111827] md:text-[36px] md:leading-[40px]">
             {t('heading')}
           </h2>
           <p className="mt-4 max-w-2xl text-pretty text-base leading-relaxed text-neutral-600 md:text-lg">
@@ -25,19 +25,23 @@ export function TaxiDemos() {
           </p>
         </div>
 
-        <div className="mt-8 flex min-w-0 items-start gap-3 rounded-2xl border border-amber-300/60 bg-amber-50 p-4 text-sm leading-relaxed text-amber-950 sm:p-5">
-          <Ico name="solar:shield-warning-bold-duotone" className="mt-0.5 size-5 shrink-0 text-[#9a6c00]" />
+        <div className="mt-8 flex min-w-0 items-start gap-3 rounded-2xl border border-[#ffc400]/70 bg-[#fff8db] p-4 text-sm leading-relaxed text-[#3f3500] sm:p-5">
+          <Ico name="solar:shield-warning-bold-duotone" className="mt-0.5 size-5 shrink-0 text-[#18181b]" />
           <p className="min-w-0">{t('disclaimer')}</p>
         </div>
 
-        <div className="mt-6 grid min-w-0 gap-5 xl:grid-cols-2">
-          <div className="min-w-0 xl:col-span-2">
+        <div
+          role="region"
+          aria-labelledby="fleet-scenarios-heading"
+          className="mt-10 grid min-w-0 gap-8 xl:gap-10"
+        >
+          <div className="min-w-0">
             <RideDispatchDemo />
           </div>
-          <FleetTelemetryDemo />
-          <DepotPlannerDemo />
-          <ComplianceReportDemo />
-          <HybridRolloutDemo />
+          <div className="min-w-0"><FleetTelemetryDemo /></div>
+          <div className="min-w-0"><DepotPlannerDemo /></div>
+          <div className="min-w-0"><ComplianceReportDemo /></div>
+          <div className="min-w-0"><HybridRolloutDemo /></div>
         </div>
       </div>
     </section>

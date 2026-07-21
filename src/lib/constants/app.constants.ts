@@ -1,7 +1,10 @@
-export const APP_NAME = "aiTAXI";
-export const APP_DOMAIN = "aitaxi.ge";
-// Real reachable channels of the parent company (aiNOW / AI NOW LLC) until a
-// dedicated @aitaxi.ge mailbox exists. aiTAXI is an aiNOW product.
+import { SITE } from "@/config/site";
+
+export const APP_NAME = SITE.wordmark.prefix + SITE.wordmark.mark;
+export const APP_DOMAIN = SITE.domain;
+
+// Real reachable channels of the parent company (aiNOW / AI NOW LLC). Every product landing
+// funnels into the same inbox and the same Telegram until a product gets its own.
 export const CONTACT_EMAIL = "CONTACT@aiNOW.GE";
 export const CONTACT_EMAIL_SECONDARY = "ainowgeorgia@gmail.com";
 

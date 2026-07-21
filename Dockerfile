@@ -7,8 +7,6 @@ RUN npm ci
 # Stage 2: Build
 FROM node:20-alpine AS builder
 WORKDIR /app
-# Bump heap for static gen — 1600+ pages × MDX parsing × Mkhedruli font buffers in OG routes push past default heap
-ENV NODE_OPTIONS="--max-old-space-size=4096"
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
@@ -24,7 +22,6 @@ RUN addgroup --system --gid 1001 nodejs && \
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/content ./content
 
 USER nextjs
 

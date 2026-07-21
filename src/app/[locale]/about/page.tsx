@@ -46,7 +46,7 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 
 // The three pillars of the aiTAXI effort: platform, research, pilot program.
 const FLAGSHIPS = [
-  { key: "build1", color: "#b45309" },
+  { key: "build1", color: "#ffc400" },
   { key: "build2", color: "#2563eb" },
   { key: "build3", color: "#10b981", soon: true },
 ] as const;

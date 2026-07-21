@@ -36,14 +36,17 @@ export function frameFor(demoId, phase) {
 
 function createStagePlayer({
   stages,
-  durationMs,
+  stageDelaysMs,
   schedule = globalThis.setTimeout,
   cancel = globalThis.clearTimeout,
   reducedMotion = false,
   onFrame,
 }) {
   const timers = new Set();
-  const phaseInterval = durationMs / (stages.length - 1);
+
+  if (stageDelaysMs.length !== stages.length - 1) {
+    throw new TypeError('Each non-initial demo stage requires an explicit delay');
+  }
 
   const stop = () => {
     for (const timer of timers) cancel(timer);
@@ -65,7 +68,7 @@ function createStagePlayer({
       timer = schedule(() => {
         timers.delete(timer);
         onFrame(phase);
-      }, phaseInterval * (index + 1));
+      }, stageDelaysMs[index]);
       timers.add(timer);
     });
   };
@@ -90,9 +93,17 @@ function createStagePlayer({
 }
 
 export function createTimelinePlayer(options) {
-  return createStagePlayer({ ...options, stages: PHASES, durationMs: 7200 });
+  return createStagePlayer({
+    ...options,
+    stages: PHASES,
+    stageDelaysMs: [500, 7200],
+  });
 }
 
 export function createHeroTimelinePlayer(options) {
-  return createStagePlayer({ ...options, stages: HERO_BEATS, durationMs: 7200 });
+  return createStagePlayer({
+    ...options,
+    stages: HERO_BEATS,
+    stageDelaysMs: [800, 3600, 7200],
+  });
 }

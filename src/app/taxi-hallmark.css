@@ -1,0 +1,413 @@
+/* Hallmark · macrostructure: Workbench · tone: technical · anchor hue: taxi-yellow
+ * pre-emit critique: P5 H4 E4 S4 R5 V4
+ */
+@import "../../tokens.css";
+
+/* aiTAXI only. Preserve the family geometry and product logic; remove the
+   decorative card soup that made the operations story read as a template. */
+html[data-product="aitaxi"] {
+  --taxi-accent: #ffc400;
+  --taxi-accent-soft: #fff4bf;
+  --taxi-accent-wash: #fff9df;
+  --taxi-console: #17171a;
+  --taxi-console-raised: #202025;
+  --taxi-console-rule: #34343b;
+  --taxi-shadow-surface:
+    0 0 0 1px rgb(24 24 27 / 6%),
+    0 2px 5px rgb(24 24 27 / 5%),
+    0 22px 52px -42px rgb(24 24 27 / 45%);
+  --taxi-shadow-console:
+    0 0 0 1px rgb(255 255 255 / 5%),
+    0 30px 72px -44px rgb(13 13 15 / 88%);
+}
+
+html[data-product="aitaxi"] :where(
+  [data-static-section="taxi-how"],
+  [data-static-section="taxi-modules"],
+  #fleet-scenarios,
+  [data-static-section="taxi-roadmap"]
+) {
+  background: transparent;
+}
+
+html[data-product="aitaxi"] :where(
+  [data-static-section="taxi-how"],
+  [data-static-section="taxi-modules"],
+  #fleet-scenarios,
+  [data-static-section="taxi-roadmap"]
+) > div {
+  width: min(1216px, calc(100% - 48px));
+  max-width: 1216px;
+  margin-inline: auto;
+}
+
+/* Eyebrows were repeated on every section. Headings now carry the hierarchy. */
+html[data-product="aitaxi"] [data-static-section="taxi-how"] > div > div:first-child > p:first-child,
+html[data-product="aitaxi"] [data-static-section="taxi-modules"] > div > div:first-child > p:first-child,
+html[data-product="aitaxi"] #fleet-scenarios > div > div:first-child > p:first-child,
+html[data-product="aitaxi"] [data-static-section="taxi-roadmap"] > div > div:first-child > p:first-child {
+  display: none;
+}
+
+html[data-product="aitaxi"] :where(
+  [data-static-section="taxi-how"],
+  [data-static-section="taxi-modules"],
+  #fleet-scenarios,
+  [data-static-section="taxi-roadmap"]
+) h2 {
+  margin-top: 0 !important;
+  color: var(--taxi-ink) !important;
+  font-size: clamp(2rem, 3.2vw, 3rem) !important;
+  font-style: normal;
+  font-weight: 700 !important;
+  letter-spacing: -0.035em !important;
+  line-height: 1.04 !important;
+}
+
+html[data-product="aitaxi"] :where(
+  [data-static-section="taxi-how"],
+  [data-static-section="taxi-modules"],
+  #fleet-scenarios,
+  [data-static-section="taxi-roadmap"]
+) h2 + p {
+  max-width: 680px;
+  color: var(--taxi-ink-muted) !important;
+  font-size: 16px !important;
+  line-height: 1.65 !important;
+}
+
+/* One calm pre-launch notice, not a promotional banner. */
+html[data-product="aitaxi"] :where([data-static-section="taxi-modules"], #fleet-scenarios)
+  > div > div:nth-child(2) {
+  padding: var(--taxi-space-4) var(--taxi-space-6) !important;
+  border: 1px solid color-mix(in srgb, var(--taxi-accent) 46%, var(--taxi-rule)) !important;
+  border-radius: var(--taxi-radius-control) !important;
+  background: var(--taxi-accent-wash) !important;
+  color: color-mix(in srgb, var(--taxi-ink) 82%, #6a5200) !important;
+  box-shadow: none !important;
+}
+
+html[data-product="aitaxi"] :where([data-static-section="taxi-modules"], #fleet-scenarios)
+  > div > div:nth-child(2) svg {
+  color: var(--taxi-accent-ink) !important;
+}
+
+/* Modules: operational records, not a stack of equal cards. */
+html[data-product="aitaxi"] [data-static-section="taxi-modules"] article {
+  border: 1px solid var(--taxi-rule) !important;
+  border-radius: var(--taxi-radius-card) !important;
+  background: var(--taxi-paper) !important;
+  box-shadow: var(--taxi-shadow-surface) !important;
+  transition: border-color var(--taxi-duration-short) var(--taxi-ease-out),
+    box-shadow var(--taxi-duration-short) var(--taxi-ease-out) !important;
+}
+
+html[data-product="aitaxi"] [data-static-section="taxi-modules"] article:hover,
+html[data-product="aitaxi"] [data-static-section="taxi-modules"] article:focus-within {
+  border-color: color-mix(in srgb, var(--taxi-accent) 64%, var(--taxi-rule-strong)) !important;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--taxi-accent) 20%, transparent),
+    0 24px 56px -44px rgb(24 24 27 / 52%) !important;
+}
+
+html[data-product="aitaxi"] [data-static-section="taxi-modules"] article > div[aria-hidden="true"] {
+  display: none;
+}
+
+html[data-product="aitaxi"] [data-static-section="taxi-modules"] article header > span {
+  width: 44px;
+  height: 44px;
+  border: 1px solid color-mix(in srgb, var(--taxi-accent) 58%, var(--taxi-rule));
+  border-radius: var(--taxi-radius-control) !important;
+  background: var(--taxi-accent-soft) !important;
+  color: var(--taxi-accent-ink) !important;
+  box-shadow: none !important;
+}
+
+html[data-product="aitaxi"] [data-static-section="taxi-modules"] article:first-child header > span {
+  border-color: rgb(24 24 27 / 14%);
+  background: #ffffff !important;
+  color: var(--taxi-ink) !important;
+}
+
+html[data-product="aitaxi"] [data-static-section="taxi-modules"] article header p {
+  color: var(--taxi-ink-muted) !important;
+  letter-spacing: 0.08em !important;
+}
+
+html[data-product="aitaxi"] [data-static-section="taxi-modules"] article dl {
+  gap: 0 !important;
+  border: 0;
+  border-top: 1px solid var(--taxi-rule);
+  border-radius: 0;
+}
+
+html[data-product="aitaxi"] [data-static-section="taxi-modules"] article dl > div {
+  min-height: 100%;
+  padding: 18px 20px !important;
+  border: 0;
+  border-bottom: 1px solid var(--taxi-rule);
+  border-radius: 0 !important;
+  background: var(--taxi-paper) !important;
+  box-shadow: none !important;
+}
+
+html[data-product="aitaxi"] [data-static-section="taxi-modules"] article dl dt {
+  color: color-mix(in srgb, var(--taxi-ink-muted) 86%, var(--taxi-ink)) !important;
+}
+
+html[data-product="aitaxi"] [data-static-section="taxi-modules"] article dl dd {
+  max-width: 52ch;
+  color: color-mix(in srgb, var(--taxi-ink-muted) 84%, var(--taxi-ink)) !important;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+html[data-product="aitaxi"] [data-static-section="taxi-modules"] article dl > div:last-child {
+  border-bottom: 0;
+}
+
+/* Keep the family demo card light; only its simulator canvas is dark. */
+html[data-product="aitaxi"] #fleet-scenarios [data-landing-demo] {
+  border: 1px solid var(--taxi-rule) !important;
+  border-radius: var(--taxi-radius-panel) !important;
+  background: var(--taxi-paper) !important;
+  box-shadow: var(--taxi-shadow-surface) !important;
+  isolation: isolate;
+}
+
+html[data-product="aitaxi"] #fleet-scenarios [data-landing-demo] > div[aria-hidden="true"] {
+  display: block;
+  height: 2px !important;
+  background: var(--taxi-accent) !important;
+}
+
+html[data-product="aitaxi"] #fleet-scenarios [data-landing-demo] :where(.rounded-2xl, .rounded-xl) {
+  border-radius: var(--taxi-radius-control) !important;
+}
+
+html[data-product="aitaxi"] #fleet-scenarios [data-demo-replay] {
+  min-height: 44px;
+  border-color: var(--taxi-accent) !important;
+  border-radius: var(--taxi-radius-control) !important;
+  background: var(--taxi-accent) !important;
+  color: #17171a !important;
+  transition: transform var(--taxi-duration-short) var(--taxi-ease-out),
+    background-color var(--taxi-duration-short) var(--taxi-ease-out),
+    border-color var(--taxi-duration-short) var(--taxi-ease-out),
+    box-shadow var(--taxi-duration-short) var(--taxi-ease-out) !important;
+  box-shadow: 0 10px 24px -16px rgb(255 196 0 / 75%);
+}
+
+html[data-product="aitaxi"] #fleet-scenarios [data-demo-replay]:hover {
+  background: #ffd12f !important;
+  border-color: #ffd12f !important;
+}
+
+html[data-product="aitaxi"] #fleet-scenarios [data-demo-replay]:active {
+  transform: scale(0.96);
+}
+
+html[data-product="aitaxi"] #fleet-scenarios [data-demo-replay]:focus-visible {
+  outline: 2px solid var(--taxi-accent);
+  outline-offset: 3px;
+}
+
+/* Autoplay state changes stay inside reserved surfaces and never jump. */
+html[data-product="aitaxi"] #fleet-scenarios [data-landing-demo] :where(
+  [class*="duration-500"],
+  [class*="transition-"]
+) {
+  transition-duration: 240ms !important;
+  transition-timing-function: var(--taxi-ease-out) !important;
+}
+
+html[data-product="aitaxi"] #fleet-scenarios [data-landing-demo] [class*="translate-y"] {
+  transform: none !important;
+}
+
+html[data-product="aitaxi"] #fleet-scenarios [data-landing-demo] [class*="transition-[width]"] {
+  width: 100% !important;
+  transform-origin: left center;
+  transition-property: transform !important;
+}
+
+html[data-product="aitaxi"] #fleet-scenarios [data-landing-demo] [class*="transition-[width]"][class*="w-1/2"] {
+  transform: scaleX(0.5);
+}
+
+html[data-product="aitaxi"] #fleet-scenarios [data-landing-demo] [class*="transition-[width]"][class*="w-full"] {
+  transform: scaleX(1);
+}
+
+html[data-product="aitaxi"] #fleet-scenarios [data-landing-demo] :where(
+  .font-mono,
+  .tabular-nums
+) {
+  font-variant-numeric: tabular-nums;
+}
+
+html[data-product="aitaxi"] #fleet-scenarios [data-demo-copy-slot="action"],
+html[data-product="aitaxi"] #fleet-scenarios [data-demo-copy-slot="result"] {
+  min-height: 148px;
+}
+
+/* Roadmap is one ordered strip. No staircase, glass or hover lift. */
+html[data-product="aitaxi"] [data-static-section="taxi-roadmap"] > div > div:last-child {
+  overflow: hidden;
+  gap: 0 !important;
+  border: 1px solid var(--taxi-rule);
+  border-radius: var(--taxi-radius-card);
+  background: var(--taxi-paper);
+  box-shadow: var(--taxi-shadow-surface);
+}
+
+html[data-product="aitaxi"] [data-static-section="taxi-roadmap"] .glass-card {
+  min-height: 230px;
+  padding: var(--taxi-space-8) !important;
+  border: 0 !important;
+  border-right: 1px solid var(--taxi-rule) !important;
+  border-radius: 0 !important;
+  background: var(--taxi-paper) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html[data-product="aitaxi"] [data-static-section="taxi-roadmap"] .glass-card:last-child {
+  border-right: 0 !important;
+}
+
+html[data-product="aitaxi"] [data-static-section="taxi-roadmap"] .glass-card:first-child {
+  background: var(--taxi-accent-wash) !important;
+  box-shadow: inset 0 2px 0 var(--taxi-accent) !important;
+}
+
+html[data-product="aitaxi"] [data-static-section="taxi-roadmap"] .glass-card:hover {
+  transform: none !important;
+}
+
+html[data-product="aitaxi"] [data-static-section="taxi-roadmap"] .animate-ping {
+  animation: none !important;
+}
+
+@media (min-width: 1024px) {
+  html[data-product="aitaxi"] [data-static-section="taxi-modules"] article {
+    display: grid;
+    grid-template-columns: minmax(190px, 0.62fr) minmax(0, 1.38fr);
+    padding: 0 !important;
+  }
+
+  html[data-product="aitaxi"] [data-static-section="taxi-modules"] article:first-child {
+    grid-template-columns: minmax(240px, 0.52fr) minmax(0, 1.48fr);
+  }
+
+  html[data-product="aitaxi"] [data-static-section="taxi-modules"] article:not(:first-child) {
+    display: block;
+  }
+
+  html[data-product="aitaxi"] [data-static-section="taxi-modules"] article header {
+    min-width: 0;
+    padding: 26px 24px;
+    border-right: 1px solid var(--taxi-rule);
+    background: var(--taxi-paper-muted);
+  }
+
+  html[data-product="aitaxi"] [data-static-section="taxi-modules"] article:first-child header {
+    background: var(--taxi-accent);
+    border-right-color: color-mix(in srgb, var(--taxi-accent-ink) 24%, var(--taxi-accent));
+  }
+
+  html[data-product="aitaxi"] [data-static-section="taxi-modules"] article:first-child header > span {
+    border-color: rgb(24 24 27 / 14%);
+    background: #ffffff !important;
+    color: var(--taxi-ink) !important;
+  }
+
+  html[data-product="aitaxi"] [data-static-section="taxi-modules"] article:first-child header :where(p, h3) {
+    color: var(--taxi-ink) !important;
+  }
+
+  html[data-product="aitaxi"] [data-static-section="taxi-modules"] article:not(:first-child) dl {
+    grid-template-columns: 1fr !important;
+  }
+
+  html[data-product="aitaxi"] [data-static-section="taxi-modules"] article:not(:first-child) header {
+    border-right: 0;
+    border-bottom: 1px solid var(--taxi-rule);
+    background: var(--taxi-paper) !important;
+  }
+
+  html[data-product="aitaxi"] [data-static-section="taxi-modules"] article dl.lg\:grid-cols-3 > div {
+    border-right: 1px solid var(--taxi-rule);
+    border-bottom: 0;
+  }
+
+  html[data-product="aitaxi"] [data-static-section="taxi-modules"] article dl.lg\:grid-cols-3 > div:last-child {
+    border-right: 0;
+  }
+
+  html[data-product="aitaxi"] [data-static-section="taxi-roadmap"] > div > div:last-child {
+    grid-template-columns: 1.14fr 0.96fr 0.9fr;
+  }
+}
+
+@media (max-width: 767px) {
+  html[data-product="aitaxi"] :where(
+    [data-static-section="taxi-how"],
+    [data-static-section="taxi-modules"],
+    #fleet-scenarios,
+    [data-static-section="taxi-roadmap"]
+  ) > div {
+    width: calc(100% - 48px);
+  }
+
+  html[data-product="aitaxi"] [data-static-section="taxi-roadmap"] .glass-card {
+    min-height: 0;
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--taxi-rule) !important;
+  }
+
+  html[data-product="aitaxi"] [data-static-section="taxi-roadmap"] .glass-card:last-child {
+    border-bottom: 0 !important;
+  }
+
+  html[data-product="aitaxi"] [data-static-section="taxi-modules"] article {
+    padding: 0 !important;
+  }
+
+  html[data-product="aitaxi"] [data-static-section="taxi-modules"] article header {
+    padding: 22px 20px;
+    border-bottom: 1px solid var(--taxi-rule);
+    background: var(--taxi-paper-muted);
+  }
+
+  html[data-product="aitaxi"] [data-static-section="taxi-modules"] article:first-child header {
+    background: var(--taxi-accent);
+  }
+
+  html[data-product="aitaxi"] [data-static-section="taxi-modules"] article:first-child header :where(p, h3) {
+    color: var(--taxi-ink) !important;
+  }
+
+  html[data-product="aitaxi"] [data-static-section="taxi-modules"] article dl {
+    margin-top: 0 !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  html[data-product="aitaxi"] [data-static-section="taxi-modules"] article,
+  html[data-product="aitaxi"] #fleet-scenarios [data-landing-demo],
+  html[data-product="aitaxi"] [data-static-section="taxi-roadmap"] > div > div:last-child {
+    border-width: 2px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-product="aitaxi"] *,
+  html[data-product="aitaxi"] *::before,
+  html[data-product="aitaxi"] *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+}

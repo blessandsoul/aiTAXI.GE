@@ -5,13 +5,17 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
+import { Reveal } from '@/components/common/Reveal';
+import { MagneticButton } from '@/components/common/MagneticButton';
 import { contactFormSchema, type ContactFormData } from '@/features/contact/schemas/contact.schema';
+// facebook-pixel was stripped from this lean build; no-op keeps the call sites intact.
+const trackLead = () => undefined;
 import './landing-cta.css';
 
 /* =========================================================================
    LandingCta, "#cta" contact form.
    Ported verbatim from ainow_handoff/index.html. Token swaps: text-muted →
-   #525252, border-border → #e5e5e5, bg-accent2/30 → bg-[#ff8f00]/30,
+   #525252, border-border → #e5e5e5, bg-accent2/30 → bg-[#e040fb]/30,
    bg-glow/25 → bg-[#ff6b00]/25. Behaviors ported from the source scripts:
    fade-up reveal, magnet (button pulls toward cursor) and click-spark
    (particles burst from click), all scoped to this section's root.
@@ -44,6 +48,7 @@ export function LandingCta() {
         body: JSON.stringify({ phone: data.phone }),
       });
       if (res.ok) {
+        trackLead();
         toast.success(t('successTitle'), { description: t('successMessage') });
         reset();
       } else {
@@ -125,15 +130,17 @@ export function LandingCta() {
   }, []);
 
   return (
-    <section ref={rootRef} id="cta" className="py-20 md:py-32 px-6">
-      <div className="max-w-[1280px] mx-auto relative overflow-hidden rounded-3xl [clip-path:inset(0_round_1.5rem)] border border-[#e5e5e5] bg-gradient-to-br from-white via-neutral-50 to-white p-8 md:p-20">
-        <div className="absolute -top-32 -right-32 w-[500px] h-[500px] bg-[#ff8f00]/30 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-32 -left-32 w-[500px] h-[500px] bg-[#ff6b00]/25 rounded-full blur-3xl"></div>
+    <section ref={rootRef} id="cta" className="px-4 py-20 md:px-6 md:py-32">
+      <div data-family-shell="true" className="max-w-[1216px] mx-auto relative overflow-hidden rounded-3xl [clip-path:inset(0_round_1.5rem)] border border-[#e5e5e5] bg-gradient-to-br from-white via-neutral-50 to-white p-8 md:p-20">
+        <div className="absolute -top-32 -right-32 w-[500px] h-[500px] bg-(--brand)/30 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-32 -left-32 w-[500px] h-[500px] bg-(--brand-soft)/25 rounded-full blur-3xl"></div>
         <div className="relative text-center">
-          <h2 className="fade-up font-display font-extrabold text-4xl md:text-6xl leading-[1.05] tracking-tight max-w-3xl mx-auto text-neutral-900">
-            <span className="gradient-text">{tc('heading')}</span>
-          </h2>
-          <p className="mt-6 text-lg text-[#525252] max-w-xl mx-auto">{tc('subtitle')}</p>
+          <Reveal>
+            <h2 className="font-display font-extrabold text-4xl md:text-6xl leading-[1.05] tracking-tight max-w-3xl mx-auto text-neutral-900">
+              <span className="gradient-text">{tc('heading')}</span>
+            </h2>
+            <p className="mt-6 text-lg text-[#525252] max-w-xl mx-auto">{tc('subtitle')}</p>
+          </Reveal>
           <form onSubmit={handleSubmit(onSubmit)} className="mt-10 max-w-md mx-auto text-left rounded-2xl border border-[#e5e5e5] bg-white p-6 md:p-8 space-y-4">
             <div>
               <label htmlFor="cta-phone" className="block text-xs font-mono uppercase tracking-[0.2em] text-[#525252] mb-2">{tc('phoneLabel')}</label>
@@ -153,10 +160,12 @@ export function LandingCta() {
                 <p id="cta-phone-error" role="alert" aria-live="polite" className="mt-2 text-sm text-red-600">{errors.phone.message}</p>
               )}
             </div>
-            <button type="submit" disabled={isSubmitting} className="magnet magnet-strong click-spark w-full px-6 py-4 rounded-xl bg-neutral-900 text-white font-medium hover:bg-neutral-800 transition disabled:opacity-60 disabled:cursor-not-allowed">{isSubmitting ? t('submitting') : tc('phoneSubmit')}</button>
+            <MagneticButton className="block w-full">
+              <button type="submit" disabled={isSubmitting} className="click-spark w-full px-6 py-4 rounded-xl bg-neutral-900 text-white font-medium [transition:background-color_.18s_ease,transform_.18s_cubic-bezier(.2,.8,.2,1)] will-change-transform hover:bg-neutral-800 active:scale-[0.97] disabled:opacity-60 disabled:cursor-not-allowed motion-reduce:transition-none motion-reduce:active:scale-100">{isSubmitting ? t('submitting') : tc('phoneSubmit')}</button>
+            </MagneticButton>
             <p className="text-center text-xs text-[#525252]">{tc('phoneNote')}</p>
           </form>
-          <p className="mt-8 text-sm text-[#525252]">{tc('orWrite')} <a href="mailto:CONTACT@aiNOW.GE" className="underline hover:text-neutral-900">CONTACT@aiNOW.GE</a></p>
+          <p className="mt-8 text-sm text-[#525252]">{tc('orWrite')} <a href="mailto:CONTACT@aiNOW.GE" className="inline-flex min-h-11 min-w-11 max-w-full items-center justify-center break-all rounded-lg px-2 text-center underline transition-colors hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ink)] focus-visible:ring-offset-2">CONTACT@aiNOW.GE</a></p>
         </div>
       </div>
     </section>

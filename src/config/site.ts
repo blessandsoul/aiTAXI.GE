@@ -48,7 +48,7 @@ export const SITE = {
    * An accent is a SIBLING of the brand, never a near-white: anything that paints text has to
    * survive being painted.
    */
-  shader: ["#fff3d6", "#ffc400", "#ff8f00"] as [string, string, string],
+  shader: ["#fff3d6", "#ffc400", "#ffdf5a"] as [string, string, string],
 
   /**
    * `defaultLocale` is the UNPREFIXED locale (next-intl `localePrefix: "as-needed"`), so it

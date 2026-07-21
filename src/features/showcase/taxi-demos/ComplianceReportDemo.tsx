@@ -29,7 +29,7 @@ export function ComplianceReportDemo() {
           {SOURCES.map((source, index) => (
             <div
               key={source.code}
-              className={`rounded-xl border p-3 transition-all duration-500 ${
+              className={`rounded-xl border p-3 transition-[border-color,background-color,transform] duration-500 ${
                 assembled
                   ? 'border-[#ffc400]/30 bg-[#ffc400]/[0.06]'
                   : index % 2 === 0
@@ -37,12 +37,12 @@ export function ComplianceReportDemo() {
                     : 'translate-y-1 border-white/12 bg-white/[0.035]'
               }`}
             >
-              <span className="flex items-center gap-2 font-mono text-[10px] text-white/48">
+              <span className="flex items-center gap-2 font-mono text-[10px] text-white/75">
                 <Ico name={source.icon} className="size-4 text-[#ffc400]" />
                 {source.code}
               </span>
               <span className={`mt-3 grid h-6 w-6 place-items-center rounded-full border ${
-                assembled ? 'border-[#ffc400] text-[#ffc400]' : 'border-white/15 text-white/25'
+                assembled ? 'border-[#ffc400] text-[#ffc400]' : 'border-white/15 text-white/75'
               }`}>
                 <Ico
                   name={assembled ? 'solar:check-circle-bold-duotone' : 'solar:clock-circle-bold-duotone'}
@@ -55,16 +55,16 @@ export function ComplianceReportDemo() {
 
         <Ico
           name="solar:alt-arrow-right-bold-duotone"
-          className={`hidden size-5 transition-colors sm:block ${assembled ? 'text-[#ffc400]' : 'text-white/20'}`}
+          className={`hidden size-5 transition-colors sm:block ${assembled ? 'text-[#ffc400]' : 'text-white/75'}`}
         />
 
-        <div className={`relative min-h-36 rounded-xl border p-4 transition-all duration-500 ${
+        <div className={`relative min-h-36 rounded-xl border p-4 transition-[border-color,background-color,transform] duration-500 ${
           complete
-            ? 'border-[#ffc400]/55 bg-[#ffc400]/[0.09] opacity-100'
-            : 'border-white/10 bg-white/[0.025] opacity-35'
+            ? 'border-[#ffc400]/55 bg-[#ffc400]/[0.09]'
+            : 'border-white/10 bg-white/[0.025]'
         }`}>
           <div className="flex items-center justify-between">
-            <span className="inline-flex items-center gap-2 font-mono text-xs text-white/55">
+            <span className="inline-flex items-center gap-2 font-mono text-xs text-white/75">
               <Ico name="solar:document-text-bold-duotone" className="size-4 text-[#ffc400]" />
               RPT-024
             </span>
@@ -76,7 +76,7 @@ export function ComplianceReportDemo() {
             <span className="block h-1.5 w-2/3 rounded-full bg-white/15" />
           </div>
           <span className={`absolute bottom-3 right-3 grid h-8 w-8 place-items-center rounded-full border ${
-            complete ? 'border-[#ffc400] bg-[#ffc400] text-[#151518]' : 'border-white/15 text-white/20'
+            complete ? 'border-[#ffc400] bg-[#ffc400] text-[#151518]' : 'border-white/15 text-white/75'
           }`}>
             <Ico
               name={complete ? 'solar:check-circle-bold-duotone' : 'solar:clock-circle-bold-duotone'}

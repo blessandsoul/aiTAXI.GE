@@ -12,6 +12,8 @@ import {
   contactFormSchema,
   type ContactFormData,
 } from "../schemas/contact.schema";
+// facebook-pixel was stripped from this lean build; no-op keeps the call sites intact.
+const trackLead = (_args?: { content_name?: string }) => {};
 
 export const ContactForm = () => {
   const t = useTranslations("contact");
@@ -36,6 +38,7 @@ export const ContactForm = () => {
       });
 
       if (res.ok) {
+        trackLead({ content_name: "contact-phone" });
         toast.success(t("successTitle"), {
           description: t("successMessage"),
         });
@@ -78,7 +81,7 @@ export const ContactForm = () => {
         aria-label={t("submit")}
         data-mcp-toolname="contact-submit"
         data-mcp-tooldescription="Submit contact form to send phone number to aiNOW for callback"
-        className="w-full bg-linear-to-r from-[#ffc400] to-[#ff8f00] text-neutral-900 transition-[filter,transform] duration-200 hover:brightness-105 active:scale-[0.96]"
+        className="w-full bg-linear-to-r from-[#7c3aed] to-[#e040fb] text-white transition-all duration-200 hover:brightness-110 active:scale-[0.98]"
       >
         {isSubmitting ? t("submitting") : t("submit")}
       </Button>

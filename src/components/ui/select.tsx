@@ -119,7 +119,7 @@ function SelectItem({
         className="absolute right-2 flex size-3.5 items-center justify-center"
       >
         <SelectPrimitive.ItemIndicator>
-          <Ico name="solar:check-read-bold-duotone" className="size-4" />
+          <Ico name="solar:check-circle-bold-duotone" className="size-4" />
         </SelectPrimitive.ItemIndicator>
       </span>
       <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>

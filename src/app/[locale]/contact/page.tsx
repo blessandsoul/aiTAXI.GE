@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { SectionContainer } from "@/components/layout/SectionContainer";
 import { ContactForm } from "@/features/contact/components/ContactForm";
 import { CONTACT_EMAIL, CONTACT_EMAIL_SECONDARY, CONTACT_PHONE, CONTACT_PHONE_DISPLAY } from "@/lib/constants/app.constants";
+import { buildAlternates } from "@/i18n/seo-locales";
 import { FadeIn } from "@/components/common/FadeIn";
 
 type Props = {
@@ -14,14 +15,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "seo.contact" });
 
-  const path = "/contact";
   return {
     title: t("title"),
     description: t("description"),
-    alternates: {
-      canonical: locale === "ka" ? `https://aitaxi.ge${path}` : `https://aitaxi.ge/${locale}${path}`,
-      languages: { ka: `https://aitaxi.ge${path}`, en: `https://aitaxi.ge/en${path}`, ru: `https://aitaxi.ge/ru${path}`, 'x-default': `https://aitaxi.ge${path}` },
-    },
+    // Was a hand-rolled canonical + hreflang map with the domain typed out eight times.
+    // buildAlternates already owns that shape and reads the domain from src/config/site.ts.
+    alternates: buildAlternates("/contact", locale),
     openGraph: {
       title: t("title"),
       description: t("description"),
@@ -34,7 +33,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function ContactPage() {
+export default async function ContactPage({ params }: Props) {
+  const { locale } = await params;
+  // Keeps the page static (see generateStaticParams in the layout).
+  setRequestLocale(locale);
+
+  return <ContactPageBody />;
+}
+
+function ContactPageBody() {
   const t = useTranslations("contact");
 
   return (
@@ -70,7 +77,7 @@ export default function ContactPage() {
                 <a
                   href={`tel:${CONTACT_PHONE}`}
                   dir="ltr"
-                  className="mt-1 block text-sm text-[#b45309] transition-colors duration-150 hover:underline"
+                  className="mt-1 block text-sm text-[var(--brand)] transition-colors duration-150 hover:underline"
                 >
                   {CONTACT_PHONE_DISPLAY}
                 </a>
@@ -83,13 +90,13 @@ export default function ContactPage() {
                 </p>
                 <a
                   href={`mailto:${CONTACT_EMAIL}`}
-                  className="mt-1 block text-xs text-[#b45309] transition-colors duration-150 hover:underline sm:text-sm"
+                  className="mt-1 block text-xs text-[var(--brand)] transition-colors duration-150 hover:underline sm:text-sm"
                 >
                   {CONTACT_EMAIL}
                 </a>
                 <a
                   href={`mailto:${CONTACT_EMAIL_SECONDARY}`}
-                  className="mt-1 block text-xs text-[#b45309] transition-colors duration-150 hover:underline sm:text-sm"
+                  className="mt-1 block text-xs text-[var(--brand)] transition-colors duration-150 hover:underline sm:text-sm"
                 >
                   {CONTACT_EMAIL_SECONDARY}
                 </a>

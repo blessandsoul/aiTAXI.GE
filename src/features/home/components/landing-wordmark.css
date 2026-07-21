@@ -1,9 +1,10 @@
 /* =========================================================================
-   LandingWordmark — giant aiNOW brand band after the CTA.
+   LandingWordmark, giant aiNOW brand band after the CTA.
    Reuses .wordmark-3d (landing-nav.css). The source applies `leading-none`
    (line-height:1); in our build the plain .wordmark-3d base rule (0.92) beats
    Tailwind's layered `leading-none` utility, so force 1 here to match the
-   source's vertical metrics (text position + accent bars) — same fix as the
+   source's vertical metrics (text position + accent bars), same fix as the
    hero wordmark.
    ========================================================================= */
 .wordmark-3d.footer-wordmark { line-height: 1; }
+.landing-product-wordmark-section .wm-mark { color: var(--brand-display, var(--brand-ink)); }

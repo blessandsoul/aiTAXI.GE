@@ -191,8 +191,8 @@
       "taglinePrefix": "fleet control that",
       "taglineWorks": "stays clear",
       "lead": "When the car drives itself, the fleet still has to",
-      "typewriterPrefill": "send the right car",
-      "typewriterWords": "send the right car,watch its charge,plan the depot,help it safely,keep a clear record",
+      "typewriterPrefill": "rides",
+      "typewriterWords": "rides,fleet,charging,depot,safety",
       "pillDispatch": "Dispatch",
       "pillTelemetry": "Telemetry",
       "pillRemote": "Remote assistance",
@@ -204,6 +204,26 @@
       "signedBy": "aiNOW checks the fit with your operation, maps the pilot and shows the proposed workflow.",
       "commitment": "aiTAXI has not launched. Early access starts with a practical review of your fleet and the systems it already uses.",
       "ctaResults": "Request early access"
+    },
+    "work": {
+      "s1Title": "A ride request arrives",
+      "s1Tag": "one queue",
+      "s1Desc": "The operator sees the pickup, destination and passenger requirement.",
+      "s2Title": "A suitable vehicle is selected",
+      "s2Tag": "checked match",
+      "s2Desc": "aiTAXI checks distance, battery and vehicle compatibility.",
+      "s3Title": "The route is prepared",
+      "s3Tag": "visible plan",
+      "s3Desc": "Before assignment, the operator sees the route and expected arrival time.",
+      "s4Title": "The ride stays visible",
+      "s4Tag": "live status",
+      "s4Desc": "Vehicle position and safety signals appear on one screen.",
+      "s5Title": "A person helps when needed",
+      "s5Tag": "remote assistance",
+      "s5Desc": "A difficult case reaches an authorized operator with the full context.",
+      "s6Title": "The ride is completed",
+      "s6Tag": "reviewable record",
+      "s6Desc": "The outcome, statuses and operator actions are stored in one record."
     },
     "modules": {
       "eyebrow": "Five jobs, one screen",
@@ -257,7 +277,7 @@
       "waiting": "Preparing result",
       "dispatch": {
         "title": "Match a ride without a driver handoff",
-        "description": "A request reaches the shared queue. The platform checks proximity, charge and accessibility before assigning a vehicle.",
+        "description": "The platform checks proximity, charge and accessibility before assignment.",
         "problem": "Ride request: Rustaveli Avenue to Vake, with wheelchair space required.",
         "aiAction": "AV-12 is the nearest compatible vehicle. Route set; pickup ETA is 4 minutes.",
         "result": "AV-12 reached the pickup point and the passenger pickup is confirmed.",
@@ -265,7 +285,7 @@
       },
       "telemetry": {
         "title": "From warning to safe replacement",
-        "description": "Fleet health is checked continuously. A vehicle stops receiving new rides when battery or sensor readings leave the safe range.",
+        "description": "A vehicle stops taking rides when battery or sensor readings leave the safe range.",
         "problem": "AV-08 battery fell to 18% and a sensor warning was raised.",
         "aiAction": "AV-08 was removed from service; the ride moved to fully checked AV-14.",
         "result": "A safe vehicle took the ride and overall service coverage held.",
@@ -273,7 +293,7 @@
       },
       "depot": {
         "title": "Ready before demand peaks",
-        "description": "The demand forecast shows when every vehicle needs to be available. aiTAXI places depot work inside the quiet window.",
+        "description": "aiTAXI places depot work inside the quiet demand window.",
         "problem": "The forecast shows a 17:00 demand peak; three vehicles need attention first.",
         "aiAction": "Charging, cleaning and maintenance were placed in the 01:00–05:00 quiet window.",
         "result": "All three vehicles are ready by 17:00, leaving the full fleet available for the peak.",
@@ -281,7 +301,7 @@
       },
       "compliance": {
         "title": "From incident to regulator report",
-        "description": "The system brings incident telemetry, route history, a camera reference and operator actions into one traceable record.",
+        "description": "aiTAXI joins incident evidence into one traceable record.",
         "problem": "INC-024 was recorded; its evidence sits across separate operating logs.",
         "aiAction": "aiTAXI links the telemetry, route, camera reference and operator actions.",
         "result": "A report with the full timeline and all four source references is ready for the regulator.",
@@ -289,7 +309,7 @@
       },
       "hybrid": {
         "title": "One queue, two kinds of vehicle",
-        "description": "Human-driven and autonomous vehicles take work from one request queue. The pilot can expand without dropping service zones.",
+        "description": "aiTAXI assigns one queue across human-driven and autonomous vehicles.",
         "problem": "Four evening requests are queued; the autonomous pilot covers only one zone.",
         "aiAction": "The system assigns rides across human-driven and autonomous cars, extending AV coverage to a second zone.",
         "result": "The pilot covers a second zone while the other requests remain assigned.",
@@ -334,19 +354,19 @@
       }
     },
     "faq": {
-      "headingPre": "Questions",
-      "headingAccent": "and straight answers",
-      "subtitle": "Straight answers for taxi companies considering autonomous vehicles.",
+      "headingPre": "Five questions",
+      "headingAccent": "to understand aiTAXI.",
+      "subtitle": "What is available now, what is a concept, and where the safety boundary is.",
       "q1": "What is <brand></brand>?",
-      "a1": "aiTAXI is a robotaxi fleet management platform by aiNOW, an AI company in Tbilisi, Georgia. It gives taxi companies the software to run autonomous vehicle fleets: dispatch, telemetry, remote assistance, depot operations and compliance.",
-      "q2": "What is a robotaxi?",
-      "a2": "A robotaxi is a self-driving taxi that carries passengers without a human driver, using sensors, maps and AI software. Companies such as Waymo and Baidu Apollo Go already run public robotaxi services in several cities.",
-      "q3": "Does aiTAXI drive the cars?",
-      "a3": "No. Each vehicle is driven by its own autonomous driving system. aiTAXI is the fleet layer above it: it decides which car takes which ride, watches vehicle state, escalates to a human operator and plans charging.",
-      "q4": "Who is aiTAXI for?",
-      "a4": "For taxi companies and fleet operators, first in Georgia, that want to add autonomous vehicles to their fleet or prepare for them. It is a business tool, not a passenger app.",
-      "q5": "Can aiTAXI run a fleet with human drivers today?",
-      "a5": "The planned pilot supports one queue for human-driven and autonomous cars. This is a design goal, not a claim about a running fleet.",
+      "a1": "aiTAXI is aiNOW's concept and operations platform direction for taxi fleets: ride dispatch, fleet control, charging, depot planning, and safety logs.",
+      "q2": "Does aiTAXI already serve passengers?",
+      "a2": "No. This page does not sell a live taxi service. It shows how fleet operations can be prepared when vehicles, regulation, and operators are ready.",
+      "q3": "Does it drive autonomous cars today?",
+      "a3": "aiNOW does not claim to operate driverless cars in the city today. The page describes software logic for fleet planning and supervision.",
+      "q4": "What can be built now?",
+      "a4": "Dispatch, booking, depot schedules, operator panels, and reporting can be planned now. Telemetry is added only for vehicles that provide the required data.",
+      "q5": "What result does a fleet owner get?",
+      "a5": "A fleet owner gets a staged plan: what can be automated now, what needs vehicle data, and what stays under human control.",
       "q6": "Is the product ready?",
       "a6": "No. aiTAXI is pre-launch. aiNOW is reviewing pilot fit; production use would require a fleet partner, a vehicle platform and separate safety approval.",
       "q7": "How much does it cost?",
@@ -366,6 +386,51 @@
       "phoneNote": "No spam. One call to qualify the pilot.",
       "orWrite": "Or write to"
     },
+    "capabilities": {
+      "eyebrow": "Planned aiTAXI capabilities",
+      "title": "Five fleet jobs in one clear system.",
+      "intro": "This is a pre-launch capability plan, not a live autonomous fleet. Real use requires vehicle data, an operator, and separate safety approval.",
+      "outcomeLabel": "Fleet result",
+      "dispatch": {
+        "title": "Ride assignment",
+        "description": "aiTAXI checks distance, charge, and accessibility and selects a compatible vehicle.",
+        "result": "The operator sees the assigned vehicle and route on one screen."
+      },
+      "telemetry": {
+        "title": "Vehicle condition",
+        "description": "Charge, sensors, doors, and alerts are collected into one vehicle state.",
+        "result": "The operator sees a problem before the next ride is assigned."
+      },
+      "assistance": {
+        "title": "Operator assistance",
+        "description": "If a vehicle cannot resolve a situation, the planned workflow brings in an operator with the required context.",
+        "result": "A difficult case does not remain without oversight."
+      },
+      "depot": {
+        "title": "Charging and depot work",
+        "description": "Charging, cleaning, and service are planned during quieter demand periods.",
+        "result": "More vehicles are ready when demand rises."
+      },
+      "safety": {
+        "title": "Safety record",
+        "description": "The route, telemetry, alerts, and operator actions are joined in one record.",
+        "result": "The timeline needed to review an incident stays in one place."
+      }
+    },
+    "heroStory": {
+      "badge": "Pre-launch simulation",
+      "inputLabel": "New ride",
+      "input": "From Rustaveli Avenue to Vake. Wheelchair space required.",
+      "productLabel": "aiTAXI selects a vehicle",
+      "productAction": "Checks distance, charge, and accessibility.",
+      "detailOne": "Compatible vehicle found",
+      "detailTwo": "Route is visible to the operator",
+      "resultLabel": "Operator confirms",
+      "result": "Vehicle assigned. Pickup status is visible on one screen.",
+      "businessLabel": "What the fleet gets",
+      "businessValue": "The right vehicle and full control on one screen.",
+      "replay": "Replay"
+    },
     "proof": {
       "fleet": "Sample fleet board",
       "simulation": "Pre-launch simulation",
@@ -383,7 +448,7 @@
       "line": "Orders, vehicle status and operator decisions on one clear board."
     },
     "seo": {
-      "title": "aiTAXI, planned operations software for autonomous taxi fleets",
+      "title": "aiTAXI: planned operations platform for taxi fleets",
       "description": "A pre-launch aiNOW platform for dispatch, vehicle status, remote help and depot planning. Pilot-fit reviews are open for Georgian taxi companies."
     }
   }

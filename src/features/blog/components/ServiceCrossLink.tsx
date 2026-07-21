@@ -49,7 +49,7 @@ export function ServiceCrossLink({ locale }: Props) {
                 </div>
                 <Link
                     href="/contact"
-                    className="bg-linear-to-r from-[#ffc400] to-[#ff8f00] shrink-0 self-start rounded-full px-5 py-2.5 text-sm font-semibold text-neutral-950 shadow-md shadow-[#ffc400]/20 transition-[transform,box-shadow,opacity] duration-200 hover:opacity-90 hover:shadow-lg hover:shadow-[#ffc400]/20 active:scale-[0.96] md:self-auto"
+                    className="bg-linear-to-r from-[#ffc400] to-[#ffdf5a] shrink-0 self-start rounded-full px-5 py-2.5 text-sm font-semibold text-neutral-950 shadow-md shadow-[#ffc400]/20 transition-[transform,box-shadow,opacity] duration-200 hover:opacity-90 hover:shadow-lg hover:shadow-[#ffc400]/20 active:scale-[0.96] md:self-auto"
                 >
                     {CTA[loc]} →
                 </Link>

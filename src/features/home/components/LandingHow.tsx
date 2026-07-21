@@ -12,14 +12,14 @@ export function LandingHow() {
   const t = useTranslations('product.how');
 
   return (
-    <section className="px-6 py-16 md:py-24">
-      <div className="mx-auto grid max-w-[1280px] gap-10 md:grid-cols-[minmax(280px,420px)_1fr] md:gap-16">
+    <section data-static-section="taxi-how" className="py-16 md:py-24 xl:py-28">
+      <div className="mx-auto grid w-[calc(100%-48px)] max-w-[1216px] gap-10 md:grid-cols-[minmax(280px,420px)_1fr] md:gap-16">
         {/* Left rail: heading sticks while steps scroll on desktop */}
         <div className="md:sticky md:top-28 md:self-start">
-          <p className="text-xs font-mono uppercase tracking-[0.22em] text-[#b45309]">
+          <p className="text-xs font-mono uppercase tracking-[0.22em] text-[#52525b]">
             {t('eyebrow')}
           </p>
-          <h2 className="mt-3 text-balance font-display text-3xl font-extrabold tracking-tight text-neutral-900 md:text-5xl">
+          <h2 className="mt-3 text-balance font-display text-[30px] font-extrabold leading-[33px] tracking-tight text-[#111827] md:text-[36px] md:leading-[40px]">
             {t('heading')}
           </h2>
           <p className="mt-4 text-pretty text-base leading-relaxed text-neutral-600">

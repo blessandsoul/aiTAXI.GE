@@ -42,6 +42,3 @@ next-env.d.ts
 
 # large regeneratable translation cache (not deployed; scripts/translate_*.py rebuild it)
 scripts/translation_cache_evergreen.json
-
-# native-review artifact, not for the public repo
-/KA_REVIEW.md

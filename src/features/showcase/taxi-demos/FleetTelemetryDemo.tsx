@@ -18,8 +18,8 @@ export function FleetTelemetryDemo() {
       translationNamespace="product.demos"
     >
       <div aria-hidden="true" className="min-h-48 space-y-3">
-        <div className={`rounded-xl border p-4 transition-opacity ${
-          rerouted ? 'border-red-400/20 opacity-45' : 'border-red-400/45 bg-red-400/[0.07]'
+        <div className={`rounded-xl border p-4 transition-[border-color,background-color,transform] ${
+          rerouted ? 'border-red-400/20' : 'border-red-400/45 bg-red-400/[0.07]'
         }`}>
           <div className="flex items-center justify-between gap-3">
             <span className="inline-flex items-center gap-2 font-mono text-sm font-bold">
@@ -41,17 +41,17 @@ export function FleetTelemetryDemo() {
           </div>
         </div>
 
-        <div className={`rounded-xl border p-4 transition-all duration-500 ${
+        <div className={`rounded-xl border p-4 transition-[border-color,background-color,transform] duration-500 ${
           rerouted
-            ? 'translate-y-0 border-[#ffc400]/45 bg-[#ffc400]/[0.08] opacity-100'
-            : 'translate-y-2 border-white/10 bg-white/[0.03] opacity-35'
+            ? 'translate-y-0 border-[#ffc400]/45 bg-[#ffc400]/[0.08]'
+            : 'translate-y-2 border-white/10 bg-white/[0.03]'
         }`}>
           <div className="flex items-center justify-between gap-3">
             <span className="inline-flex items-center gap-2 font-mono text-sm font-bold">
               <Ico name="solar:routing-2-bold-duotone" className="size-4 text-[#ffc400]" />
               AV-14
             </span>
-            <span className="font-mono text-xs text-white/55">92%</span>
+            <span className="font-mono text-xs text-white/75">92%</span>
           </div>
           <div className="mt-4 flex items-center gap-3">
             <span className="h-2 flex-1 overflow-hidden rounded-full bg-white/10">
@@ -68,7 +68,7 @@ export function FleetTelemetryDemo() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 font-mono text-xs text-white/48">
+        <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 font-mono text-xs text-white/75">
           <span>4 / 4</span>
           <span className={safe ? 'inline-flex items-center gap-1.5 font-bold text-[#ffc400]' : ''}>
             {safe && <Ico name="solar:check-circle-bold-duotone" className="size-4" />}

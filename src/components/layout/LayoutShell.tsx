@@ -4,21 +4,19 @@ import { usePathname } from "@/i18n/navigation";
 import { LandingNav } from "@/features/home/components/LandingNav";
 import { LandingFooter } from "@/features/home/components/LandingFooter";
 import { SmoothScroll } from "@/components/SmoothScroll";
-// Built-in chat bubble temporarily hidden, an external chat script will be
-// embedded instead. Re-enable by uncommenting this import and the <ChatAssistant /> below.
-// import { ChatAssistant } from "@/features/chat-assistant";
 
 interface LayoutShellProps {
   children: React.ReactNode;
 }
 
 export const LayoutShell = ({ children }: LayoutShellProps) => {
-  // The landing header/footer are the global header/footer, rendered on every
-  // page. LandingNav is position:fixed (it floats over content), so non-hero
-  // pages need top padding to clear it; the home hero pulls itself flush under
-  // the floating nav via -mt-16, so it must stay flush (no top padding) or a
-  // white gap opens. usePathname() from next-intl returns the locale-stripped
-  // path, so "/" matches across all locales.
+  // LandingNav is position:fixed and floats over the content, so an inner page needs top
+  // padding to clear it. The homepage pulls its hero flush under the nav via -mt-16 and must
+  // stay flush, or a white gap opens above the hero. usePathname() from next-intl returns the
+  // locale-stripped path, so "/" matches on every locale.
+  //
+  // The old "/start" and "/successful-payment" branches came from ainow.ge and named routes
+  // that do not exist on a product landing.
   const pathname = usePathname();
   const isFlushHero = pathname === "/";
 

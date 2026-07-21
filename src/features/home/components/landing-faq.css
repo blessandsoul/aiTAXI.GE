@@ -1,5 +1,5 @@
 /* =========================================================================
-   LandingFaq — "#faq" accordion section.
+   LandingFaq, "#faq" accordion section.
    Ported verbatim from ainow_handoff/index.html. .brand-mark comes from
    landing-team.css; .fade-up from landing-flagships.css. Token swaps in
    markup: text-muted → #525252, border-border → #e5e5e5, bg-panel → #fafafa.
@@ -7,7 +7,7 @@
    max-height + opacity + margin-top.
    ========================================================================= */
 
-/* FAQ accordion — JS-driven smooth open/close via max-height + opacity */
+/* FAQ accordion, JS-driven smooth open/close via max-height + opacity */
 details.faq-item {
   transition: background 320ms ease;
   cursor: pointer; /* whole card is clickable to toggle */

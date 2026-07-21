@@ -114,6 +114,55 @@ function playerHarness(label = 'player') {
   };
 }
 
+function contractTargetHarness() {
+  const attributes = new Map();
+  return {
+    target: {
+      matches(selector) {
+        return selector === '[data-demo-id]';
+      },
+      setAttribute(name, value) {
+        attributes.set(name, value);
+      },
+    },
+    attribute(name) {
+      return attributes.get(name);
+    },
+  };
+}
+
+test('the DOM contract exposes idle, playing, final, and a two-second final hold', () => {
+  const clock = createClock();
+  const observer = observerHarness();
+  const { player, events } = playerHarness();
+  const contract = contractTargetHarness();
+  const controller = createTaxiDemoVisibilityGate({
+    target: contract.target,
+    player,
+    Observer: observer.FakeIntersectionObserver,
+    pageDocument: documentHarness(),
+    schedule: clock.schedule,
+    cancelScheduled: clock.cancel,
+  });
+
+  assert.equal(contract.attribute('data-landing-demo'), 'true');
+  assert.equal(contract.attribute('data-demo-state'), 'idle');
+
+  observer.emit(true, 1);
+  assert.equal(contract.attribute('data-demo-state'), 'playing');
+  clock.advance(7200);
+  assert.equal(contract.attribute('data-demo-state'), 'final');
+  assert.equal(events.at(-1), 'player:play');
+
+  clock.advance(1999);
+  assert.equal(contract.attribute('data-demo-state'), 'final');
+  clock.advance(1);
+  assert.equal(contract.attribute('data-demo-state'), 'playing');
+  assert.deepEqual(events.slice(-3), ['player:stop', 'player:reset', 'player:play']);
+
+  controller.cleanup();
+});
+
 test('a visible taxi story plays for 7200ms, holds for 2000ms, then repeats', () => {
   const clock = createClock();
   const observer = observerHarness();
@@ -245,11 +294,19 @@ test('cleanup is idempotent and retained observer callbacks stay inert', () => {
 test('the shared React hook exposes the managed controller to all five cards', () => {
   const hookSource = readFileSync(new URL('./useTaxiDemoTimeline.ts', import.meta.url), 'utf8');
   const frameSource = readFileSync(new URL('./TaxiDemoFrame.tsx', import.meta.url), 'utf8');
+  const visualSource = readFileSync(new URL('../../../app/taxi-hallmark.css', import.meta.url), 'utf8');
 
   assert.match(hookSource, /createTaxiDemoVisibilityGate/u);
   assert.match(hookSource, /controllerRef/u);
   assert.match(hookSource, /controllerRef\.current\?\.replay\(\)/u);
   assert.match(frameSource, /<article\s+ref=\{containerRef\}/u);
+  assert.match(frameSource, /data-demo-detail=\{frame\.phase\}/u);
+  assert.match(frameSource, /aria-live="off"/u);
+  assert.match(frameSource, /data-demo-replay/u);
+  assert.match(frameSource, /data-demo-copy-slot="action"/u);
+  assert.match(frameSource, /data-demo-copy-slot="result"/u);
+  assert.match(visualSource, /\[data-demo-copy-slot="action"\][^{]*\{[^}]*min-height:\s*148px/su);
+  assert.match(visualSource, /\[data-demo-copy-slot="result"\][^{]*\{[^}]*min-height:\s*148px/su);
 
   for (const [component, demoId] of [
     ['RideDispatchDemo.tsx', 'dispatch'],
@@ -263,13 +320,33 @@ test('the shared React hook exposes the managed controller to all five cards', (
   }
 });
 
-test('the hero uses the same visibility-owned loop and keeps Replay visible', () => {
+test('the autonomous hero uses the shared visibility-owned loop and keeps Replay visible', () => {
   const source = readFileSync(new URL('../HeroProof.tsx', import.meta.url), 'utf8');
+  const heroStory = readFileSync(new URL('../../home/components/HeroWorkflowStory.tsx', import.meta.url), 'utf8');
+  const heroCss = readFileSync(new URL('../../home/components/hero-workflow-story.css', import.meta.url), 'utf8');
+  const heroLoop = readFileSync(new URL('../../home/components/lib/demo-loop.mjs', import.meta.url), 'utf8');
 
-  assert.match(source, /createTaxiDemoVisibilityGate/u);
-  assert.match(source, /createHeroTimelinePlayer/u);
-  assert.match(source, /controllerRef\.current\?\.replay\(\)/u);
-  assert.match(source, /<Ico/u);
-  assert.match(source, /t\('replay'\)/u);
-  assert.doesNotMatch(source, /setInterval|window\.setInterval/u);
+  assert.match(source, /<HeroWorkflowStory/u);
+  assert.match(source, /mode="autonomous"/u);
+  assert.match(source, /demoId="taxi-hero-proof"/u);
+  assert.match(source, /productIcon="solar:routing-2-bold-duotone"/u);
+  assert.doesNotMatch(source, /bridgeLabel|bridge:/u);
+  assert.match(heroStory, /createDemoLoop/u);
+  assert.match(heroStory, /threshold:\s*0\.35/u);
+  assert.match(heroStory, /const CYCLE_MS = 6_400/u);
+  assert.match(heroStory, /holdMs:\s*2_000/u);
+  assert.match(heroStory, /controllerRef\.current\?\.replay\(\)/u);
+  assert.match(heroStory, /data-demo-detail=\{`phase-\$\{phase\}`\}/u);
+  assert.match(heroStory, /aria-live="off"/u);
+  assert.match(heroStory, /data-demo-replay="true"/u);
+  assert.match(heroCss, /\.hero-workflow__row\s*\{[\s\S]*?min-height:\s*82px;/u);
+  assert.match(heroCss, /@media \(max-width: 479px\)[\s\S]*?\.hero-workflow__row\s*\{[\s\S]*?min-height:\s*76px;/u);
+  assert.match(heroCss, /\.hero-workflow__replay\s*\{[\s\S]*?min-height:\s*44px;/u);
+  assert.doesNotMatch(heroCss, /transition:\s*all/u);
+  for (const state of ['idle', 'playing', 'final', 'manual', 'paused']) {
+    assert.match(heroLoop, new RegExp(`setDemoState\\('${state}'\\)`, 'u'));
+  }
+  assert.match(heroLoop, /if \(staticFinalState\)[\s\S]*showFinal\(\)/u);
+  assert.match(heroLoop, /pageDocument\?\.hidden/u);
+  assert.doesNotMatch(heroStory, /setInterval|window\.setInterval/u);
 });

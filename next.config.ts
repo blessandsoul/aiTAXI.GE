@@ -5,6 +5,12 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  // Allow a second dev server (the aiads port) to use its own build dir so two
+  // `next dev` instances can run on one project without sharing .next locks.
+  distDir: process.env.NEXT_DIST_DIR || ".next",
+  // Pin the file-tracing root to this app so standalone output is computed from
+  // the app dir, not an inferred monorepo root.
+  outputFileTracingRoot: __dirname,
   skipProxyUrlNormalize: true,
   skipTrailingSlashRedirect: false,
   poweredByHeader: false,
@@ -31,30 +37,10 @@ const nextConfig: NextConfig = {
     ],
     localPatterns: [
       {
-        pathname: "/api/og",
-        search: "*",
-      },
-      {
         pathname: "/images/**",
         search: "",
       },
-      {
-        pathname: "/team/**",
-        search: "",
-      },
     ],
-  },
-
-  async redirects() {
-    return [
-      // Canonical host: www to apex (duplicate host is an SEO liability).
-      {
-        source: '/:path*',
-        has: [{ type: 'host', value: 'www.aitaxi.ge' }],
-        destination: 'https://aitaxi.ge/:path*',
-        permanent: true,
-      },
-    ];
   },
 
   async headers() {
@@ -69,7 +55,7 @@ const nextConfig: NextConfig = {
           // max-age 1y, no preload: preload is near-irreversible, enable only after a clean month
           { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" },
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
-          // Report-only first: watch DevTools console for violations ~2 weeks, then enforce.
+          // Clean CSP: self + Google Fonts only (GTM / Facebook origins removed with the analytics strip).
           {
             key: "Content-Security-Policy-Report-Only",
             value:

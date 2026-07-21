@@ -8,6 +8,7 @@ const MESSAGE_ROOT = new URL('../../../messages/', import.meta.url);
 
 const MODULE_IDS = ['dispatch', 'telemetry', 'remote', 'depot', 'safety'];
 const MODULE_FIELDS = ['title', 'task', 'action', 'result'];
+const CAPABILITY_IDS = ['dispatch', 'telemetry', 'assistance', 'depot', 'safety'];
 const LOCALES = ['en', 'ka', 'ru'];
 
 function read(relative, root = COMPONENT_ROOT) {
@@ -18,21 +19,22 @@ function messages(locale) {
   return JSON.parse(read(`${locale}.json`, MESSAGE_ROOT));
 }
 
-test('operations modules remain wide and readable through tablet widths', () => {
+test('operations modules render exactly five static responsive capabilities', () => {
   const source = read('LandingModules.tsx');
+  const frame = read('ProductCapabilities.tsx');
+  const css = read('product-capabilities.css');
 
-  assert.doesNotMatch(
-    source,
-    /md:grid-cols-6|md:col-span-[246]|max-w-\[calc\(100%-4rem\)\]/u,
-  );
-  assert.match(source, /lg:grid-cols-2/u);
-  assert.match(source, /min-w-0/u);
-  assert.doesNotMatch(source, /absolute\s+(?:right|top)-/u);
-  assert.match(source, /t\('prelaunch'\)/u);
-
-  for (const field of ['task', 'action', 'result']) {
-    assert.match(source, new RegExp(`\\.${field}`));
-  }
+  assert.match(source, /<ProductCapabilities/u);
+  assert.match(source, /useTranslations\('product\.capabilities'\)/u);
+  assert.equal((source.match(/\{ key: '[^']+', icon: 'solar:[^']+' \}/gu) ?? []).length, 5);
+  assert.doesNotMatch(source, /snap-x|overflow-x-auto|data-landing-demo|data-demo-replay/u);
+  assert.match(frame, /items\.map\(\(item, index\) =>/u);
+  assert.match(frame, /data-feature-section="true"/u);
+  assert.doesNotMatch(frame, /data-landing-demo|data-demo-replay/u);
+  assert.match(css, /width:\s*calc\(100% - 48px\)/u);
+  assert.match(css, /max-width:\s*1216px/u);
+  assert.match(css, /@media \(max-width: 800px\)/u);
+  assert.match(css, /@media \(max-width: 479px\)/u);
 });
 
 test('the five-demo board states the pre-launch boundary before its scenarios', () => {
@@ -40,33 +42,29 @@ test('the five-demo board states the pre-launch boundary before its scenarios', 
 
   assert.match(source, /t\('disclaimer'\)/u);
   assert.match(source, /<Ico/u);
-  assert.match(source, /xl:grid-cols-2/u);
-  assert.doesNotMatch(source, /md:grid-cols-2/u);
+  assert.match(source, /className="mt-10 grid min-w-0 gap-8 xl:gap-10"/u);
+  assert.doesNotMatch(source, /(?:md|xl):grid-cols-2/u);
+  assert.doesNotMatch(source, /snap-x|overflow-x-auto/u);
 });
 
-test('the committed home route reaches all five taxi scenarios through LandingBody', () => {
+test('the committed home route keeps one hero demo and three static fleet outcomes', () => {
   const page = read('../../../app/[locale]/page.tsx', COMPONENT_ROOT);
   const body = read('LandingBody.tsx');
-  const demos = read('../../showcase/taxi-demos/TaxiDemos.tsx', COMPONENT_ROOT);
+  const sections = read('ProductLandingSections.tsx');
+  const heroStory = read('HeroWorkflowStory.tsx');
 
   assert.match(page, /import \{ LandingBody \} from '@\/features\/home\/components\/LandingBody';/u);
   assert.match(page, /<LandingBody\s*\/>/u);
-  assert.match(body, /import \{ TaxiDemos \} from '@\/features\/showcase\/taxi-demos\/TaxiDemos';/u);
-  assert.match(body, /<TaxiDemos\s*\/>/u);
-
-  for (const component of [
-    'RideDispatchDemo',
-    'FleetTelemetryDemo',
-    'DepotPlannerDemo',
-    'ComplianceReportDemo',
-    'HybridRolloutDemo',
-  ]) {
-    assert.match(demos, new RegExp(`<${component}\\s*\\/>`), component);
+  assert.match(body, /<ProductLandingSections\s*\/>/u);
+  assert.doesNotMatch(body, /TaxiDemos|data-landing-demo/u);
+  assert.match(sections, /\[steps\[0\],steps\[2\],steps\[4\]\]\.map/u);
+  assert.equal((sections.match(/data-business-outcome="true"/gu) ?? []).length, 1);
+  for (const id of ['compare', 'dashboard', 'reviews', 'cases', 'integrations', 'resources']) {
+    assert.match(sections, new RegExp(`id="${id}"`, 'u'));
   }
+  assert.equal((heroStory.match(/data-landing-demo="true"/gu) ?? []).length, 1);
 
   for (const [file, namespace] of [
-    ['LandingHow.tsx', 'product.how'],
-    ['LandingRoadmap.tsx', 'product.roadmap'],
     ['LandingFaq.tsx', 'product.faq'],
     ['LandingCta.tsx', 'product.cta'],
     ['LandingWordmark.tsx', 'product.wordmark'],
@@ -75,7 +73,7 @@ test('the committed home route reaches all five taxi scenarios through LandingBo
   }
 });
 
-test('all five modules use the short task, action, result copy shape in every locale', () => {
+test('archived modules and the five public capabilities keep complete copy in every locale', () => {
   for (const locale of LOCALES) {
     const modules = messages(locale).product?.modules;
     assert.equal(typeof modules?.prelaunch, 'string', `${locale}.product.modules.prelaunch`);
@@ -96,12 +94,29 @@ test('all five modules use the short task, action, result copy shape in every lo
         assert.ok(modules[moduleId][field].trim());
       }
     }
+
+    const capabilities = messages(locale).product?.capabilities;
+    for (const key of ['eyebrow', 'title', 'intro', 'outcomeLabel']) {
+      assert.equal(typeof capabilities?.[key], 'string', `${locale}.product.capabilities.${key}`);
+      assert.ok(capabilities[key].trim());
+    }
+    for (const capabilityId of CAPABILITY_IDS) {
+      for (const field of ['title', 'description', 'result']) {
+        assert.equal(
+          typeof capabilities?.[capabilityId]?.[field],
+          'string',
+          `${locale}.product.capabilities.${capabilityId}.${field}`,
+        );
+        assert.ok(capabilities[capabilityId][field].trim());
+      }
+    }
   }
 });
 
 test('taxi UI uses bundled semantic icons and contains no typed status glyphs', () => {
   const files = [
     ['LandingModules.tsx', COMPONENT_ROOT],
+    ['ProductCapabilities.tsx', COMPONENT_ROOT],
     ['TaxiDemoFrame.tsx', DEMO_ROOT],
     ['RideDispatchDemo.tsx', DEMO_ROOT],
     ['FleetTelemetryDemo.tsx', DEMO_ROOT],
@@ -167,22 +182,24 @@ test('the per-site brand tokens load after shared CSS so every ai prefix remains
   }
 });
 
-test('the desktop hero grid cannot be widened by the typewriter text', () => {
+test('the desktop hero grid cannot be widened by static product copy', () => {
+  const source = read('LandingHero.tsx');
   const css = read('landing-hero.css');
-  const desktopGridRule = css.indexOf('.hero-content > .grid { width: 100%; min-width: 0; }');
-  const mobileOnlyRule = css.indexOf('@media (max-width: 1023px)');
+  assert.match(source, /data-family-shell="true" className="hero-family-shell[^\n]*min-w-0/u);
+  assert.match(source, /className="grid min-w-0 gap-8/u);
+  assert.match(source, /className="hero-static-accent"/u);
+  assert.doesNotMatch(source, /caretW|availableWidth|clampTypewriterReservedWidth/u);
+  assert.match(css, /\.hero-family-shell\{width:min\(1140px,calc\(100% - 48px\)\)/u);
+  assert.match(css, /\.hero-static-accent\{[^}]*overflow-wrap:anywhere/u);
+});
 
-  assert.ok(desktopGridRule >= 0, 'hero grid needs an all-width min-width reset');
-  assert.ok(
-    mobileOnlyRule < 0 || desktopGridRule < mobileOnlyRule,
-    'hero grid reset must not be limited to mobile widths',
-  );
-  assert.match(css, /\.hero-content > \.grid > \* \{ width: 100%; min-width: 0; \}/u);
-  assert.doesNotMatch(
-    css,
-    /@media \(min-width: 768px\)\s*\{\s*\.typewriter\s*\{[^}]*white-space:\s*nowrap/su,
-    'desktop typewriter text must wrap instead of widening the first grid column',
-  );
+test('short desktop navigation labels retain a 44 by 44 pixel target', () => {
+  const css = read('landing-nav.css');
+  const navLinkRule = css.match(/\.nav-link\s*\{([^}]*)\}/u)?.[1] ?? '';
+
+  assert.match(navLinkRule, /min-width:\s*44px/u);
+  assert.match(navLinkRule, /min-height:\s*44px/u);
+  assert.match(navLinkRule, /justify-content:\s*center/u);
 });
 
 test('the showcase command includes home, demo, and locale contracts', () => {

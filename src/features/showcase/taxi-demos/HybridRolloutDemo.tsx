@@ -24,8 +24,8 @@ export function HybridRolloutDemo() {
           {REQUESTS.map((request, index) => (
             <div
               key={request}
-              className={`rounded-lg border px-2 py-3 text-center font-mono text-[10px] transition-all ${
-                assigned ? 'border-white/10 bg-white/[0.035] text-white/42' : 'border-[#ffc400]/35 bg-[#ffc400]/[0.06] text-white/70'
+              className={`rounded-lg border px-2 py-3 text-center font-mono text-[10px] transition-[border-color,background-color,color,transform] ${
+                assigned ? 'border-white/10 bg-white/[0.035] text-white/75' : 'border-[#ffc400]/35 bg-[#ffc400]/[0.06] text-white/75'
               }`}
               style={{ transitionDelay: `${index * 70}ms` }}
             >
@@ -35,22 +35,22 @@ export function HybridRolloutDemo() {
         </div>
 
         <div className="grid gap-2 sm:grid-cols-2">
-          <div className={`rounded-xl border p-4 transition-all ${
-            assigned ? 'border-white/15 bg-white/[0.04]' : 'border-white/10 bg-white/[0.02] opacity-40'
+          <div className={`rounded-xl border p-4 transition-[border-color,background-color,transform] ${
+            assigned ? 'border-white/15 bg-white/[0.04]' : 'border-white/10 bg-white/[0.02]'
           }`}>
             <div className="flex items-center gap-2">
               <span className="grid h-8 w-8 place-items-center rounded-full border border-white/20">
-                <Ico name="solar:user-hands-bold-duotone" className="size-4 text-white/55" />
+                <Ico name="solar:user-hands-bold-duotone" className="size-4 text-white/75" />
               </span>
-              <span className="font-mono text-xs text-white/55">R-201 / R-203</span>
+              <span className="font-mono text-xs text-white/75">R-201 / R-203</span>
             </div>
           </div>
-          <div className={`rounded-xl border p-4 transition-all ${
-            assigned ? 'border-[#ffc400]/40 bg-[#ffc400]/[0.07]' : 'border-white/10 bg-white/[0.02] opacity-40'
+          <div className={`rounded-xl border p-4 transition-[border-color,background-color,transform] ${
+            assigned ? 'border-[#ffc400]/40 bg-[#ffc400]/[0.07]' : 'border-white/10 bg-white/[0.02]'
           }`}>
             <div className="flex items-center gap-2">
               <span className="grid h-8 min-w-8 place-items-center rounded-full border border-[#ffc400]/50 font-mono text-[9px] text-[#ffc400]">AV</span>
-              <span className="font-mono text-xs text-white/55">R-202 / R-204</span>
+              <span className="font-mono text-xs text-white/75">R-202 / R-204</span>
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@ export function HybridRolloutDemo() {
         <div className="grid grid-cols-2 gap-2">
           <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
             <div className="flex items-center justify-between font-mono text-xs">
-              <span className="inline-flex items-center gap-1.5 text-white/45">
+              <span className="inline-flex items-center gap-1.5 text-white/75">
                 <Ico name="solar:routing-2-bold-duotone" className="size-4" />
                 AV
               </span>
@@ -70,7 +70,7 @@ export function HybridRolloutDemo() {
           </div>
           <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
             <div className="flex items-center justify-between font-mono text-xs">
-              <span className="inline-flex items-center gap-1.5 text-white/45">
+              <span className="inline-flex items-center gap-1.5 text-white/75">
                 <Ico name="solar:check-circle-bold-duotone" className="size-4" />
                 ALL
               </span>

@@ -20,7 +20,7 @@ export function ReadingProgress() {
 
     return (
         <div
-            className="fixed top-0 left-0 z-[60] h-[3px] bg-linear-to-r from-[#ffc400] to-[#ff8f00] transition-[width] duration-150 ease-out"
+            className="fixed top-0 left-0 z-[60] h-[3px] bg-linear-to-r from-[#ffc400] to-[#ffdf5a] transition-[width] duration-150 ease-out"
             style={{ width: `${progress}%` }}
             role="progressbar"
             aria-valuenow={Math.round(progress)}

@@ -39,12 +39,9 @@
 }
 
 /* ═══════════════════════════════════════
-   TAXI GOLD — Light Theme
-   Taxi yellow, warm amber, near-black ink.
-   aiTAXI recolor of the aiNOW OBSIDIAN system.
-   Contrast law: yellow is a FILL for dark text,
-   never a background for white text; links use
-   deep amber that passes AA on white.
+   BOLD HUES, Light Theme
+   Electric magenta, purple, crisp blues.
+   Creative and tech-forward energy.
    ═══════════════════════════════════════ */
 :root {
   --radius: 0.625rem;
@@ -54,26 +51,26 @@
   --card-foreground: oklch(0.13 0.01 260);
   --popover: oklch(0.97 0.005 80);
   --popover-foreground: oklch(0.13 0.01 260);
-  --primary: oklch(0.82 0.17 85);
-  --primary-foreground: oklch(0.16 0.01 90);
+  --primary: oklch(0.56 0.21 269);
+  --primary-foreground: oklch(0.98 0 0);
   --secondary: oklch(0.92 0.003 80);
   --secondary-foreground: oklch(0.20 0.01 260);
   --muted: oklch(0.93 0.004 80);
   --muted-foreground: oklch(0.48 0.01 260);
-  --accent: oklch(0.55 0.13 65);
+  --accent: oklch(0.64 0.24 1);
   --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.58 0.22 28);
   --border: oklch(0.89 0.006 80);
   --input: oklch(0.89 0.006 80);
-  --ring: oklch(0.75 0.15 85);
+  --ring: oklch(0.56 0.21 269);
   --success: oklch(0.78 0.12 222);
   --success-foreground: oklch(0.13 0.01 260);
 }
 
 /* ═══════════════════════════════════════
-   TAXI GOLD — Dark Theme
-   Deep charcoal with taxi-yellow signal accents.
-   Dark text on yellow fills, gold links.
+   BOLD HUES, Dark Theme (Default)
+   Deep charcoal with electric neon accents.
+   Magenta, indigo, sapphire energy.
    ═══════════════════════════════════════ */
 .dark {
   --background: oklch(0.11 0.005 270);
@@ -82,18 +79,18 @@
   --card-foreground: oklch(0.92 0.005 80);
   --popover: oklch(0.14 0.006 270);
   --popover-foreground: oklch(0.92 0.005 80);
-  --primary: oklch(0.85 0.17 90);
-  --primary-foreground: oklch(0.15 0.01 90);
+  --primary: oklch(0.62 0.22 269);
+  --primary-foreground: oklch(0.98 0 0);
   --secondary: oklch(0.18 0.006 270);
   --secondary-foreground: oklch(0.88 0.005 80);
   --muted: oklch(0.17 0.005 270);
   --muted-foreground: oklch(0.70 0.01 260);
-  --accent: oklch(0.80 0.15 85);
-  --accent-foreground: oklch(0.15 0.01 90);
+  --accent: oklch(0.68 0.24 1);
+  --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.62 0.22 28);
   --border: oklch(0.20 0.006 270);
   --input: oklch(0.20 0.006 270);
-  --ring: oklch(0.85 0.17 90);
+  --ring: oklch(0.62 0.22 269);
   --success: oklch(0.78 0.12 222);
   --success-foreground: oklch(0.11 0.005 270);
 }
@@ -110,7 +107,7 @@
   body {
     @apply text-foreground antialiased;
     overflow-x: clip;
-    /* Global page canvas — the home page's white dot-grid background, repeated
+    /* Global page canvas, the home page's white dot-grid background, repeated
        on every page (mirrors `.landing-page` in landing-hero.css). Admin pages
        paint their own full-screen `admin-surface-0`, so this never shows there. */
     background-color: #ffffff;
@@ -152,7 +149,7 @@
   background: oklch(0.56 0.21 269);
 }
 
-/* Animated gradient mesh — hero visual anchor */
+/* Animated gradient mesh, hero visual anchor */
 @keyframes mesh-rotate {
   0% {
     transform: translate(-50%, -50%) rotate(0deg);
@@ -201,24 +198,20 @@
   padding: 1px;
 }
 
-/* Glass card — subtle frosted glass */
+/* Glass card, subtle frosted glass */
 .glass-card {
-  background: oklch(0.995 0.008 90 / 82%);
+  background: oklch(0.16 0.006 270 / 60%);
   backdrop-filter: blur(24px) saturate(1.2);
-  border: 1px solid oklch(0.9 0.05 88 / 55%);
-  box-shadow:
-    0 0 0 1px oklch(0.85 0.09 88 / 22%),
-    0 10px 28px -12px oklch(0.72 0.15 70 / 30%),
-    0 2px 6px oklch(0.72 0.15 70 / 10%);
+  border: 1px solid oklch(0.24 0.006 270 / 50%);
 }
 
-/* Gradient text — taxi gold trio (deep amber→gold→light gold), animated shimmer */
+/* Gradient text, per-product brand shimmer (host product color) */
 .gradient-text {
   background: linear-gradient(90deg,
-      oklch(0.62 0.16 55),
-      oklch(0.8 0.17 85),
-      oklch(0.72 0.16 70),
-      oklch(0.62 0.16 55));
+      var(--brand),
+      var(--accent),
+      var(--brand-soft),
+      var(--brand));
   background-size: 300% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -279,7 +272,7 @@
   z-index: 1;
 }
 
-/* Dot grid pattern — Linear-inspired depth */
+/* Dot grid pattern, Linear-inspired depth */
 .dot-grid {
   background-image: radial-gradient(circle, oklch(0.82 0.004 80) 1px, transparent 1px);
   background-size: 24px 24px;
@@ -289,7 +282,7 @@
   background-image: radial-gradient(circle, oklch(0.25 0.005 270) 1px, transparent 1px);
 }
 
-/* Letter glitch — CSS-only animated text pattern (light theme hero BG) */
+/* Letter glitch, CSS-only animated text pattern (light theme hero BG) */
 .letter-glitch {
   --lg-color-1: oklch(0.82 0.006 80);
   --lg-color-2: oklch(0.78 0.008 80);
@@ -359,7 +352,7 @@
   }
 }
 
-/* Hero floating cards — CSS-only, GPU-composited */
+/* Hero floating cards, CSS-only, GPU-composited */
 @keyframes hero-float-1 {
 
   0%,
@@ -435,10 +428,10 @@
   animation-play-state: paused;
 }
 
-/* Card hover glow — ambient purple→teal glow on hover */
+/* Card hover glow, ambient purple→teal glow on hover */
 .card-glow {
   position: relative;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .card-glow::after {
@@ -514,7 +507,7 @@
   background: oklch(0.18 0.005 270);
 }
 
-/* Section divider — gradient fade line between sections */
+/* Section divider, gradient fade line between sections */
 .section-divider {
   height: 1px;
   background: linear-gradient(90deg,
@@ -524,7 +517,7 @@
       transparent);
 }
 
-/* Glass stats bar — frosted glass for hero stats */
+/* Glass stats bar, frosted glass for hero stats */
 .glass-stats {
   backdrop-filter: blur(20px) saturate(1.3);
   border-radius: 16px;
@@ -574,7 +567,7 @@
   background: oklch(0.18 0.006 270);
 }
 
-/* Radial glow — hero headline emphasis */
+/* Radial glow, hero headline emphasis */
 .radial-glow {
   position: absolute;
   inset: 0;
@@ -590,7 +583,7 @@
   color: var(--foreground);
 }
 
-/* Scrollbar hidden — scroll works, bar invisible */
+/* Scrollbar hidden, scroll works, bar invisible */
 * {
   scrollbar-width: none;
 }
@@ -625,10 +618,10 @@ html {
 }
 
 /* ═══════════════════════════════════════
-   HERO CARD FX — Shimmer + Glass + Mesh
+   HERO CARD FX, Shimmer + Glass + Mesh
    ═══════════════════════════════════════ */
 
-/* 1. Shimmer border — rotating conic gradient along card edge */
+/* 1. Shimmer border, rotating conic gradient along card edge */
 .hero-card-shimmer {
   position: relative;
   overflow: hidden;
@@ -709,7 +702,7 @@ html {
   padding: 1.5px;
 }
 
-/* 2. Glass morphism enhanced — per-card colored glow */
+/* 2. Glass morphism enhanced, per-card colored glow */
 .hero-card-glass {
   backdrop-filter: blur(20px) saturate(1.4);
   background: oklch(0.95 0.004 80 / 65%);
@@ -721,7 +714,7 @@ html {
   border-color: oklch(0.24 0.008 270 / 30%);
 }
 
-/* Color glow underneath each card — Bold Hues palette */
+/* Color glow underneath each card, Bold Hues palette */
 .hero-card-glow-blue {
   --card-glow-color: oklch(0.56 0.21 269);
 }
@@ -764,7 +757,7 @@ html {
   opacity: 0.2;
 }
 
-/* 3. Internal animated gradient mesh — subtle living background */
+/* 3. Internal animated gradient mesh, subtle living background */
 .hero-card-mesh {
   position: relative;
   overflow: hidden;
@@ -878,7 +871,7 @@ html {
   transform: translateZ(0);
 }
 
-/* React Flow — OBSIDIAN theme overrides */
+/* React Flow, OBSIDIAN theme overrides */
 .react-flow__controls button {
   background-color: var(--card);
   border-color: var(--border);
@@ -900,12 +893,12 @@ html {
 }
 
 /* ═══════════════════════════════════════
-   ADMIN PANEL — Command Post Design System
+   ADMIN PANEL, Command Post Design System
    Clean surfaces, no glass. Typography-forward.
    Pulse dots for life. Urgency via warm amber.
    ═══════════════════════════════════════ */
 
-/* Pulse dot — breathing life indicator */
+/* Pulse dot, breathing life indicator */
 @keyframes admin-pulse {
 
   0%,
@@ -924,7 +917,7 @@ html {
   animation: admin-pulse 2.5s ease-in-out infinite;
 }
 
-/* Admin surface system — solid, no glass */
+/* Admin surface system, solid, no glass */
 .admin-surface-0 {
   background: var(--background);
 }
@@ -941,7 +934,7 @@ html {
   background: oklch(0.16 0.006 270);
 }
 
-/* Admin card — clean, border-only elevation */
+/* Admin card, clean, border-only elevation */
 .admin-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -957,13 +950,13 @@ html {
   border-color: oklch(0.26 0.008 270);
 }
 
-/* Admin sidebar — same background as canvas, border separation */
+/* Admin sidebar, same background as canvas, border separation */
 .admin-sidebar {
   background: var(--background);
   border-right: 1px solid var(--border);
 }
 
-/* Urgency left-accent — warm amber for deadlines */
+/* Urgency left-accent, warm amber for deadlines */
 .admin-urgency-critical {
   border-left: 2px solid oklch(0.70 0.18 55);
 }
@@ -976,7 +969,7 @@ html {
   border-left: 2px solid var(--destructive);
 }
 
-/* Stat strip — compact horizontal summary */
+/* Stat strip, compact horizontal summary */
 .admin-stat-strip {
   display: flex;
   align-items: stretch;
@@ -1016,7 +1009,7 @@ html {
   min-height: 16px;
 }
 
-/* Admin nav item — clean, no background shift */
+/* Admin nav item, clean, no background shift */
 .admin-nav-item {
   position: relative;
   display: flex;
@@ -1085,10 +1078,10 @@ html {
 }
 
 /* ═══════════════════════════════════════
-   AUTOMATION NODES — n8n-style workflow
+   AUTOMATION NODES, n8n-style workflow
    ═══════════════════════════════════════ */
 
-/* Node card — glassmorphism */
+/* Node card, glassmorphism */
 .automation-node {
   display: flex;
   align-items: center;
@@ -1102,8 +1095,43 @@ html {
   backdrop-filter: blur(16px) saturate(1.3);
   position: relative;
   cursor: default;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 2px 12px oklch(0.11 0.005 270 / 40%);
+}
+
+/* Public landing family: readable wrapping, visible focus, and one global
+   reduced-motion fallback shared by every bespoke product demo. */
+.landing-page {
+  color: #111827;
+}
+
+.landing-page :where(h1, h2, h3, p, a, button, label, li) {
+  overflow-wrap: anywhere;
+}
+
+.landing-page :where(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--brand-ink);
+  outline-offset: 3px;
+}
+
+.landing-page :where(button, .btn-primary, .btn-ghost) {
+  transition-property: color, background-color, border-color, box-shadow, transform;
+}
+
+.landing-page :where(button, .btn-primary, .btn-ghost):active {
+  transform: scale(0.96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-page,
+  .landing-page *,
+  .landing-page *::before,
+  .landing-page *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 :root .automation-node {
@@ -1211,7 +1239,7 @@ html {
 }
 
 /* ═══════════════════════════════════════
-   CHATBOT DEMO — Chat UI Styles
+   CHATBOT DEMO, Chat UI Styles
    ═══════════════════════════════════════ */
 
 /* Chat container */
@@ -1306,7 +1334,7 @@ html {
       transparent 70%) !important;
 }
 
-/* Pricing tier highlighted — animated gradient border rotation */
+/* Pricing tier highlighted, animated gradient border rotation */
 @keyframes tier-border-rotate {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -1320,7 +1348,7 @@ html {
   .tier-highlighted { animation: none; }
 }
 
-/* Annual-saver strip — subtle white light-sweep shine (Starter pricing card).
+/* Annual-saver strip, subtle white light-sweep shine (Starter pricing card).
    Neutral-white sweep (not a purple/neon glow) to stay clear of AI-slop tells. */
 @keyframes annual-shine {
   0% { transform: translateX(-120%) skewX(-12deg); }
@@ -1338,7 +1366,7 @@ html {
   .annual-shine { animation: none; display: none; }
 }
 
-/* VIN Calculator custom slider — large touch target on mobile */
+/* VIN Calculator custom slider, large touch target on mobile */
 .vin-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;

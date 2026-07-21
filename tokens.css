@@ -1,0 +1,29 @@
+/* Hallmark · aiTAXI tokens · modern-minimal operational workbench */
+:root {
+  --taxi-paper: oklch(100% 0 0);
+  --taxi-paper-muted: oklch(97.2% 0.003 286);
+  --taxi-ink: oklch(21% 0.006 286);
+  --taxi-ink-muted: oklch(44% 0.012 286);
+  --taxi-rule: oklch(92% 0.004 286);
+  --taxi-rule-strong: oklch(87% 0.006 286);
+  --taxi-accent: oklch(85% 0.18 85);
+  --taxi-accent-ink: oklch(43% 0.09 75);
+  --taxi-console: oklch(20.5% 0.008 285);
+  --taxi-console-raised: oklch(25% 0.009 285);
+  --taxi-console-rule: oklch(34% 0.01 285);
+  --taxi-focus: oklch(55% 0.12 80);
+  --taxi-shadow-console: oklch(20% 0.006 286 / 90%);
+  --taxi-space-1: 4px;
+  --taxi-space-2: 8px;
+  --taxi-space-3: 12px;
+  --taxi-space-4: 16px;
+  --taxi-space-6: 24px;
+  --taxi-space-8: 32px;
+  --taxi-space-12: 48px;
+  --taxi-space-16: 64px;
+  --taxi-radius-control: 7px;
+  --taxi-radius-card: 11px;
+  --taxi-radius-panel: 14px;
+  --taxi-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --taxi-duration-short: 160ms;
+}

@@ -7,7 +7,7 @@ interface SectionContainerProps {
 
 export const SectionContainer = ({ children, className }: SectionContainerProps) => {
   return (
-    <section className={cn("container mx-auto px-4 md:px-6 lg:px-8", className)}>
+    <section data-family-shell="true" className={cn("mx-auto w-[calc(100%-48px)] max-w-[1216px]", className)}>
       {children}
     </section>
   );

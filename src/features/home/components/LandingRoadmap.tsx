@@ -17,13 +17,13 @@ export function LandingRoadmap() {
   const t = useTranslations('product.roadmap');
 
   return (
-    <section className="px-6 py-16 md:py-24">
-      <div className="mx-auto max-w-[1280px]">
+    <section data-demo-static="true" data-static-section="taxi-roadmap" className="py-16 md:py-24 xl:py-28">
+      <div className="mx-auto w-[calc(100%-48px)] max-w-[1216px]">
         <div className="md:max-w-xl">
-          <p className="text-xs font-mono uppercase tracking-[0.22em] text-[#b45309]">
+          <p className="text-xs font-mono uppercase tracking-[0.22em] text-[#52525b]">
             {t('eyebrow')}
           </p>
-          <h2 className="mt-3 text-balance font-display text-3xl font-extrabold tracking-tight text-neutral-900 md:text-5xl">
+          <h2 className="mt-3 text-balance font-display text-[30px] font-extrabold leading-[33px] tracking-tight text-[#111827] md:text-[36px] md:leading-[40px]">
             {t('heading')}
           </h2>
           <p className="mt-4 text-pretty text-base leading-relaxed text-neutral-600">
@@ -43,14 +43,14 @@ export function LandingRoadmap() {
               <span
                 className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${
                   live
-                    ? 'bg-[#ffc400]/25 text-[#6b4400]'
-                    : 'bg-[#fff3d6] text-[#8a6a1f]'
+                    ? 'bg-[#ffc400]/25 text-[#18181b]'
+                    : 'bg-[#fff3d6] text-[#3f3f46]'
                 }`}
               >
                 {live && (
                   <span className="relative flex h-2 w-2" aria-hidden="true">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#ff8f00] opacity-60 motion-reduce:animate-none" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-[#ff8f00]" />
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#ffc400] opacity-60 motion-reduce:animate-none" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-[#ffc400]" />
                   </span>
                 )}
                 {t(`${key}.chip`)}

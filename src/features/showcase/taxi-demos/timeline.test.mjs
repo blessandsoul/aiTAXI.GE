@@ -67,7 +67,7 @@ test('all five demos define the same problem, AI action, and result journey', ()
   }
 });
 
-test('a normal play reaches the result at exactly 7200ms', () => {
+test('a normal play changes visibly within one second and reaches the result at 7200ms', () => {
   const clock = createClock();
   const seen = [];
   const player = createTimelinePlayer({
@@ -80,13 +80,13 @@ test('a normal play reaches the result at exactly 7200ms', () => {
   player.play();
   assert.deepEqual(seen, ['problem']);
 
-  clock.advance(3599);
+  clock.advance(499);
   assert.deepEqual(seen, ['problem']);
 
   clock.advance(1);
   assert.deepEqual(seen, ['problem', 'ai-action']);
 
-  clock.advance(3599);
+  clock.advance(6699);
   assert.deepEqual(seen, ['problem', 'ai-action']);
 
   clock.advance(1);
@@ -156,7 +156,7 @@ test('reset and showFinal are timer-free explicit states', () => {
   assert.equal(clock.pendingCount, 0);
 });
 
-test('the hero reaches its resolved state at exactly 7200ms', async () => {
+test('the hero changes visibly within one second and reaches resolved at 7200ms', async () => {
   const { HERO_BEATS, createHeroTimelinePlayer } = await import('./timeline.mjs');
   const clock = createClock();
   const seen = [];
@@ -170,7 +170,17 @@ test('the hero reaches its resolved state at exactly 7200ms', async () => {
   player.play();
   assert.deepEqual(seen, ['fleet']);
 
-  clock.advance(7199);
+  clock.advance(799);
+  assert.deepEqual(seen, ['fleet']);
+  clock.advance(1);
+  assert.deepEqual(seen, ['fleet', 'blocked']);
+
+  clock.advance(2799);
+  assert.equal(seen.at(-1), 'blocked');
+  clock.advance(1);
+  assert.equal(seen.at(-1), 'assisting');
+
+  clock.advance(3599);
   assert.notEqual(seen.at(-1), 'resolved');
   clock.advance(1);
 
