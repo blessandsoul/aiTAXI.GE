@@ -33,7 +33,7 @@ export const SITE = {
    * Yellow is light, so the computed label colour on a yellow fill is near-black, not white.
    * That is what the site already did by hand; now it is derived.
    */
-  brandHex: "#ffc400",
+  brandHex: "#ffd400",
 
   /**
    * Three hexes the hero grainient shader interpolates: soft, BRAND, accent. The order is the
@@ -48,7 +48,7 @@ export const SITE = {
    * An accent is a SIBLING of the brand, never a near-white: anything that paints text has to
    * survive being painted.
    */
-  shader: ["#fff3d6", "#ffc400", "#ffdf5a"] as [string, string, string],
+  shader: ["#fff4b8", "#ffd400", "#b88600"] as [string, string, string],
 
   /**
    * `defaultLocale` is the UNPREFIXED locale (next-intl `localePrefix: "as-needed"`), so it

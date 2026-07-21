@@ -182,15 +182,15 @@ test('the per-site brand tokens load after shared CSS so every ai prefix remains
   }
 });
 
-test('the desktop hero grid cannot be widened by static product copy', () => {
+test('the desktop hero grid cannot be widened by rotating product copy', () => {
   const source = read('LandingHero.tsx');
   const css = read('landing-hero.css');
   assert.match(source, /data-family-shell="true" className="hero-family-shell[^\n]*min-w-0/u);
   assert.match(source, /className="grid min-w-0 gap-8/u);
-  assert.match(source, /className="hero-static-accent"/u);
+  assert.match(source, /className="typewriter"/u);
   assert.doesNotMatch(source, /caretW|availableWidth|clampTypewriterReservedWidth/u);
   assert.match(css, /\.hero-family-shell\{width:min\(1140px,calc\(100% - 48px\)\)/u);
-  assert.match(css, /\.hero-static-accent\{[^}]*overflow-wrap:anywhere/u);
+  assert.match(css, /\.tw-text\s*\{[^}]*overflow-wrap:\s*anywhere/u);
 });
 
 test('short desktop navigation labels retain a 44 by 44 pixel target', () => {
