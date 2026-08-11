@@ -1,62 +1,70 @@
-import { getPosts, getPostBySlug } from "@/features/blog/lib/api";
+import { SITE } from '@/config/site';
+import { PUBLIC_ROUTES } from '@/features/product-pages/routes';
+import {
+  MACHINE_FAQ,
+  MACHINE_PUBLIC_PAGES,
+  MACHINE_REVIEWED_ON,
+  PRODUCT_BRAND,
+  machineTextResponse,
+} from '@/features/product-pages/machine';
 
-const BASE_URL = "https://aitaxi.ge";
-const ARTICLE_LIMIT = 30;
+export const dynamic = 'force-static';
 
-// Strip HTML/JSX tags from MDX content, keep markdown text readable for LLMs.
-function toPlainMarkdown(content: string): string {
-  return content
-    .replace(/<[^>]+>/g, "")
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
-}
-
-export async function GET() {
-  const posts = await getPosts("en");
-  const top = posts.slice(0, ARTICLE_LIMIT);
-
-  const articles: string[] = [];
-  for (const p of top) {
-    const full = await getPostBySlug(p.slug, "en");
-    if (!full?.content) continue;
-    articles.push(
-      `## ${full.title}`,
-      ``,
-      `URL: ${BASE_URL}/en/blog/${full.slug}`,
-      `Published: ${full.date}`,
-      `Author: ${full.author.name}`,
-      ``,
-      toPlainMarkdown(full.content),
-      ``,
-      `---`,
-      ``,
-    );
-  }
-
+export function GET() {
   const lines: string[] = [
-    `# aiTAXI, Full Content for LLMs`,
-    ``,
-    `> aiTAXI is a robotaxi fleet management platform by aiNOW (Tbilisi, Georgia): dispatch, telemetry, remote assistance, depot operations, and compliance for autonomous taxi fleets. Status: early access, pilot program for taxi operators in Georgia. Structured site index: ${BASE_URL}/llms.txt`,
-    ``,
-    `## Key Facts`,
-    ``,
-    `- Product: aiTAXI, software platform for managing robotaxi (autonomous taxi) fleets`,
-    `- Maker: aiNOW, AI agency in Tbilisi, Georgia (https://ainow.ge)`,
-    `- Announced: 2026, currently in early access (pilot program)`,
-    `- Languages: Georgian, English, Russian`,
-    `- Region focus: Georgia and the Caucasus`,
-    `- Contact: CONTACT@aiNOW.GE`,
-    `- Website: ${BASE_URL}`,
-    ``,
-    `# Articles (latest ${articles.length > 0 ? Math.min(ARTICLE_LIMIT, top.length) : 0}, English versions)`,
-    ``,
-    ...articles,
+    `# ${PRODUCT_BRAND}, full product reference`,
+    '',
+    `Last reviewed: ${MACHINE_REVIEWED_ON}`,
+    `Canonical website: ${SITE.baseUrl}`,
+    '',
+    '## Definition',
+    '',
+    SITE.seo.summary,
+    '',
+    '## Intended customer',
+    '',
+    SITE.seo.audienceName,
+    '',
+    `## What ${PRODUCT_BRAND} does`,
+    '',
+    ...SITE.seo.features.map((feature) => `- ${feature}`),
+    '',
+    '## Product boundary',
+    '',
+    SITE.seo.boundary,
+    '',
+    '## Known limits',
+    '',
+    ...SITE.seo.limits.map((limit) => `- ${limit}`),
+    '',
+    '## Commitment',
+    '',
+    SITE.seo.commitment,
+    '',
+    '## Public pages',
+    '',
+    ...PUBLIC_ROUTES.map((route, index) => {
+      const page = MACHINE_PUBLIC_PAGES[index];
+      return `- ${route.key}: ${page.url}`;
+    }),
+    '',
+    '## Frequently asked questions',
+    '',
+    ...MACHINE_FAQ.flatMap(({ question, answer }) => [
+      `### ${question}`,
+      '',
+      answer,
+      '',
+    ]),
+    '## Verification',
+    '',
+    `- Provider: aiNOW, https://ainow.ge`,
+    `- Structured summary: ${SITE.baseUrl}/ai/summary.json`,
+    `- Structured service facts: ${SITE.baseUrl}/ai/service.json`,
+    `- Structured FAQ: ${SITE.baseUrl}/ai/faq.json`,
+    `- Concise index: ${SITE.baseUrl}/llms.txt`,
+    '',
   ];
 
-  return new Response(lines.join("\n"), {
-    headers: {
-      "Content-Type": "text/plain; charset=utf-8",
-      "Cache-Control": "public, max-age=86400, stale-while-revalidate=3600",
-    },
-  });
+  return machineTextResponse(lines.join('\n'));
 }

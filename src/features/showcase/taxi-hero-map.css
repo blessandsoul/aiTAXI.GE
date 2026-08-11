@@ -1,0 +1,1201 @@
+.taxi-hero-map {
+  --taxi-ink: #171711;
+  --taxi-muted: #62665f;
+  --taxi-border: #e2e4df;
+  --taxi-surface: #ffffff;
+  --taxi-soft-surface: #f8f9f6;
+  --taxi-map: #f1f4ee;
+  --taxi-yellow: #ffd400;
+  --taxi-yellow-ink: #705c00;
+  --taxi-green: #17734a;
+  --taxi-red: #b5463c;
+  position: relative;
+  min-height: 640px;
+  overflow: hidden;
+  border: 1px solid var(--taxi-border);
+  border-radius: 24px;
+  background: var(--taxi-surface);
+  color: var(--taxi-ink);
+  box-shadow:
+    0 1px 2px rgb(20 24 18 / 5%),
+    0 20px 50px rgb(20 24 18 / 8%);
+  isolation: isolate;
+}
+
+.taxi-hero-map__header {
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--taxi-border);
+}
+
+.taxi-hero-map__flow {
+  display: grid;
+  min-height: 48px;
+  grid-template-columns: minmax(0, 1fr) 18px minmax(0, 1fr) 18px minmax(0, 1fr);
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  border-bottom: 1px solid var(--taxi-border);
+  background: #fffdf7;
+}
+
+.taxi-hero-map__flow-step {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+  color: var(--taxi-muted);
+  transition:
+    color 220ms cubic-bezier(0.23, 1, 0.32, 1),
+    opacity 220ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.taxi-hero-map__flow-step strong {
+  min-width: 0;
+  font-size: 11px;
+  font-weight: 760;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+.taxi-hero-map__flow-number {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid rgb(23 23 17 / 10%);
+  border-radius: 50%;
+  background: var(--taxi-surface);
+  color: #7d837b;
+  font-family: var(--font-space-mono), monospace;
+  font-size: 8px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  transition:
+    border-color 220ms cubic-bezier(0.23, 1, 0.32, 1),
+    background-color 220ms cubic-bezier(0.23, 1, 0.32, 1),
+    color 220ms cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 220ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.taxi-hero-map__flow-step.is-reached {
+  color: var(--taxi-ink);
+}
+
+.taxi-hero-map__flow-step.is-reached .taxi-hero-map__flow-number {
+  border-color: rgb(174 145 0 / 24%);
+  background: rgb(255 212 0 / 16%);
+  color: var(--taxi-yellow-ink);
+}
+
+.taxi-hero-map__flow-step.is-current .taxi-hero-map__flow-number {
+  background: var(--taxi-yellow);
+  box-shadow: 0 0 0 4px rgb(255 212 0 / 13%);
+  color: #403500;
+}
+
+.taxi-hero-map__flow-arrow {
+  width: 14px;
+  height: 14px;
+  justify-self: center;
+  color: #a2a79f;
+}
+
+.taxi-hero-map__badge,
+.taxi-hero-map__brand,
+.taxi-hero-map__map-summary,
+.taxi-hero-map__map-label,
+.taxi-hero-map__ai-label,
+.taxi-hero-map__request-copy p,
+.taxi-hero-map__decision-head,
+.taxi-hero-map__summary,
+.taxi-hero-map__footer button {
+  display: inline-flex;
+  align-items: center;
+}
+
+.taxi-hero-map__badge {
+  min-width: 0;
+  gap: 8px;
+  color: var(--taxi-muted);
+  font-size: 11px;
+  font-weight: 720;
+  letter-spacing: 0.02em;
+}
+
+.taxi-hero-map__badge > span {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: var(--taxi-yellow);
+  box-shadow: 0 0 0 4px rgb(255 212 0 / 14%);
+}
+
+.taxi-hero-map__brand {
+  flex: 0 0 auto;
+  font-family: var(--font-bricolage), sans-serif;
+  font-size: 15px;
+  font-weight: 850;
+  letter-spacing: -0.04em;
+}
+
+.taxi-hero-map__brand > span {
+  margin-right: 2px;
+  background: linear-gradient(120deg, #8a5cff 0%, #c058ff 56%, #ef4b91 100%);
+  background-clip: text;
+  color: transparent;
+  font-family: var(--font-space-mono), monospace;
+  font-weight: 700;
+}
+
+.taxi-hero-map__request {
+  display: grid;
+  min-height: 78px;
+  grid-template-columns: 36px minmax(0, 1fr) 26px;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--taxi-border);
+  border-radius: 16px;
+  background: var(--taxi-soft-surface);
+  transition:
+    border-color 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.taxi-hero-map--problem .taxi-hero-map__request {
+  border-color: rgb(174 145 0 / 32%);
+  background: #fffdf2;
+  box-shadow: 0 8px 24px rgb(118 97 0 / 7%);
+}
+
+.taxi-hero-map__request-icon,
+.taxi-hero-map__decision-icon,
+.taxi-hero-map__result-icon,
+.taxi-hero-map__candidate-icon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 11px;
+}
+
+.taxi-hero-map__request-icon {
+  width: 36px;
+  height: 36px;
+  background: rgb(255 212 0 / 17%);
+  color: var(--taxi-yellow-ink);
+}
+
+.taxi-hero-map__request-copy {
+  min-width: 0;
+}
+
+.taxi-hero-map__request-copy > span {
+  display: block;
+  color: var(--taxi-muted);
+  font-size: 11px;
+  font-weight: 760;
+  letter-spacing: 0.04em;
+}
+
+.taxi-hero-map__request-copy > strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 820;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.taxi-hero-map__request-copy p {
+  width: 100%;
+  gap: 5px;
+  margin: 4px 0 0;
+  color: var(--taxi-muted);
+  font-size: 11px;
+  font-weight: 620;
+  line-height: 1.35;
+}
+
+.taxi-hero-map__request-copy p svg {
+  flex: 0 0 auto;
+  color: var(--taxi-yellow-ink);
+}
+
+.taxi-hero-map__step {
+  color: #9a9f97;
+  font-family: var(--font-space-mono), monospace;
+  font-size: 9px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.taxi-hero-map__canvas {
+  position: relative;
+  height: 224px;
+  overflow: hidden;
+  border-top: 1px solid rgb(23 23 17 / 5%);
+  border-bottom: 1px solid rgb(23 23 17 / 7%);
+  background-color: var(--taxi-map);
+  background-image: radial-gradient(circle at 1px 1px, rgb(31 41 24 / 9%) 1px, transparent 0);
+  background-size: 18px 18px;
+}
+
+.taxi-hero-map__canvas::after {
+  position: absolute;
+  z-index: 8;
+  inset: auto 0 0;
+  height: 34px;
+  background: linear-gradient(to top, var(--taxi-map), transparent);
+  content: "";
+  pointer-events: none;
+}
+
+.taxi-hero-map__map-summary,
+.taxi-hero-map__map-label {
+  position: absolute;
+  z-index: 15;
+  min-height: 30px;
+  border: 1px solid rgb(23 23 17 / 9%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 91%);
+  box-shadow: 0 6px 20px rgb(24 28 22 / 7%);
+  backdrop-filter: blur(10px);
+}
+
+.taxi-hero-map__map-summary {
+  top: 10px;
+  left: 10px;
+  max-width: calc(100% - 112px);
+  gap: 7px;
+  padding: 0 10px;
+  color: var(--taxi-ink);
+  font-size: 11px;
+  font-weight: 780;
+  line-height: 1.25;
+}
+
+.taxi-hero-map__map-summary svg {
+  flex: 0 0 auto;
+  color: var(--taxi-yellow-ink);
+}
+
+.taxi-hero-map__map-label {
+  top: 10px;
+  right: 10px;
+  padding: 0 9px;
+  color: var(--taxi-muted);
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.taxi-hero-map__roads {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.taxi-hero-map__road {
+  fill: none;
+  stroke: rgb(255 255 255 / 97%);
+  stroke-linecap: round;
+  stroke-width: 27;
+  filter: drop-shadow(0 0 1px rgb(30 35 25 / 16%));
+}
+
+.taxi-hero-map__route {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 3;
+}
+
+.taxi-hero-map__route--ai {
+  opacity: 0.18;
+  stroke: var(--taxi-yellow-ink);
+  stroke-dasharray: 0.018 0.028;
+  transition: opacity 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.taxi-hero-map--ai-action .taxi-hero-map__route--ai,
+.taxi-hero-map--result .taxi-hero-map__route--ai {
+  opacity: 0.92;
+}
+
+.taxi-hero-map__block {
+  position: absolute;
+  z-index: 1;
+  border: 1px solid rgb(23 23 17 / 6%);
+  border-radius: 12px;
+  background: rgb(213 220 207 / 62%);
+}
+
+.taxi-hero-map__block--one {
+  top: 8%;
+  left: 25%;
+  width: 21%;
+  height: 19%;
+  transform: rotate(-3deg);
+}
+
+.taxi-hero-map__block--two {
+  top: 34%;
+  right: 6%;
+  width: 18%;
+  height: 22%;
+  transform: rotate(4deg);
+}
+
+.taxi-hero-map__block--three {
+  bottom: 6%;
+  left: 34%;
+  width: 21%;
+  height: 18%;
+  transform: rotate(2deg);
+}
+
+.taxi-hero-map__block--four {
+  bottom: 16%;
+  left: 3%;
+  width: 13%;
+  height: 16%;
+  transform: rotate(-4deg);
+}
+
+.taxi-hero-map__vehicle {
+  position: absolute;
+  z-index: 14;
+  display: grid;
+  justify-items: center;
+}
+
+.taxi-hero-map__vehicle--ai {
+  bottom: 10px;
+  left: 10px;
+  width: 128px;
+}
+
+.taxi-hero-map__ai-label {
+  width: 100%;
+  min-height: 30px;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 5px 8px;
+  border: 1px solid rgb(138 115 0 / 20%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 94%);
+  box-shadow: 0 7px 20px rgb(25 29 23 / 10%);
+  color: var(--taxi-yellow-ink);
+  font-size: 11px;
+  backdrop-filter: blur(8px);
+}
+
+.taxi-hero-map__ai-label > span {
+  font-family: var(--font-bricolage), sans-serif;
+  font-weight: 880;
+  letter-spacing: -0.03em;
+}
+
+.taxi-hero-map__ai-label strong {
+  min-width: 0;
+  font-size: 11px;
+  font-weight: 760;
+  line-height: 1.1;
+  text-align: right;
+}
+
+.taxi-hero-map__operator-status {
+  position: absolute;
+  z-index: 14;
+  right: 10px;
+  bottom: 10px;
+  display: inline-flex;
+  min-height: 30px;
+  max-width: 148px;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border: 1px solid rgb(23 23 17 / 10%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 94%);
+  box-shadow: 0 7px 20px rgb(25 29 23 / 10%);
+  color: var(--taxi-muted);
+  font-size: 11px;
+  font-weight: 760;
+  line-height: 1.15;
+  backdrop-filter: blur(8px);
+  transition:
+    border-color 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.taxi-hero-map__operator-status svg {
+  flex: 0 0 auto;
+  color: var(--taxi-yellow-ink);
+}
+
+.taxi-hero-map--result .taxi-hero-map__operator-status {
+  border-color: rgb(23 115 74 / 24%);
+  color: var(--taxi-green);
+}
+
+.taxi-hero-map--result .taxi-hero-map__operator-status svg {
+  color: var(--taxi-green);
+}
+
+.taxi-hero-map__road-car {
+  position: absolute;
+  z-index: 11;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  transform-origin: center;
+}
+
+.taxi-hero-map__road-car--ai {
+  z-index: 13;
+  will-change: transform;
+}
+
+.taxi-hero-map__car {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: clamp(50px, 6vw, 62px);
+  aspect-ratio: 88 / 40;
+  color: #737d78;
+  filter: drop-shadow(0 5px 8px rgb(17 24 20 / 18%));
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+}
+
+.taxi-hero-map__car--ordinary {
+  width: clamp(46px, 5.5vw, 56px);
+}
+
+.taxi-hero-map__car--ai {
+  color: #969c96;
+  transition:
+    color 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.taxi-hero-map--ai-action .taxi-hero-map__car--ai,
+.taxi-hero-map--result .taxi-hero-map__car--ai {
+  color: var(--taxi-yellow);
+  filter:
+    drop-shadow(0 5px 8px rgb(17 24 20 / 20%))
+    drop-shadow(0 0 9px rgb(255 212 0 / 35%));
+}
+
+.taxi-hero-map__car-glyph {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.taxi-hero-map__car-code {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  min-width: 26px;
+  padding: 2px 4px;
+  border: 1px solid rgb(23 23 17 / 11%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 93%);
+  box-shadow: 0 3px 8px rgb(23 23 17 / 8%);
+  color: #525a55;
+  font-family: var(--font-space-mono), monospace;
+  font-size: 7px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.taxi-hero-map__car-wheel {
+  fill: #161a18;
+}
+
+.taxi-hero-map__car-body {
+  fill: currentcolor;
+  stroke: rgb(255 255 255 / 78%);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}
+
+.taxi-hero-map__car-bonnet {
+  fill: color-mix(in srgb, currentcolor 84%, #1d2622);
+}
+
+.taxi-hero-map__car-window,
+.taxi-hero-map__car-roof {
+  fill: #29463e;
+  stroke: rgb(255 255 255 / 54%);
+  stroke-width: 0.7;
+  vector-effect: non-scaling-stroke;
+}
+
+.taxi-hero-map__car-roof {
+  fill: #3d5d54;
+}
+
+.taxi-hero-map__car-mirror {
+  fill: currentcolor;
+  stroke: rgb(255 255 255 / 70%);
+  stroke-width: 0.75;
+  vector-effect: non-scaling-stroke;
+}
+
+.taxi-hero-map__car-detail {
+  fill: none;
+  stroke: rgb(255 255 255 / 52%);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 0.9;
+  vector-effect: non-scaling-stroke;
+}
+
+.taxi-hero-map__taxi-checker > rect:first-child {
+  fill: #fff8ca;
+  stroke: #1f241f;
+  stroke-width: 0.8;
+  vector-effect: non-scaling-stroke;
+}
+
+.taxi-hero-map__taxi-checker > rect:not(:first-child) {
+  fill: #1f241f;
+}
+
+.taxi-hero-map__car-light--rear {
+  fill: #e75d52;
+}
+
+.taxi-hero-map__car-light--front {
+  fill: #fff8bd;
+}
+
+.taxi-hero-map__route-point {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 2px solid rgb(255 255 255 / 94%);
+  border-radius: 50%;
+  box-shadow: 0 0 0 6px rgb(23 23 17 / 6%);
+  font-family: var(--font-space-mono), monospace;
+  font-size: 9px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.taxi-hero-map__route-point--pickup {
+  background: #27332e;
+  color: #fff;
+}
+
+.taxi-hero-map__destination {
+  top: 0;
+  left: 0;
+  background: var(--taxi-yellow);
+  color: #453900;
+  box-shadow: 0 0 0 7px rgb(255 212 0 / 14%);
+}
+
+.taxi-hero-map__decision {
+  min-height: 190px;
+  padding: 12px 14px 0;
+}
+
+.taxi-hero-map__decision-head {
+  display: grid;
+  min-height: 32px;
+  grid-template-columns: 32px minmax(0, 1fr) 26px;
+  gap: 9px;
+  color: var(--taxi-ink);
+}
+
+.taxi-hero-map__decision-icon {
+  width: 32px;
+  height: 32px;
+  background: rgb(255 212 0 / 16%);
+  color: var(--taxi-yellow-ink);
+}
+
+.taxi-hero-map__decision-head > strong {
+  align-self: center;
+  font-size: 12px;
+  font-weight: 810;
+  line-height: 1.3;
+}
+
+.taxi-hero-map__decision-head > .taxi-hero-map__step {
+  align-self: center;
+  justify-self: end;
+}
+
+.taxi-hero-map__candidates {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.taxi-hero-map__candidate {
+  display: grid;
+  min-width: 0;
+  min-height: 72px;
+  grid-template-columns: 26px minmax(0, 1fr);
+  align-items: start;
+  gap: 7px;
+  padding: 9px;
+  border: 1px solid var(--taxi-border);
+  border-radius: 13px;
+  background: var(--taxi-soft-surface);
+  transition:
+    border-color 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.taxi-hero-map__candidate--selected {
+  min-height: 58px;
+  grid-column: 1 / -1;
+}
+
+.taxi-hero-map__candidate-icon {
+  width: 26px;
+  height: 26px;
+  background: rgb(181 70 60 / 9%);
+  color: var(--taxi-red);
+}
+
+.taxi-hero-map__candidate--selected .taxi-hero-map__candidate-icon {
+  background: rgb(23 115 74 / 10%);
+  color: var(--taxi-green);
+}
+
+.taxi-hero-map__candidate-id {
+  display: block;
+  color: #858b83;
+  font-family: var(--font-space-mono), monospace;
+  font-size: 8px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.taxi-hero-map__candidate strong {
+  display: block;
+  margin-top: 3px;
+  color: var(--taxi-ink);
+  font-size: 11px;
+  font-weight: 790;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.taxi-hero-map__candidate p {
+  margin: 4px 0 0;
+  color: var(--taxi-muted);
+  font-size: 11px;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.taxi-hero-map--problem .taxi-hero-map__candidate {
+  opacity: 0.66;
+}
+
+.taxi-hero-map--ai-action .taxi-hero-map__candidate--selected,
+.taxi-hero-map--result .taxi-hero-map__candidate--selected {
+  border-color: rgb(23 115 74 / 25%);
+  background: #f5fbf7;
+  box-shadow: 0 7px 18px rgb(23 115 74 / 7%);
+}
+
+.taxi-hero-map__result {
+  display: grid;
+  min-height: 58px;
+  grid-template-columns: 32px minmax(0, 1fr) auto 26px;
+  align-items: center;
+  gap: 9px;
+  margin-top: 9px;
+  padding: 8px 9px;
+  border: 1px solid var(--taxi-border);
+  border-radius: 14px;
+  background: var(--taxi-soft-surface);
+  transition:
+    border-color 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.taxi-hero-map__result-icon {
+  width: 32px;
+  height: 32px;
+  background: rgb(255 212 0 / 15%);
+  color: var(--taxi-yellow-ink);
+}
+
+.taxi-hero-map__result > div {
+  min-width: 0;
+}
+
+.taxi-hero-map__result strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 810;
+  line-height: 1.25;
+}
+
+.taxi-hero-map__result p {
+  margin: 3px 0 0;
+  color: var(--taxi-muted);
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.taxi-hero-map__result-status {
+  max-width: 118px;
+  padding: 5px 7px;
+  border: 1px solid rgb(23 115 74 / 17%);
+  border-radius: 999px;
+  background: rgb(23 115 74 / 7%);
+  color: var(--taxi-green);
+  font-size: 11px;
+  font-weight: 760;
+  line-height: 1.2;
+  text-align: center;
+  opacity: 0.52;
+  transition: opacity 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.taxi-hero-map--result .taxi-hero-map__result {
+  border-color: rgb(23 115 74 / 27%);
+  background: #f5fbf7;
+  box-shadow: 0 8px 22px rgb(23 115 74 / 8%);
+}
+
+.taxi-hero-map--result .taxi-hero-map__result-status {
+  opacity: 1;
+}
+
+.taxi-hero-map__result > .taxi-hero-map__step {
+  justify-self: end;
+}
+
+.taxi-hero-map__summary {
+  gap: 8px;
+  min-height: 48px;
+  margin: 9px 14px 0;
+  padding: 8px 10px;
+  border: 1px solid rgb(23 23 17 / 8%);
+  border-radius: 13px;
+  background: #fffef8;
+  color: var(--taxi-muted);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.taxi-hero-map__summary svg {
+  flex: 0 0 auto;
+  color: var(--taxi-yellow-ink);
+}
+
+.taxi-hero-map__footer {
+  display: flex;
+  min-height: 60px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 14px 12px;
+}
+
+.taxi-hero-map__footer p {
+  max-width: 420px;
+  margin: 0;
+  color: var(--taxi-muted);
+  font-size: 8px;
+  line-height: 1.4;
+}
+
+.taxi-hero-map__footer button {
+  min-width: 44px;
+  min-height: 44px;
+  flex: 0 0 auto;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 12px;
+  border: 1px solid var(--taxi-border);
+  border-radius: 12px;
+  background: var(--taxi-surface);
+  color: var(--taxi-ink);
+  font: inherit;
+  font-size: 9px;
+  font-weight: 760;
+  cursor: pointer;
+  transition:
+    border-color 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.taxi-hero-map__footer button:hover {
+  border-color: rgb(174 145 0 / 38%);
+  background: #fffdf1;
+}
+
+.taxi-hero-map__footer button:active {
+  transform: scale(0.96);
+}
+
+.taxi-hero-map__footer button:focus-visible {
+  outline: 3px solid rgb(255 212 0 / 42%);
+  outline-offset: 2px;
+}
+
+.dark .taxi-hero-map {
+  --taxi-ink: #f4f5ef;
+  --taxi-muted: #b8bdb3;
+  --taxi-border: #353931;
+  --taxi-surface: #171914;
+  --taxi-soft-surface: #1d201a;
+  --taxi-map: #20241d;
+  --taxi-yellow-ink: #ffe45c;
+  --taxi-green: #70d6a4;
+  --taxi-red: #ff9c91;
+  box-shadow: 0 22px 60px rgb(0 0 0 / 28%);
+}
+
+.dark .taxi-hero-map__map-summary,
+.dark .taxi-hero-map__map-label,
+.dark .taxi-hero-map__ai-label,
+.dark .taxi-hero-map__operator-status,
+.dark .taxi-hero-map__car-code {
+  border-color: rgb(255 255 255 / 12%);
+  background: rgb(23 25 20 / 93%);
+}
+
+.dark .taxi-hero-map__flow {
+  background: #1d1d14;
+}
+
+.dark .taxi-hero-map__road {
+  stroke: rgb(50 55 47 / 95%);
+}
+
+.dark .taxi-hero-map__block {
+  border-color: rgb(255 255 255 / 4%);
+  background: rgb(42 48 39 / 78%);
+}
+
+.dark .taxi-hero-map--problem .taxi-hero-map__request,
+.dark .taxi-hero-map__summary {
+  background: #282511;
+}
+
+.dark .taxi-hero-map--ai-action .taxi-hero-map__candidate--selected,
+.dark .taxi-hero-map--result .taxi-hero-map__candidate--selected,
+.dark .taxi-hero-map--result .taxi-hero-map__result {
+  background: #182a20;
+}
+
+.dark .taxi-hero-map__footer button:hover {
+  background: #282511;
+}
+
+@media (max-width: 767px) {
+  .taxi-hero-map {
+    min-height: 760px;
+    border-radius: 20px;
+  }
+
+  .taxi-hero-map__header {
+    min-height: 48px;
+    padding: 0 12px;
+  }
+
+  .taxi-hero-map__flow {
+    min-height: 52px;
+    grid-template-columns: minmax(0, 1fr) 12px minmax(0, 1fr) 12px minmax(0, 1fr);
+    gap: 3px;
+    padding: 7px 10px;
+  }
+
+  .taxi-hero-map__flow-step {
+    grid-template-columns: 19px minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  .taxi-hero-map__flow-step strong {
+    font-size: 11px;
+    line-height: 1.2;
+  }
+
+  .taxi-hero-map__flow-number {
+    width: 19px;
+    height: 19px;
+    font-size: 9px;
+  }
+
+  .taxi-hero-map__flow-arrow {
+    width: 11px;
+    height: 11px;
+  }
+
+  .taxi-hero-map__badge {
+    max-width: 72%;
+    font-size: 11px;
+    line-height: 1.25;
+  }
+
+  .taxi-hero-map__request {
+    min-height: 92px;
+    grid-template-columns: 34px minmax(0, 1fr) 22px;
+    gap: 8px;
+    margin: 9px 10px;
+    padding: 9px;
+  }
+
+  .taxi-hero-map__request-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .taxi-hero-map__request-copy > span {
+    font-size: 11px;
+  }
+
+  .taxi-hero-map__request-copy > strong {
+    font-size: 12px;
+  }
+
+  .taxi-hero-map__request-copy p {
+    align-items: flex-start;
+    font-size: 11px;
+  }
+
+  .taxi-hero-map__canvas {
+    height: 212px;
+  }
+
+  .taxi-hero-map__map-summary {
+    max-width: calc(100% - 20px);
+    font-size: 11px;
+  }
+
+  .taxi-hero-map__map-label {
+    display: none;
+  }
+
+  .taxi-hero-map__vehicle--ai {
+    bottom: 8px;
+    left: 8px;
+  }
+
+  .taxi-hero-map__ai-label,
+  .taxi-hero-map__ai-label strong {
+    font-size: 11px;
+  }
+
+  .taxi-hero-map__operator-status {
+    right: 8px;
+    bottom: 8px;
+    max-width: calc(100% - 154px);
+    padding-inline: 7px;
+    font-size: 11px;
+  }
+
+  .taxi-hero-map__car {
+    width: 52px;
+  }
+
+  .taxi-hero-map__car--ordinary {
+    width: 47px;
+  }
+
+  .taxi-hero-map__decision {
+    min-height: 270px;
+    padding: 10px 10px 0;
+  }
+
+  .taxi-hero-map__decision-head {
+    grid-template-columns: 30px minmax(0, 1fr) 22px;
+    gap: 8px;
+  }
+
+  .taxi-hero-map__decision-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .taxi-hero-map__decision-head > strong {
+    font-size: 12px;
+  }
+
+  .taxi-hero-map__candidates {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin-top: 7px;
+  }
+
+  .taxi-hero-map__candidate {
+    min-height: 56px;
+    grid-template-columns: 26px minmax(0, 1fr);
+    padding: 7px 8px;
+  }
+
+  .taxi-hero-map__candidate > div {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 6px;
+  }
+
+  .taxi-hero-map__candidate-id {
+    font-size: 9px;
+  }
+
+  .taxi-hero-map__candidate-id {
+    align-self: center;
+  }
+
+  .taxi-hero-map__candidate strong {
+    margin-top: 0;
+  }
+
+  .taxi-hero-map__candidate p {
+    grid-column: 1 / -1;
+    margin-top: 3px;
+    font-size: 11px;
+  }
+
+  .taxi-hero-map__result {
+    min-height: 68px;
+    grid-template-columns: 30px minmax(0, 1fr) 22px;
+    gap: 7px;
+    margin-top: 7px;
+    padding: 7px 8px;
+  }
+
+  .taxi-hero-map__result-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .taxi-hero-map__result-status {
+    grid-column: 2 / 4;
+    justify-self: start;
+    max-width: 100%;
+    font-size: 11px;
+  }
+
+  .taxi-hero-map__result > .taxi-hero-map__step {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .taxi-hero-map__summary {
+    min-height: 62px;
+    margin: 8px 10px 0;
+    font-size: 11px;
+  }
+
+  .taxi-hero-map__result strong {
+    font-size: 12px;
+  }
+
+  .taxi-hero-map__result p {
+    font-size: 11px;
+  }
+
+  .taxi-hero-map__footer {
+    min-height: 66px;
+    gap: 8px;
+    padding: 7px 10px 10px;
+  }
+
+  .taxi-hero-map__footer p {
+    font-size: 10px;
+  }
+
+  .taxi-hero-map__footer button {
+    width: 44px;
+    padding: 0;
+  }
+
+  .taxi-hero-map__footer button span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 359px) {
+  .taxi-hero-map__flow {
+    grid-template-columns: 1fr;
+    gap: 2px;
+    padding-block: 8px;
+  }
+
+  .taxi-hero-map__flow-arrow {
+    margin-left: 3px;
+    transform: rotate(90deg);
+  }
+
+  .taxi-hero-map__header {
+    padding-inline: 10px;
+  }
+
+  .taxi-hero-map__brand {
+    font-size: 14px;
+  }
+
+  .taxi-hero-map__request {
+    min-height: 98px;
+  }
+
+  .taxi-hero-map__canvas {
+    height: 204px;
+  }
+
+  .taxi-hero-map__summary {
+    min-height: 68px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .taxi-hero-map *,
+  .taxi-hero-map *::before,
+  .taxi-hero-map *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

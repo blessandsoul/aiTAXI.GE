@@ -320,33 +320,83 @@ test('the shared React hook exposes the managed controller to all five cards', (
   }
 });
 
-test('the autonomous hero uses the shared visibility-owned loop and keeps Replay visible', () => {
+test('the autonomous hero map uses the shared visibility-owned loop and keeps Replay visible', () => {
   const source = readFileSync(new URL('../HeroProof.tsx', import.meta.url), 'utf8');
-  const heroStory = readFileSync(new URL('../../home/components/HeroWorkflowStory.tsx', import.meta.url), 'utf8');
-  const heroCss = readFileSync(new URL('../../home/components/hero-workflow-story.css', import.meta.url), 'utf8');
+  const heroMap = readFileSync(new URL('../TaxiHeroMap.tsx', import.meta.url), 'utf8');
+  const heroCss = readFileSync(new URL('../taxi-hero-map.css', import.meta.url), 'utf8');
+  const landingHeroCss = readFileSync(
+    new URL('../../home/components/landing-hero.css', import.meta.url),
+    'utf8',
+  );
   const heroLoop = readFileSync(new URL('../../home/components/lib/demo-loop.mjs', import.meta.url), 'utf8');
 
-  assert.match(source, /<HeroWorkflowStory/u);
-  assert.match(source, /mode="autonomous"/u);
-  assert.match(source, /demoId="taxi-hero-proof"/u);
-  assert.match(source, /productIcon="solar:routing-2-bold-duotone"/u);
-  assert.doesNotMatch(source, /bridgeLabel|bridge:/u);
-  assert.match(heroStory, /createDemoLoop/u);
-  assert.match(heroStory, /threshold:\s*0\.35/u);
-  assert.match(heroStory, /const CYCLE_MS = 6_400/u);
-  assert.match(heroStory, /holdMs:\s*2_000/u);
-  assert.match(heroStory, /controllerRef\.current\?\.replay\(\)/u);
-  assert.match(heroStory, /data-demo-detail=\{`phase-\$\{phase\}`\}/u);
-  assert.match(heroStory, /aria-live="off"/u);
-  assert.match(heroStory, /data-demo-replay="true"/u);
-  assert.match(heroCss, /\.hero-workflow__row\s*\{[\s\S]*?min-height:\s*82px;/u);
-  assert.match(heroCss, /@media \(max-width: 479px\)[\s\S]*?\.hero-workflow__row\s*\{[\s\S]*?min-height:\s*76px;/u);
-  assert.match(heroCss, /\.hero-workflow__replay\s*\{[\s\S]*?min-height:\s*44px;/u);
+  assert.match(source, /<TaxiHeroMap/u);
+  assert.match(heroMap, /useTaxiDemoTimeline\('dispatch'\)/u);
+  assert.match(heroMap, /data-demo-id="taxi-hero-proof"/u);
+  assert.match(heroMap, /data-hero-demo="true"/u);
+  assert.match(heroMap, /data-demo-detail=\{phase\}/u);
+  assert.match(heroMap, /aria-live="off"/u);
+  assert.match(heroMap, /data-demo-replay="true"/u);
+  assert.match(heroMap, /solar:routing-2-bold-duotone/u);
+  assert.match(heroMap, /solar:accessibility-bold-duotone/u);
+  assert.match(heroMap, /solar:battery-charge-bold-duotone/u);
+  assert.match(heroMap, /solar:check-circle-bold-duotone/u);
+  assert.match(heroMap, /solar:close-circle-bold-duotone/u);
+  assert.match(heroMap, /function TaxiVehicleGlyph/u);
+  assert.match(heroMap, /viewBox="0 0 88 40"/u);
+  assert.match(heroMap, /taxi-hero-map__car-body/u);
+  assert.match(heroMap, /taxi-hero-map__car-bonnet/u);
+  assert.match(heroMap, /taxi-hero-map__car-roof/u);
+  assert.match(heroMap, /taxi-hero-map__car-mirror/u);
+  assert.match(heroMap, /taxi-hero-map__taxi-checker/u);
+  assert.match(heroMap, /getPointAtLength/u);
+  assert.match(heroMap, /getScreenCTM/u);
+  assert.match(heroMap, /\.animate\(/u);
+  assert.match(heroMap, /taxi-hero-map__road-car--ai/u);
+  assert.match(heroMap, /taxi-hero-map__request/u);
+  assert.match(heroMap, /taxi-hero-map__candidates/u);
+  assert.match(heroMap, /taxi-hero-map__candidate--selected/u);
+  assert.match(heroMap, /taxi-hero-map__operator-status/u);
+  assert.match(heroMap, /t\('operatorControl'\)/u);
+  assert.match(heroMap, /t\('stageOneTitle'\)/u);
+  assert.match(heroMap, /t\('stageTwoTitle'\)/u);
+  assert.match(heroMap, /t\('vehicleA12Status'\)/u);
+  assert.match(heroMap, /t\('vehicleB07Status'\)/u);
+  assert.match(heroMap, /t\('vehicleC21Status'\)/u);
+  assert.match(heroMap, /t\('stageThreeTitle'\)/u);
+  assert.match(heroMap, /t\('summary'\)/u);
+  assert.doesNotMatch(heroMap, /from 'next\/image'/u);
+  assert.doesNotMatch(heroMap, /PASSENGERS/u);
+  assert.doesNotMatch(heroMap, /ordinaryOption|ordinaryFare|aiFare/u);
+  assert.doesNotMatch(heroMap, /solar:wheel-bold-duotone/u);
+  assert.match(heroCss, /\.taxi-hero-map\s*\{[\s\S]*?min-height:\s*640px;/u);
+  assert.match(heroCss, /\.taxi-hero-map__car-body\s*\{[\s\S]*?fill:\s*currentcolor;/u);
+  assert.match(heroCss, /\.taxi-hero-map__car-wheel\s*\{[\s\S]*?fill:\s*#161a18;/u);
+  assert.match(heroCss, /\.taxi-hero-map__candidates\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\);/u);
+  assert.match(heroCss, /\.taxi-hero-map__candidate--selected\s*\{[\s\S]*?grid-column:\s*1\s*\/\s*-1;/u);
+  assert.match(heroCss, /\.taxi-hero-map__decision\s*\{[\s\S]*?min-height:/u);
+  assert.doesNotMatch(heroCss, /taxi-slow-run|taxi-stalled-run|taxi-ai-run/u);
+  assert.doesNotMatch(heroCss, /\.taxi-hero-map__car::before/u);
+  assert.match(heroCss, /\.taxi-hero-map__footer button\s*\{[\s\S]*?min-height:\s*44px;/u);
+  assert.match(heroCss, /@media \(max-width: 767px\)[\s\S]*?\.taxi-hero-map\s*\{[\s\S]*?min-height:\s*760px;/u);
+  assert.match(heroCss, /@media \(max-width: 767px\)[\s\S]*?\.taxi-hero-map__candidates\s*\{[\s\S]*?grid-template-columns:\s*1fr;/u);
+  assert.match(heroCss, /\.taxi-hero-map__vehicle--ai\s*\{[\s\S]*?width:\s*128px;/u);
+  assert.match(heroCss, /\.taxi-hero-map__operator-status\s*\{[\s\S]*?right:\s*10px;[\s\S]*?bottom:\s*10px;/u);
+  assert.match(heroCss, /\.taxi-hero-map__ai-label\s*\{[\s\S]*?width:\s*100%;/u);
+  assert.match(
+    heroCss,
+    /\.taxi-hero-map__destination\s*\{[\s\S]*?top:\s*0;[\s\S]*?left:\s*0;/u,
+  );
+  assert.match(heroCss, /@media \(prefers-reduced-motion: reduce\)/u);
+  assert.match(
+    landingHeroCss,
+    /@media \(max-width: 767px\)[\s\S]*?\.hero-lead\s*\{[\s\S]*?font-size:\s*clamp\(1\.12rem,\s*5\.15vw,\s*1\.35rem\);/u,
+  );
   assert.doesNotMatch(heroCss, /transition:\s*all/u);
   for (const state of ['idle', 'playing', 'final', 'manual', 'paused']) {
     assert.match(heroLoop, new RegExp(`setDemoState\\('${state}'\\)`, 'u'));
   }
   assert.match(heroLoop, /if \(staticFinalState\)[\s\S]*showFinal\(\)/u);
   assert.match(heroLoop, /pageDocument\?\.hidden/u);
-  assert.doesNotMatch(heroStory, /setInterval|window\.setInterval/u);
+  assert.doesNotMatch(heroMap, /setInterval|window\.setInterval/u);
 });

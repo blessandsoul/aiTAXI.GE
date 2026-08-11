@@ -63,7 +63,7 @@ export const SITE = {
   manifest: {
     name: "aiTAXI",
     short: "aiTAXI",
-    description: "Pre-launch operations software for autonomous taxi fleets: orders, vehicle status, remote help and depot planning.",
+    description: "Pre-launch AI dispatch and fleet operations software for autonomous and mixed taxi fleets: orders, vehicle selection, operator approval, vehicle status and depot work.",
     background: "#fbfcfc",
     theme: "#ffc400",
   },
@@ -74,13 +74,15 @@ export const SITE = {
    */
   seo: {
     disambiguating:
-      "aiTAXI is aiNOW's pre-launch operations platform for autonomous taxi fleets. It is planned for dispatch, vehicle status, remote assistance and depot work. It is not a passenger app and does not build self-driving cars.",
-    serviceType: "Pre-launch operations platform for autonomous taxi fleets",
-    audienceName: "Taxi companies and fleet operators in Georgia and the wider region",
+      "aiTAXI is aiNOW's pre-launch AI dispatch and fleet operations platform for autonomous and mixed taxi fleets. It receives orders, checks vehicle fit and leaves final approval to an operator.",
+    serviceType: "Pre-launch AI dispatch and fleet operations platform for autonomous and mixed taxi fleets",
+    audienceName: "Taxi companies and operators of autonomous or mixed fleets in Georgia",
     areaServed: "GE",
     knowsAbout: [
       "Robotaxi fleet operations",
+      "Mixed taxi fleet operations",
       "Autonomous vehicle dispatch",
+      "Human-supervised vehicle assignment",
       "Fleet telemetry",
       "Remote assistance and teleoperation",
       "Depot operations",
@@ -106,7 +108,7 @@ export const SITE = {
     commitment:
       "aiTAXI is pre-launch. aiNOW starts with a practical fit review and provides a written pilot scope before any implementation decision.",
     summary:
-      "aiTAXI is aiNOW's pre-launch operations platform for autonomous taxi fleets. The planned product brings orders, vehicle status, remote help, depot work and incident records into one operator view. It is not a passenger app, does not build autonomous vehicles and does not represent an operating production fleet.",
+      "aiTAXI is aiNOW's pre-launch AI dispatch and fleet operations platform for autonomous and mixed taxi fleets. It receives an order, checks distance, charge and passenger needs, selects a suitable vehicle and leaves final approval to an operator. The planned product also brings vehicle status, remote help, depot work and incident records into one operator view.",
   },
 } as const;
 

@@ -114,8 +114,8 @@
       "backHome": "Back to Home"
     },
     "home": {
-      "title": "aiTAXI, Robotaxi Fleet Management for Taxi Companies",
-      "description": "Robotaxi fleet management platform by aiNOW (Tbilisi, Georgia): dispatch, telemetry, remote assistance, depot operations and compliance for autonomous taxi fleets."
+      "title": "aiTAXI, planned AI dispatcher for taxi fleets",
+      "description": "aiTAXI is aiNOW's planned platform for autonomous and mixed taxi fleets: order dispatch, vehicle status, remote assistance and depot operations."
     },
     "blog": {
       "title": "Robotaxi Blog",
@@ -191,10 +191,10 @@
       "taglinePrefix": "fleet control that",
       "taglineWorks": "stays clear",
       "owner": "Your",
-      "role": "taxi operator",
-      "lead": "monitors on one screen:",
-      "typewriterPrefill": "vehicles",
-      "typewriterWords": "vehicles,rides,routes,charging,incidents",
+      "role": "taxi fleet dispatcher",
+      "lead": "manages on one screen:",
+      "typewriterPrefill": "orders",
+      "typewriterWords": "orders,vehicles,routes,charging,incidents",
       "pillDispatch": "Dispatch",
       "pillTelemetry": "Telemetry",
       "pillRemote": "Remote assistance",
@@ -202,10 +202,10 @@
       "ctaPrimary": "Request early access",
       "ctaSecondary": "See the modules",
       "audience": "For taxi companies and fleet operators",
-      "sub": "aiTAXI is a planned control board for orders, vehicle health, remote help and depot work. It is pre-launch, not an operating autonomous fleet.",
-      "signedBy": "aiNOW checks the fit with your operation, maps the pilot and shows the proposed workflow.",
-      "commitment": "aiTAXI has not launched. Early access starts with a practical review of your fleet and the systems it already uses.",
-      "ctaResults": "Request early access"
+      "sub": "aiTAXI receives an order, checks the fleet and shows the operator the best vehicle. The operator confirms the final choice.",
+      "signedBy": "aiNOW reviews your fleet and prepares a clear pilot plan.",
+      "commitment": "aiTAXI is pre-launch. aiNOW is selecting the first pilot fleets.",
+      "ctaResults": "Submit a pilot request"
     },
     "work": {
       "s1Title": "A ride request arrives",
@@ -360,15 +360,15 @@
       "headingAccent": "to understand aiTAXI.",
       "subtitle": "What is available now, what is a concept, and where the safety boundary is.",
       "q1": "What is <brand></brand>?",
-      "a1": "aiTAXI is aiNOW's concept and operations platform direction for taxi fleets: ride dispatch, fleet control, charging, depot planning, and safety logs.",
+      "a1": "aiTAXI is aiNOW's planned fleet operations platform. It assigns orders, shows vehicle condition, plans charging and depot work, and helps an operator make the final decision.",
       "q2": "Does aiTAXI already serve passengers?",
       "a2": "No. This page does not sell a live taxi service. It shows how fleet operations can be prepared when vehicles, regulation, and operators are ready.",
       "q3": "Does it drive autonomous cars today?",
       "a3": "aiNOW does not claim to operate driverless cars in the city today. The page describes software logic for fleet planning and supervision.",
       "q4": "What can be built now?",
-      "a4": "Dispatch, booking, depot schedules, operator panels, and reporting can be planned now. Telemetry is added only for vehicles that provide the required data.",
+      "a4": "Order assignment, booking, depot schedules, the operator panel and reporting can be planned now. Vehicle data is connected only where the fleet provides the required access.",
       "q5": "What result does a fleet owner get?",
-      "a5": "A fleet owner gets a staged plan: what can be automated now, what needs vehicle data, and what stays under human control.",
+      "a5": "A fleet owner sees orders, vehicle status, assignments, charging and incidents on one screen. The operator keeps final approval.",
       "q6": "Is the product ready?",
       "a6": "No. aiTAXI is pre-launch. aiNOW is reviewing pilot fit; production use would require a fleet partner, a vehicle platform and separate safety approval.",
       "q7": "How much does it cost?",
@@ -376,7 +376,7 @@
       "q8": "When will robotaxis reach Georgia?",
       "a8": "aiTAXI does not promise a launch date. The timing depends on vehicles, regulation and a qualified operating partner in Georgia.",
       "q9": "Which autonomous vehicle platforms does aiTAXI support?",
-      "a9": "aiTAXI is vehicle-agnostic by design: integration targets the AV platforms that enter the Georgian market. The pilot defines the first integration together with the partner fleet.",
+      "a9": "aiTAXI is not tied to one vehicle manufacturer. The first pilot fleet determines which vehicle platform is connected first.",
       "q10": "Who builds aiTAXI?",
       "a10": "aiTAXI is built by aiNOW, an AI company in Tbilisi. aiNOW builds AI systems for Georgian businesses: chatbots, automation and content platforms."
     },
@@ -420,18 +420,33 @@
       }
     },
     "heroStory": {
-      "badge": "Pre-launch simulation",
-      "inputLabel": "New ride",
-      "input": "From Rustaveli Avenue to Vake. Wheelchair space required.",
-      "productLabel": "aiTAXI selects a vehicle",
-      "productAction": "Checks distance, charge, and accessibility.",
-      "detailOne": "Compatible vehicle found",
-      "detailTwo": "Route is visible to the operator",
-      "resultLabel": "Operator confirms",
-      "result": "Vehicle assigned. Pickup status is visible on one screen.",
-      "businessLabel": "What the fleet gets",
-      "businessValue": "The right vehicle and full control on one screen.",
-      "replay": "Replay"
+      "badge": "Illustrative simulation",
+      "replay": "Replay",
+      "mapLabel": "Illustrative city map",
+      "mapSummary": "1 request · 3 vehicles · 1 right choice",
+      "flowLabel": "How the request is assigned",
+      "flowRequest": "Order received",
+      "flowSelected": "A12 selected",
+      "flowConfirmed": "Operator approved",
+      "stageOneTitle": "A ride request arrives",
+      "stageOneRoute": "Rustaveli Avenue to Vake",
+      "stageOneRequirement": "A wheelchair-accessible vehicle is required",
+      "stageTwoTitle": "aiTAXI checks three fleet vehicles",
+      "vehicleA12Status": "Suitable",
+      "vehicleA12Reason": "Nearby · 78% charge · accessible",
+      "vehicleB07Status": "Not suitable",
+      "vehicleB07Reason": "Not wheelchair accessible",
+      "vehicleC21Status": "Not suitable",
+      "vehicleC21Reason": "Not enough charge for the trip",
+      "stageThreeTitle": "A12 is selected",
+      "stageThreeDetail": "Pickup in 3 minutes · 78% charge",
+      "stageThreeAction": "Operator confirmed",
+      "operatorControl": "Operator is reviewing",
+      "summary": "The order arrived. aiTAXI selected A12. The operator approved the decision.",
+      "finding": "checking vehicles",
+      "routing": "selecting A12",
+      "arrived": "A12 selected",
+      "simulationNote": "Illustrative data. aiTAXI does not yet operate a real fleet."
     },
     "proof": {
       "fleet": "Sample fleet board",
@@ -450,8 +465,8 @@
       "line": "Orders, vehicle status and operator decisions on one clear board."
     },
     "seo": {
-      "title": "aiTAXI: planned operations platform for taxi fleets",
-      "description": "A pre-launch aiNOW platform for dispatch, vehicle status, remote help and depot planning. Pilot-fit reviews are open for Georgian taxi companies."
+      "title": "aiTAXI: planned AI dispatcher for taxi fleets | aiNOW",
+      "description": "aiTAXI is aiNOW's planned platform for autonomous and mixed taxi fleets: orders, vehicle status, remote assistance and depot operations."
     }
   }
 }

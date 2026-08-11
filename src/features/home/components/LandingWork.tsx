@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
-import { SITE } from '@/config/site';
 import './landing-work.css';
 
 /* =========================================================================

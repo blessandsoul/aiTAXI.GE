@@ -29,9 +29,10 @@ import { CONTACT_EMAIL, CONTACT_PHONE } from '@/lib/constants/app.constants';
 
 const ORG_ID = 'https://ainow.ge#organization';
 const SERVICE_ID = `${SITE.baseUrl}/#service`;
+const SOFTWARE_ID = `${SITE.baseUrl}/#software`;
 const SITE_ID = `${SITE.baseUrl}/#website`;
 const FAQ_LIMIT = 5;
-const CONTENT_MODIFIED = '2026-07-14';
+const CONTENT_MODIFIED = '2026-07-31';
 const AINOW_SAME_AS = [
   'https://www.facebook.com/ainow.ge',
   'https://www.instagram.com/ainow.ge/',
@@ -126,7 +127,27 @@ const service = {
     : {}),
   // Stated limits are a trust signal for a human and a routing signal for a model. A page
   // that admits what it cannot do is the one an assistant can safely recommend.
-  disambiguatingDescription: `${SITE.seo.boundary} Known limits: ${SITE.seo.limits.join(' ')}`,
+  disambiguatingDescription: `${SITE.seo.disambiguating} ${SITE.seo.boundary} Known limits: ${SITE.seo.limits.join(' ')}`,
+};
+
+const software = {
+  '@type': 'SoftwareApplication',
+  '@id': SOFTWARE_ID,
+  name: BRAND,
+  url: SITE.baseUrl,
+  image: `${SITE.baseUrl}/og-image.png`,
+  applicationCategory: 'BusinessApplication',
+  applicationSubCategory: 'Taxi fleet dispatch and operations',
+  operatingSystem: 'Web',
+  description: SITE.manifest.description,
+  keywords: [...SITE.seo.knowsAbout],
+  featureList: [...SITE.seo.features],
+  creator: { '@id': ORG_ID },
+  audience: {
+    '@type': 'BusinessAudience',
+    name: SITE.seo.audienceName,
+  },
+  disambiguatingDescription: SITE.seo.disambiguating,
 };
 
 const website = {
@@ -142,7 +163,7 @@ const website = {
 
 const graph = {
   '@context': 'https://schema.org',
-  '@graph': [organization, service, website],
+  '@graph': [organization, service, software, website],
 };
 
 export function StructuredData() {
