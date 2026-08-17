@@ -8,13 +8,16 @@
     "fetch-covers": "node scripts/fetch-covers.mjs",
     "fetch-covers:force": "node scripts/fetch-covers.mjs --force",
     "indexnow": "node scripts/indexnow-ping.mjs",
+    "prebuild": "npm run blog:quality",
     "build": "next build",
+    "blog:quality": "node scripts/blog-quality-gate.mjs",
     "start": "next start",
     "lint": "eslint",
     "test:showcase": "node --test src/features/home/components/*.test.mjs src/features/showcase/taxi-demos/*.test.mjs src/messages/*.test.mjs"
   },
   "dependencies": {
     "@dagrejs/dagre": "^2.0.4",
+    "@fontsource/firago": "^5.3.0",
     "@hello-pangea/dnd": "^18.0.1",
     "@hookform/resolvers": "^5.2.2",
     "@iconify/react": "^6.0.2",
