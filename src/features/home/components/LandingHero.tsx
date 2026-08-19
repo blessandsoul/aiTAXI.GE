@@ -168,12 +168,13 @@ export function LandingHero() {
           explanation and the button and the promise (C). The first cut of this shipped the panel
           above everything with `order-first`, so a phone opened on a black call widget with no
           brand and no headline anywhere on screen: the product before the reader knew whose it was.
-          At lg the explicit col/row starts fold A and C back into one column and let B span both. */}
+          At lg A and C share one nested copy column while B owns the right column. */}
       <div data-family-shell="true" className="hero-family-shell relative z-10 mx-auto min-w-0">
-        <div className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-x-16 lg:gap-y-6">
+        <div className="grid min-w-0 gap-8 grid-cols-[minmax(0,1fr)] lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-x-16 lg:gap-y-6">
+          <div className="hero-copy-column">
           {/* A. audience and the pain. Product identity stays in the navigation;
               the value proposition now owns the first hero line. */}
-          <div className="hero-copy-intro order-1 min-w-0 text-center lg:order-0 lg:col-start-1 lg:row-start-1 lg:self-start lg:text-left">
+          <div className="hero-copy-intro order-1 min-w-0 text-center lg:order-0 lg:text-left">
             <div className="hero-product-wordmark wordmark-3d">
               <span className="wm-prefix">{SITE.wordmark.prefix}</span>
               <span className="wm-mark">{SITE.wordmark.mark}</span>
@@ -225,25 +226,14 @@ export function LandingHero() {
                 <span className="tw-caret" aria-hidden="true">|</span>
               </span>
             </p>
-          </div>
 
-          {/* B. THE PRODUCT, in one frame.
-              This is the fix the audit put first. Every one of the six pages used to open with a
-              giant wordmark and hide the demo three screens down, so a stranger spent his five
-              seconds looking at a logo and left knowing nothing. HeroProof is per-site and it is
-              the one thing on this screen that answers "what is it" without a single word being
-              read: aiCALL shows a call confirming a row, aiDOCS shows a receipt collapsing into a
-              ledger line, vibecoding shows a redacted key it just found. */}
-          <div className="relative order-2 min-w-0 lg:order-0 lg:col-start-2 lg:row-start-1 lg:row-span-2">
-            <HeroProof />
+            <p className="hero-clarity mx-auto mt-5 max-w-xl text-pretty text-[16px] leading-relaxed text-[#525252] lg:mx-0 md:text-[17px]">
+              {t('sub')}
+            </p>
           </div>
 
           {/* C. how it works, the one button, the promise, the family */}
-          <div className="hero-copy-detail order-3 min-w-0 text-center lg:order-0 lg:col-start-1 lg:row-start-2 lg:text-left">
-            <p className="mx-auto max-w-xl text-pretty text-[16px] leading-relaxed text-[#525252] lg:mx-0 md:text-[17px]">
-              {t('sub')}
-            </p>
-
+          <div className="hero-copy-detail order-2 min-w-0 text-center lg:order-0 lg:text-left">
         <div className="hero-extras">
           <div className="mt-8 flex flex-col sm:flex-row justify-center lg:justify-start items-center gap-3 sm:gap-4">
             <MagneticButton className="w-full sm:w-auto">
@@ -281,6 +271,18 @@ export function LandingHero() {
           </div>
 
           </div>
+          </div>
+          </div>
+
+          {/* B. THE PRODUCT, in one frame.
+              This is the fix the audit put first. Every one of the six pages used to open with a
+              giant wordmark and hide the demo three screens down, so a stranger spent his five
+              seconds looking at a logo and left knowing nothing. HeroProof is per-site and it is
+              the one thing on this screen that answers "what is it" without a single word being
+              read: aiCALL shows a call confirming a row, aiDOCS shows a receipt collapsing into a
+              ledger line, vibecoding shows a redacted key it just found. */}
+          <div className="relative order-3 min-w-0 lg:order-0 lg:col-start-2 lg:row-start-1">
+            <HeroProof />
           </div>
         </div>
       </div>
