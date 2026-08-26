@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { SITE } from '@/config/site';
 import { buildAlternates } from '@/i18n/seo-locales';
-import { HomeFaqSchema } from '@/components/seo/StructuredData';
 import { LandingHero } from '@/features/home/components/LandingHero';
 import { LandingBody } from '@/features/home/components/LandingBody';
 import { LandingFaq } from '@/features/home/components/LandingFaq';
@@ -56,10 +55,6 @@ export default async function HomePage({ params }: Props) {
 
   return (
     <>
-      {/* FAQPage, generated from the same 14 keys the visible accordion renders, so the
-          schema can never contradict the page. A model that reads this gets the whole
-          product argument, objections included, without parsing a single React component. */}
-      <HomeFaqSchema locale={locale} />
       <div className="landing-page">
         <LandingHero />
         <LandingBody />

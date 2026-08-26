@@ -82,6 +82,13 @@ export function BlogArticle({
         </section>
       ) : null}
 
+      <section className="article-next-step" data-family-shell="true" data-business-cta="true" data-product-bridge="true" aria-labelledby="article-next-step-heading">
+        <p>{copy.nextStepEyebrow}</p>
+        <h2 id="article-next-step-heading">{copy.nextStepTitle}</h2>
+        <div>{copy.nextStepBody}</div>
+        <Link href="/contact">{copy.nextStepAction}<Ico name="solar:arrow-right-linear" aria-hidden="true" /></Link>
+      </section>
+
       {related.length > 0 ? (
         <section className="article-related" data-family-shell="true" aria-labelledby="article-related-heading">
           <h2 id="article-related-heading">{copy.related}</h2>
