@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { SITE } from '@/config/site';
 import { buildAlternates } from '@/i18n/seo-locales';
 import { LandingHero } from '@/features/home/components/LandingHero';
+import { MetaTrustStrip } from '@/features/home/components/MetaTrustStrip';
 import { LandingBody } from '@/features/home/components/LandingBody';
 import { LandingFaq } from '@/features/home/components/LandingFaq';
 import { LandingCta } from '@/features/home/components/LandingCta';
@@ -57,6 +58,7 @@ export default async function HomePage({ params }: Props) {
     <>
       <div className="landing-page">
         <LandingHero />
+        <MetaTrustStrip />
         <LandingBody />
         <LandingFaq />
         <LandingCta />
