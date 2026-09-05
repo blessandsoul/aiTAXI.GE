@@ -22,7 +22,7 @@ export function ContactChallenge({ onToken, errorText }: { onToken: (token: stri
       sitekey: CONTACT_CHALLENGE_SITE_KEY,
       action: "contact",
       theme: "auto",
-      size: "flexible",
+      size: container.current.clientWidth < 300 ? "compact" : "flexible",
       appearance: "interaction-only",
       callback: (token: string) => { setFailed(false); onToken(token); },
       "expired-callback": () => onToken(""),
