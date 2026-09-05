@@ -92,7 +92,7 @@ const service = {
   brand: { '@type': 'Brand', name: BRAND },
   serviceType: SITE.seo.serviceType,
   url: SITE.baseUrl,
-  image: `${SITE.baseUrl}/og-image.png`,
+  image: `${SITE.baseUrl}/og/landing-20260905.png`,
   description: SITE.manifest.description,
   provider: { '@id': ORG_ID },
   areaServed:
@@ -135,7 +135,7 @@ const software = {
   '@id': SOFTWARE_ID,
   name: BRAND,
   url: SITE.baseUrl,
-  image: `${SITE.baseUrl}/og-image.png`,
+  image: `${SITE.baseUrl}/og/landing-20260905.png`,
   applicationCategory: 'BusinessApplication',
   applicationSubCategory: 'Taxi fleet dispatch and operations',
   operatingSystem: 'Web',
