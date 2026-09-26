@@ -4,6 +4,7 @@ import { Link } from '@/i18n/navigation';
 
 import { extractHeadings } from '../lib/blog';
 import { getBlogCopy } from '../lib/copy';
+import { BlogCoverImage, getSafeBlogCoverImage } from './BlogCoverImage';
 
 import type { BlogPost, BlogPostMeta } from '../types';
 
@@ -26,6 +27,7 @@ export function BlogArticle({
 }) {
   const copy = getBlogCopy(post.locale);
   const headings = extractHeadings(post.content);
+  const cover = getSafeBlogCoverImage(post.coverImage);
 
   return (
     <article className="product-article" data-blog-article="true">
@@ -47,14 +49,16 @@ export function BlogArticle({
         </div>
       </header>
 
-      <div className="article-cover" data-family-shell="true" aria-hidden="true">
-        <div className="article-cover-grid" />
-        <div className="wordmark-3d article-cover-mark">
-          <span className="wm-prefix">{SITE.wordmark.prefix}</span>
-          <span className="wm-mark">{SITE.wordmark.mark}</span>
-          <span className="wm-accent" />
-        </div>
-        <Ico name="solar:document-text-bold-duotone" />
+      <div className="article-cover" data-family-shell="true" aria-hidden={cover ? undefined : true}>
+        {cover ? <BlogCoverImage src={cover} alt={post.title} className="article-cover-media" priority /> : <>
+          <div className="article-cover-grid" />
+          <div className="wordmark-3d article-cover-mark">
+            <span className="wm-prefix">{SITE.wordmark.prefix}</span>
+            <span className="wm-mark">{SITE.wordmark.mark}</span>
+            <span className="wm-accent" />
+          </div>
+          <Ico name="solar:document-text-bold-duotone" />
+        </>}
       </div>
 
       <div className="article-layout" data-family-shell="true">

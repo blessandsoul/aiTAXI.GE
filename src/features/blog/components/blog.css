@@ -103,6 +103,20 @@
   transition: transform 180ms cubic-bezier(.23, 1, .32, 1), border-color 180ms ease, box-shadow 180ms ease;
 }
 
+.blog-card-cover {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.blog-card-cover img,
+.article-cover-media img {
+  object-fit: cover;
+}
+
 .blog-card:hover {
   transform: translateY(-3px);
   border-color: color-mix(in srgb, var(--brand) 45%, #d0d5dd);
@@ -271,6 +285,11 @@
   opacity: .42;
   background-image: radial-gradient(color-mix(in srgb, var(--brand) 52%, transparent) 1px, transparent 1px);
   background-size: 18px 18px;
+}
+
+.article-cover-media {
+  position: absolute;
+  inset: 0;
 }
 
 .article-cover-mark { position: relative; z-index: 1; font-size: clamp(36px, 5vw, 72px); }

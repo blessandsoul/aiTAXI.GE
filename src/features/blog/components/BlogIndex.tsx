@@ -4,6 +4,7 @@ import NextLink from 'next/link';
 import { localePath } from '@/i18n/seo-locales';
 
 import { getBlogCopy } from '../lib/copy';
+import { BlogCoverImage, getSafeBlogCoverImage } from './BlogCoverImage';
 
 import type { BlogPostMeta } from '../types';
 
@@ -49,8 +50,10 @@ export function BlogIndex({ posts, locale, contentLocale = locale }: { posts: Bl
           <p className="blog-empty">{copy.empty}</p>
         ) : (
           <div className="blog-card-grid">
-            {posts.map((post) => (
-              <NextLink key={post.slug} href={localePath(post.locale, `/blog/${post.slug}`)} className="blog-card">
+            {posts.map((post) => {
+              const cover = getSafeBlogCoverImage(post.coverImage);
+              return <NextLink key={post.slug} href={localePath(post.locale, `/blog/${post.slug}`)} className="blog-card">
+                {cover ? <BlogCoverImage src={cover} alt="" className="blog-card-cover" /> : null}
                 <div className="blog-card-topline">
                   <span className="blog-card-cluster">{post.cluster}</span>
                   <Ico name="solar:arrow-right-up-bold-duotone" aria-hidden="true" />
@@ -63,8 +66,8 @@ export function BlogIndex({ posts, locale, contentLocale = locale }: { posts: Bl
                   <span>{post.readTime}</span>
                 </div>
                 <span className="blog-card-link">{copy.read}</span>
-              </NextLink>
-            ))}
+              </NextLink>;
+            })}
           </div>
         )}
       </section>
