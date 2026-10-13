@@ -16,90 +16,69 @@ interface TableOfContentsProps {
 
 const emptySubscribe = () => () => {}
 
+function slugifyHeading(text: string, index: number): string {
+    const slug = text.toLowerCase().trim().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '')
+    return slug ? `article-${slug}` : `article-heading-${index}`
+}
+
 export function TableOfContents({ content }: TableOfContentsProps) {
-    const [activeId, setActiveId] = useState<string>('')
+    const [activeId, setActiveId] = useState('')
+    const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false)
 
-    // false on the server and the first client render, true once mounted. The
-    // original parsed headings in an effect (client-only, since DOMParser is
-    // browser-only); gating the parse on this flag keeps DOMParser off the
-    // server and makes the first client render match the SSR output (empty TOC).
-    const mounted = useSyncExternalStore(
-        emptySubscribe,
-        () => true,
-        () => false,
-    )
-
-    // Parse headings from HTML content (client-only, after mount).
     const items = useMemo<TOCItem[]>(() => {
         if (!mounted) return []
-
-        const parser = new DOMParser()
-        const doc = parser.parseFromString(content, 'text/html')
-        const headings = doc.querySelectorAll('h2, h3')
-        const tocItems: TOCItem[] = []
-
-        headings.forEach((heading, index) => {
-            const id = heading.id || `heading-${index}`
-            tocItems.push({
-                id,
-                text: heading.textContent || '',
-                level: parseInt(heading.tagName[1]),
-            })
-        })
-
-        return tocItems
+        const doc = new DOMParser().parseFromString(content, 'text/html')
+        return Array.from(doc.querySelectorAll('h2, h3')).map((heading, index) => ({
+            id: heading.id || slugifyHeading(heading.textContent || '', index),
+            text: heading.textContent?.trim() || '',
+            level: Number(heading.tagName.slice(1)),
+        }))
     }, [content, mounted])
 
-    // Observe headings for active state
     useEffect(() => {
         if (!items.length) return
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setActiveId(entry.target.id)
-                    }
-                })
-            },
-            { rootMargin: '-80px 0px -70% 0px', threshold: 0.1 }
-        )
-
-        items.forEach((item) => {
-            const el = document.getElementById(item.id)
-            if (el) observer.observe(el)
+        const headings = Array.from(document.querySelectorAll<HTMLElement>('[data-article-content] h2, [data-article-content] h3'))
+        items.forEach((item, index) => {
+            const heading = headings[index]
+            if (heading && !heading.id) heading.id = item.id
         })
 
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) setActiveId(entry.target.id)
+            })
+        }, { rootMargin: '-96px 0px -70% 0px', threshold: 0.1 })
+        headings.forEach((heading) => observer.observe(heading))
         return () => observer.disconnect()
     }, [items])
 
     if (items.length < 2) return null
 
     return (
-        <nav aria-label="Table of Contents" className="rounded-xl border border-[#e5e5e5] bg-white p-4">
-            <div className="flex items-center gap-2 text-sm font-semibold text-neutral-900 mb-3">
-                <Ico name="solar:list-bold-duotone" className="w-4 h-4 text-[#ffc400]" />
-                <span>სარჩელი</span>
+        <nav aria-label="Table of Contents" className="dodo-glass-box min-w-0 overflow-hidden p-4 sm:p-5">
+            <div className="mb-3 flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white">
+                <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-300">
+                    <Ico name="solar:list-bold-duotone" className="size-4" />
+                </span>
+                <span>სარჩევი</span>
             </div>
-            <ol className="space-y-1">
+            <ol className="min-w-0 space-y-1 border-l border-slate-200 pl-3 dark:border-white/10">
                 {items.map((item) => (
-                    <li key={item.id}>
+                    <li key={item.id} className="min-w-0">
                         <a
                             href={`#${item.id}`}
-                            onClick={(e) => {
-                                e.preventDefault()
-                                const el = document.getElementById(item.id)
-                                if (el) {
-                                    const top = el.getBoundingClientRect().top + window.scrollY - 100
-                                    window.scrollTo({ top, behavior: 'smooth' })
+                            onClick={(event) => {
+                                event.preventDefault()
+                                const element = document.getElementById(item.id)
+                                if (element) {
+                                    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+                                    element.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' })
                                 }
                             }}
                             className={cn(
-                                "block py-1 text-sm transition-all duration-200 hover:text-[#ffc400]",
-                                item.level === 3 && "pl-4",
-                                activeId === item.id
-                                    ? "text-[#ffc400] font-medium"
-                                    : "text-[#525252]"
+                                'block min-w-0 break-words rounded-lg px-2 py-1.5 text-sm leading-5 transition-[background-color,color] duration-200 hover:bg-blue-50 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:hover:bg-blue-500/10 dark:hover:text-blue-200',
+                                item.level === 3 && 'pl-5 text-[13px]',
+                                activeId === item.id ? 'bg-blue-50 font-semibold text-blue-700 dark:bg-blue-500/10 dark:text-blue-200' : 'text-slate-600 dark:text-slate-300',
                             )}
                         >
                             {item.text}
@@ -107,6 +86,6 @@ export function TableOfContents({ content }: TableOfContentsProps) {
                     </li>
                 ))}
             </ol>
-        </nav >
+        </nav>
     )
 }

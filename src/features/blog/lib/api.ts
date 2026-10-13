@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { getAllPosts, getPostBySlug as getMdxPost } from './mdx'
+import { getAllPosts, getPostBySlug as getMdxPost, getPostSlugs } from './mdx'
 import { BlogPost } from '../types'
 import { INDEXED_LOCALES } from '@/i18n/seo-locales'
 
@@ -9,11 +9,18 @@ type CoverMapping = Record<string, {
     path: string
     credit: string
     creditUrl: string
-    source: 'unsplash' | 'pexels'
+    source: 'generated' | 'unsplash' | 'pexels'
     sourceUrl: string
 }>
 
 let coverMapping: CoverMapping | null = null
+
+function toSerializableText(value: unknown): string {
+    if (value instanceof Date) return value.toISOString().slice(0, 10)
+    if (typeof value === 'string') return value
+    if (value === null || value === undefined) return ''
+    return String(value)
+}
 
 function getCoverMapping(): CoverMapping {
     if (coverMapping) return coverMapping
@@ -34,15 +41,21 @@ function getCoverMapping(): CoverMapping {
 
 const ensureDefaults = (post: Partial<BlogPost>) => {
     if (!post.tags || !Array.isArray(post.tags)) post.tags = []
+    // gray-matter can parse an ISO frontmatter date into a Date. Client components
+    // must only receive renderable values, so normalize it before it reaches cards,
+    // metadata, JSON-LD, or the article template.
+    post.date = toSerializableText(post.date)
+    if (post.updated) post.updated = toSerializableText(post.updated)
+    if (post.readTime) post.readTime = toSerializableText(post.readTime)
     // Frontmatter `author` is historically a plain string ("Andrew Altair" or
     // "Andrew Altair / Founder") while consumers read author.name / author.role -
     // without normalization Article JSON-LD shipped an empty Person on every post.
     const rawAuthor = post.author as unknown
     if (typeof rawAuthor === 'string') {
         const [name, role] = rawAuthor.split(/\s*\/\s*/)
-        post.author = { name: name?.trim() || 'Andrew Altair', role: role?.trim() || 'Founder' }
+        post.author = { name: name?.trim() || 'aiNOW', ...(role?.trim() ? { role: role.trim() } : {}) }
     } else if (!rawAuthor || typeof (rawAuthor as { name?: unknown }).name !== 'string') {
-        post.author = { name: 'Andrew Altair', role: 'Founder' }
+        post.author = { name: 'aiNOW' }
     }
     return post
 }
@@ -97,6 +110,8 @@ export async function getPosts(locale: string = 'ka'): Promise<BlogPost[]> {
         'id',
         'title',
         'date',
+        'updated',
+        'readTime',
         'slug',
         'author',
         'coverImage',
@@ -110,6 +125,7 @@ export async function getPostBySlug(slug: string, locale: string = 'ka'): Promis
     const post = getMdxPost(slug, locale, [
         'title',
         'date',
+        'updated',
         'slug',
         'author',
         'content',
@@ -142,11 +158,10 @@ export async function getRelatedPosts(currentSlug: string, locale: string = 'ka'
 // Only INDEXED_LOCALES are advertised in hreflang, even if a draft-locale .mdx happens to exist.
 // A locale lights up here automatically once it is promoted in src/i18n/seo-locales.ts.
 export function getAvailableLocales(slug: string): string[] {
-    return INDEXED_LOCALES.filter(locale => {
-        const filePath = path.join(process.cwd(), 'content/blog', locale, `${slug}.mdx`)
-        return fs.existsSync(filePath)
-    })
+    return INDEXED_LOCALES.filter(locale => getPostSlugs(locale).includes(`${slug}.mdx`))
 }
+
+export { getPostSlugs }
 
 // Tag <-> URL slug helpers (shared with client components)
 export { tagToSlug } from './slugify'
@@ -165,13 +180,25 @@ export async function getAllTags(locale: string = 'ka'): Promise<{ tag: string; 
         .sort((a, b) => b.count - a.count)
 }
 
+function decodeTagSlugParam(slug: string): string | undefined {
+    try {
+        const decoded = decodeURIComponent(slug)
+        if (/[/%\\\u0000-\u001F\u007F]/u.test(decoded)) return undefined
+        return decoded
+    } catch {
+        return undefined
+    }
+}
+
 export async function getTagBySlug(slug: string, locale: string = 'ka'): Promise<{ tag: string; posts: BlogPost[] } | undefined> {
     const all = await getPosts(locale)
+    const decodedSlug = decodeTagSlugParam(slug)
+    if (!decodedSlug) return undefined
     // Find the tag name whose slug matches (first match wins)
     let matchedTag: string | undefined
     for (const p of all) {
         for (const t of (p.tags || [])) {
-            if (tagToSlug(t) === slug) {
+            if (tagToSlug(t) === decodedSlug) {
                 matchedTag = t
                 break
             }
@@ -179,12 +206,13 @@ export async function getTagBySlug(slug: string, locale: string = 'ka'): Promise
         if (matchedTag) break
     }
     if (!matchedTag) return undefined
-    const posts = all.filter(p => (p.tags || []).some(t => tagToSlug(t) === slug))
+    const matchedSlug = tagToSlug(matchedTag)
+    const posts = all.filter(p => (p.tags || []).some(t => tagToSlug(t) === matchedSlug))
     return { tag: matchedTag, posts }
 }
 
 export async function getAllTagSlugsAcrossLocales(): Promise<{ locale: string; slug: string }[]> {
-    const locales = ['ka', 'en', 'ru']
+    const locales = ['ka', 'en', 'ru', 'de', 'tr', 'fa', 'zh']
     const out: { locale: string; slug: string }[] = []
     for (const locale of locales) {
         const tags = await getAllTags(locale)
@@ -206,3 +234,4 @@ export async function getPostWithFallback(slug: string, locale: string): Promise
 
     return undefined
 }
+

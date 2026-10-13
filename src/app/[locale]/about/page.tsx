@@ -1,186 +1,121 @@
-import type { Metadata } from "next";
-import Image from "next/image";
-import { useTranslations, useLocale } from "next-intl";
-import { getTranslations } from "next-intl/server";
-import { team } from "@/features/about/data/team";
-import { SectionContainer } from "@/components/layout/SectionContainer";
-import { FadeIn } from "@/components/common/FadeIn";
-import { cn } from "@/lib/utils";
+import type { Metadata } from 'next';
+import { AiNowImage as Image } from '@/features/home/components/ainow/AiNowImage';
+import Link from 'next/link';
 
-type Props = {
-  params: Promise<{ locale: string }>;
-};
+import { FadeIn } from '@/components/common/FadeIn';
+import { SectionContainer } from '@/components/layout/SectionContainer';
+import { getAboutContent } from '@/features/about/data/about-content';
+import { publicTeam } from '@/features/about/data/team';
+import { ownerServiceMetadata } from '@/lib/owner-seo';
+import { getPageContentLocale } from '@/i18n/seo-locales';
+import { cn } from '@/lib/utils';
+
+type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "seo.about" });
-
-  const path = "/about";
-  return {
-    title: t("title"),
-    description: t("description"),
-    alternates: {
-      canonical: locale === "ka" ? `https://aitaxi.ge${path}` : `https://aitaxi.ge/${locale}${path}`,
-      languages: { ka: `https://aitaxi.ge${path}`, en: `https://aitaxi.ge/en${path}`, ru: `https://aitaxi.ge/ru${path}`, 'x-default': `https://aitaxi.ge${path}` },
-    },
-    openGraph: {
-      title: t("title"),
-      description: t("description"),
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: t("title"),
-      description: t("description"),
-    },
-  };
+  const copy = getAboutContent(locale);
+  const contentLocale = getPageContentLocale('/about', locale);
+  return ownerServiceMetadata({
+    locale: contentLocale,
+    path: '/about',
+    title: copy.title,
+    description: copy.description,
+  });
 }
-
-// Eyebrow label shared across sections, mono, uppercase, wide tracking (landing look).
 function Eyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="text-xs font-mono uppercase tracking-[0.3em] text-[#525252]">
-      {children}
-    </p>
-  );
+  return <p className="font-mono text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">{children}</p>;
 }
 
-// The three pillars of the aiTAXI effort: platform, research, pilot program.
-const FLAGSHIPS = [
-  { key: "build1", color: "#ffc400" },
-  { key: "build2", color: "#2563eb" },
-  { key: "build3", color: "#10b981", soon: true },
-] as const;
-
-export default function AboutPage() {
-  const t = useTranslations("about");
-  const locale = useLocale();
-  // Localized field with an English fallback (team.ts ships ka/en).
-  const pick = (m: { ka: string; en: string }) =>
-    (m as Record<string, string>)[locale] ?? m.en;
+export default async function AboutPage({ params }: Props) {
+  const { locale } = await params;
+  const copy = getAboutContent(locale);
+  const pick = (value: { ka: string; en: string }) => (value as Record<string, string>)[locale] ?? value.en;
 
   return (
-    <div className="landing-page">
-      <div className="space-y-20 py-16 md:space-y-28 md:py-24">
-        {/* Mission */}
+    <div className="ainow-blueprint-bg min-h-dvh text-slate-900 dark:text-slate-100">
+      <div className="space-y-14 py-12 md:space-y-20 md:py-20">
         <SectionContainer>
           <FadeIn>
-            <div className="mx-auto max-w-2xl text-center">
-              <Eyebrow>aiTAXI · by aiNOW</Eyebrow>
-              <h1 className="mt-4 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-neutral-900 md:text-6xl">
-                {t("title")}
-              </h1>
-              <p className="mt-6 text-lg leading-relaxed text-[#525252]">
-                {t("mission")}
-              </p>
+            <div className="mx-auto max-w-3xl text-center">
+              <Eyebrow>aiNOW</Eyebrow>
+              <h1 className="mt-4 font-headline text-balance text-3xl font-semibold leading-[1.05] tracking-[-0.04em] text-slate-950 md:text-4xl lg:text-5xl dark:text-white">{copy.title}</h1>
+              <p className="mt-6 text-lg leading-relaxed text-slate-600 dark:text-slate-300">{copy.description}</p>
             </div>
           </FadeIn>
         </SectionContainer>
 
-        {/* What we build, the 3 flagship products */}
         <SectionContainer>
           <FadeIn>
-            <h2 className="text-center font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-neutral-900 md:text-6xl">
-              {t("buildTitle")}
-            </h2>
+            <div className="mx-auto max-w-3xl text-center">
+              <Eyebrow>aiNOW PIPELINE</Eyebrow>
+              <h2 className="mt-3 font-headline text-2xl font-semibold leading-tight tracking-[-0.035em] text-slate-950 md:text-4xl dark:text-white">{copy.pipelineTitle}</h2>
+              <p className="mt-4 text-base leading-relaxed text-slate-600 dark:text-slate-300">{copy.pipelineDescription}</p>
+            </div>
           </FadeIn>
-          <div className="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-3">
-            {FLAGSHIPS.map((f, i) => (
-              <FadeIn key={f.key} delay={i * 0.08}>
-                <div
-                  className={cn(
-                    "flex h-full flex-col rounded-2xl border border-[#e5e5e5] bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md",
-                    "soon" in f && f.soon && "opacity-80"
-                  )}
-                >
-                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#737373]">
-                    {t(`${f.key}Tag`)}
-                  </span>
-                  <h3
-                    className="mt-3 font-display text-2xl font-extrabold tracking-tight"
-                    style={{ color: f.color }}
-                  >
-                    {t(`${f.key}Name`)}
-                  </h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-[#525252]">
-                    {t(`${f.key}Desc`)}
-                  </p>
+          <div className="mx-auto mt-10 grid max-w-6xl gap-3 md:grid-cols-7">
+            {copy.pipeline.map((step, index) => (
+              <FadeIn key={step.id} delay={index * 0.05}>
+                <div className="dodo-glass-card relative h-full p-4">
+                  <span className="font-mono text-[10px] font-bold tracking-[0.14em]" style={{ color: step.color }}>0{index + 1} · {step.name}</span>
+                  <h3 className="mt-3 font-headline text-lg font-semibold leading-tight tracking-[-0.025em] text-slate-950 dark:text-white">{step.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{step.description}</p>
+                  {index < copy.pipeline.length - 1 ? <span className="dodo-glass-inset absolute -bottom-5 left-1/2 z-10 hidden h-7 w-7 -translate-x-1/2 items-center justify-center text-slate-500 dark:text-slate-300 md:flex">→</span> : null}
                 </div>
               </FadeIn>
             ))}
           </div>
         </SectionContainer>
 
-        {/* Team, 2 founders + Head of Sales */}
         <SectionContainer>
           <FadeIn>
-            <h2 className="text-center font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-neutral-900 md:text-6xl">
-              {t("teamTitle")}
-            </h2>
+            <div className="mx-auto max-w-3xl text-center">
+              <h2 className="font-headline text-2xl font-semibold leading-tight tracking-[-0.035em] text-slate-950 md:text-4xl dark:text-white">{copy.productsTitle}</h2>
+              <p className="mt-4 text-base leading-relaxed text-slate-600 dark:text-slate-300">{copy.productsDescription}</p>
+            </div>
           </FadeIn>
-          <div className="mx-auto mt-12 grid max-w-3xl gap-8 sm:grid-cols-2">
-            {team.map((member, i) => (
-              <FadeIn key={member.name} delay={i * 0.08}>
-                <div className="group flex h-full flex-col items-center rounded-2xl border border-[#e5e5e5] bg-white p-8 text-center shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
-                  {/* Photo with gradient ring */}
-                  <div className={cn("rounded-full bg-linear-to-br p-[2.5px]", member.accent)}>
-                    <div className="h-24 w-24 overflow-hidden rounded-full bg-white">
-                      <Image
-                        src={member.image}
-                        alt={member.name}
-                        width={96}
-                        height={96}
-                        className="h-full w-full object-cover"
-                        style={member.imagePosition ? { objectPosition: member.imagePosition } : undefined}
-                      />
+          <div className="mx-auto mt-10 grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {copy.products.map((product, index) => (
+              <FadeIn key={product.name} delay={index * 0.06}>
+                <Link href={product.href} className="dodo-glass-box group flex h-full flex-col p-5 transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{product.label}</span>
+                  <h3 className="mt-3 font-headline text-xl font-semibold tracking-[-0.025em]" style={{ color: product.color }}>{product.name}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{product.description}</p>
+                  <span className="mt-5 text-sm font-semibold text-blue-600 dark:text-blue-300">→</span>
+                </Link>
+              </FadeIn>
+            ))}
+          </div>
+        </SectionContainer>
+
+        <SectionContainer>
+          <FadeIn><h2 className="text-center font-headline text-2xl font-semibold leading-tight tracking-[-0.035em] text-slate-950 md:text-4xl dark:text-white">{copy.teamTitle}</h2></FadeIn>
+          <div className="mx-auto mt-10 grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {publicTeam.map((member, index) => (
+              <FadeIn key={member.name} delay={index * 0.08}>
+                <div className="dodo-glass-card flex h-full flex-col items-center p-7 text-center">
+                  <div className={cn('rounded-full bg-linear-to-br p-[2.5px]', member.accent)}>
+                    <div className="h-24 w-24 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-900">
+                      <Image src={member.image} alt={member.name} width={96} height={96} className="h-full w-full object-cover" style={member.imagePosition ? { objectPosition: member.imagePosition } : undefined} frameClassName="h-full w-full" />
                     </div>
                   </div>
-                  <h3 className="mt-4 font-display text-xl font-extrabold tracking-tight text-[#0a0a0a]">
-                    {locale === "ka" ? member.nameKa : member.name}
-                  </h3>
-                  <span
-                    className={cn(
-                      "mt-1.5 inline-block rounded-full bg-linear-to-r px-3 py-0.5 text-xs font-medium text-white",
-                      member.accent
-                    )}
-                  >
-                    {pick(member.role)}
-                  </span>
-                  {member.tags && member.tags.length > 0 && (
-                    <div className="mt-3 flex flex-wrap justify-center gap-1.5">
-                      {member.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full border border-black/5 bg-black/[0.04] px-2.5 py-0.5 text-[10.5px] font-semibold text-[#525252]"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-[#525252]">
-                    {pick(member.bio)}
-                  </p>
+                  <h3 className="mt-4 font-headline text-xl font-semibold tracking-[-0.025em] text-slate-950 dark:text-white">{locale === 'ka' ? member.nameKa : member.name}</h3>
+                  <span className={cn('mt-1.5 inline-block rounded-full bg-linear-to-r px-3 py-0.5 text-xs font-medium text-white', member.accent)}>{pick(member.role)}</span>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{pick(member.bio)}</p>
                 </div>
               </FadeIn>
             ))}
           </div>
         </SectionContainer>
 
-        {/* Values */}
         <SectionContainer>
-          <FadeIn>
-            <h2 className="text-center font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-neutral-900 md:text-6xl">
-              {t("valuesTitle")}
-            </h2>
-          </FadeIn>
-          <div className="mx-auto mt-12 grid max-w-3xl gap-8 md:grid-cols-3">
-            {(["value1", "value2", "value3"] as const).map((key, i) => (
-              <FadeIn key={key} delay={i * 0.08}>
-                <div className="text-center">
-                  <h3 className="font-display text-xl font-extrabold tracking-tight text-[#0a0a0a]">{t(key)}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[#525252]">
-                    {t(`${key}Desc`)}
-                  </p>
+          <FadeIn><h2 className="text-center font-headline text-2xl font-semibold leading-tight tracking-[-0.035em] text-slate-950 md:text-4xl dark:text-white">{copy.valuesTitle}</h2></FadeIn>
+          <div className="mx-auto mt-10 grid max-w-4xl gap-5 md:grid-cols-3">
+            {copy.values.map((value, index) => (
+              <FadeIn key={value.title} delay={index * 0.08}>
+                <div className="dodo-glass-card p-6 text-center">
+                  <h3 className="font-headline text-xl font-semibold tracking-[-0.025em] text-slate-950 dark:text-white">{value.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{value.description}</p>
                 </div>
               </FadeIn>
             ))}

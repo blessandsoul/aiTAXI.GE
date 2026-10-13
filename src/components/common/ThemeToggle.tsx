@@ -1,14 +1,14 @@
 'use client';
 
-import { useTheme } from 'next-themes';
 import { useSyncExternalStore } from 'react';
 import { Ico } from '@/components/common/Ico';
+import { useThemeTransition } from '@/components/common/useThemeTransition';
 import { cn } from '@/lib/utils';
 
 const emptySubscribe = () => () => {};
 
 export const ThemeToggle = () => {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme } = useThemeTransition();
   // false on the server and the first client render, true once mounted -
   // mirrors the previous mounted flag so the placeholder renders identically.
   const mounted = useSyncExternalStore(
@@ -31,8 +31,8 @@ export const ThemeToggle = () => {
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
       className={cn(
         "flex h-9 w-9 items-center justify-center rounded-lg border border-border/50",
-        "transition-all duration-200 ease-out",
-        "hover:bg-muted hover:brightness-110 active:scale-[0.98]"
+        "transition-[background-color,filter,transform] duration-150 ease-out",
+        "hover:bg-muted hover:brightness-110 active:scale-[0.96]"
       )}
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >

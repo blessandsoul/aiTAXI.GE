@@ -4,7 +4,8 @@ import matter from 'gray-matter'
 import { marked } from 'marked'
 import { BlogPost } from '../types'
 
-const blogRoot = path.join(process.cwd(), 'content/blog')
+const BLOG_LOCALES = new Set(['ka', 'en', 'ru', 'de', 'tr', 'fa', 'zh'])
+const FALSE_VALUES = new Set(['false', 'no', 'off', '0'])
 
 // Configure marked: GFM features + leave existing HTML blocks/tags intact.
 marked.setOptions({
@@ -26,7 +27,23 @@ function renderMarkdown(raw: string): string {
 }
 
 function getLocaleDir(locale: string): string {
-    return path.join(blogRoot, locale)
+    // Keep the fixed content root visible to build-time file tracing.
+    return path.join(process.cwd(), 'content/blog', BLOG_LOCALES.has(locale) ? locale : '__unsupported_locale__')
+}
+
+function isExplicitlyFalse(value: unknown): boolean {
+    if (value === false || value === 0) return true
+    return typeof value === 'string' && FALSE_VALUES.has(value.trim().toLowerCase())
+}
+
+function isPublishedFile(fullPath: string): boolean {
+    try {
+        const { data } = matter(fs.readFileSync(fullPath, 'utf8'))
+        const status = typeof data.status === 'string' ? data.status.toLowerCase() : ''
+        return !isExplicitlyFalse(data.indexable) && status !== 'draft' && status !== 'editorial-hold'
+    } catch {
+        return false
+    }
 }
 
 export function getPostSlugs(locale: string = 'ka'): string[] {
@@ -34,14 +51,19 @@ export function getPostSlugs(locale: string = 'ka'): string[] {
     if (!fs.existsSync(dir)) {
         return []
     }
-    return fs.readdirSync(dir).filter(f => f.endsWith('.mdx'))
+    return fs.readdirSync(dir).filter(f => f.endsWith('.mdx') && isPublishedFile(path.join(dir, f)))
 }
 
 export function getPostBySlug(slug: string, locale: string = 'ka', fields: string[] = []): Partial<BlogPost> {
     const realSlug = slug.replace(/\.mdx$/, '')
+    if (!realSlug || realSlug.includes('..') || /[/\\\0]/.test(realSlug)) return {}
     const fullPath = path.join(getLocaleDir(locale), `${realSlug}.mdx`)
 
     if (!fs.existsSync(fullPath)) {
+        return {}
+    }
+
+    if (!isPublishedFile(fullPath)) {
         return {}
     }
 
@@ -83,6 +105,10 @@ export function getAllPosts(locale: string = 'ka', fields: string[] = []): Parti
         .map((slug) => getPostBySlug(slug, locale, fields))
         .filter((post) => post.slug || post.id)
         // sort posts by date in descending order
-        .sort((post1, post2) => (post1.date! > post2.date! ? -1 : 1))
+        .sort((post1, post2) => {
+            const first = new Date(post1.date || 0).getTime() || 0
+            const second = new Date(post2.date || 0).getTime() || 0
+            return second - first || String(post1.slug).localeCompare(String(post2.slug), 'en')
+        })
     return posts
 }

@@ -29,7 +29,7 @@ export function CopyLinkButton() {
         <button
             onClick={handleCopy}
             className={cn(
-                "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 cursor-pointer",
+                "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition duration-200 cursor-pointer",
                 "border",
                 copied
                     ? "bg-green-500/10 border-green-500/30 text-green-600"

@@ -1,91 +1,79 @@
-'use client'
+"use client";
 
-import { Link, useRouter } from '@/i18n/navigation'
-import Image from 'next/image'
-import { BlogPost } from '../types'
-import { cn } from '@/lib/utils'
-import { motion } from 'framer-motion'
-import { useTranslations } from 'next-intl'
-import { tagToSlug } from '../lib/slugify'
+import { AiNowImage as Image } from "@/features/home/components/ainow/AiNowImage";
+import { ArrowUpRight } from "lucide-react";
+import { useTranslations } from "next-intl";
+
+import { Link } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
+
+import type { BlogPost } from "../types";
 
 interface BlogCardProps {
-    post: BlogPost
-    className?: string
-    index?: number
+  post: BlogPost;
+  featured?: boolean;
+  className?: string;
+  /** Retained for tag pages that still pass their list position. */
+  index?: number;
 }
 
-export function BlogCard({ post, className, index = 0 }: BlogCardProps) {
-    const t = useTranslations('blog')
-    const router = useRouter()
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-                duration: 0.45,
-                delay: index * 0.08,
-                ease: [0.16, 1, 0.3, 1]
-            }}
-        >
-            <Link
-                href={`/blog/${post.slug}`}
-                className={cn(
-                    "group relative flex flex-col h-full cursor-pointer rounded-2xl",
-                    "border border-[#e5e5e5] bg-white",
-                    "shadow-sm hover:shadow-xl hover:shadow-[#ffc400]/10",
-                    "transition-all duration-300 ease-out",
-                    "hover:-translate-y-1 hover:border-[#ffc400]",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffc400]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
-                    "overflow-hidden",
-                    className
-                )}
-            >
-                {/* Cover Image */}
-                <div className="relative w-full aspect-[16/9] overflow-hidden">
-                    <Image
-                        src={post.coverImage}
-                        alt={post.title}
-                        fill
-                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        unoptimized={post.coverImage.startsWith('/api/og')}
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-40" />
+export function BlogCard({ post, featured = false, className }: BlogCardProps) {
+  const t = useTranslations("blog");
 
-                    {/* Tags */}
-                    <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
-                        {post.tags.slice(0, 2).map(tag => (
-                            <button
-                                key={tag}
-                                type="button"
-                                onClick={(e) => {
-                                    e.preventDefault()
-                                    e.stopPropagation()
-                                    router.push(`/blog/tags/${tagToSlug(tag)}`)
-                                }}
-                                className="rounded-full bg-white/15 px-2.5 py-0.5 text-[11px] font-medium text-white backdrop-blur-md border border-white/10 hover:bg-white/25 transition-colors duration-200 cursor-pointer"
-                            >
-                                {tag}
-                            </button>
-                        ))}
-                    </div>
+  return (
+    <article
+      className={cn("min-w-0", featured && "sm:col-span-2", className)}
+    >
+      <Link
+        href={`/blog/${post.slug}`}
+        className={cn(
+          "dodo-glass-card group flex h-full min-h-full overflow-hidden text-left",
+          "transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-blue-300/90 hover:shadow-[0_18px_42px_-16px_rgba(37,99,235,0.3)]",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:ring-offset-2 focus-visible:ring-offset-[#fcfcfb]",
+          featured ? "flex-col sm:grid sm:grid-cols-[1.08fr_0.92fr]" : "flex-col",
+        )}
+      >
+        <div className={cn("relative z-10 min-h-[200px] overflow-hidden bg-slate-950", featured ? "sm:min-h-full" : "aspect-[16/10]")}>
+          <Image
+            src={post.coverImage}
+            alt={post.title}
+            fill
+            priority={featured}
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.035]"
+            sizes={featured ? "(max-width: 1024px) 100vw, 66vw" : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"}
+            unoptimized={post.coverImage.startsWith("/api/og")}
+          />
+          <div className="absolute inset-0 bg-linear-to-t from-slate-950/70 via-slate-950/5 to-transparent" />
+          <div className="absolute left-4 top-4 flex flex-wrap gap-1.5">
+            {post.tags.slice(0, featured ? 3 : 2).map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full border border-white/25 bg-slate-950/35 px-2.5 py-1 text-[10px] font-semibold text-white backdrop-blur-md"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
 
-
-                </div>
-
-                {/* Content */}
-                <div className="flex flex-col flex-1 p-4">
-                    <h3 className="font-display text-base font-bold leading-snug tracking-tight text-neutral-900 mb-1.5 line-clamp-2 transition-colors duration-200 group-hover:text-[#ffc400]">
-                        {post.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-[#525252]">
-                        {post.excerpt.length > 100 ? post.excerpt.slice(0, 100) + '… ' : post.excerpt + ' '}
-                        <span className="inline-flex items-center gap-0.5 text-xs font-semibold text-[#ffc400] whitespace-nowrap transition-all duration-200 group-hover:gap-1.5">
-                            {t('readMore')} <span className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
-                        </span>
-                    </p>
-                </div>
-            </Link>
-        </motion.div>
-    )
+        <div className={cn("relative z-10 flex min-w-0 flex-1 flex-col p-5", featured && "sm:p-7")}>
+          <p className="eyebrow text-[10px] font-bold uppercase tracking-[0.15em] text-[#2563eb] dark:text-blue-300">
+            aiTAXI journal
+          </p>
+          <h3 className={cn("mt-3 text-balance font-headline font-semibold tracking-[-0.032em] text-slate-950 dark:text-white", featured ? "text-2xl leading-tight sm:text-3xl" : "text-xl leading-snug")}>
+            {post.title}
+          </h3>
+          <p className={cn("mt-3 text-pretty leading-6 text-slate-600 dark:text-slate-300", featured ? "text-base" : "text-sm")}>
+            {post.excerpt.length > (featured ? 180 : 122)
+              ? `${post.excerpt.slice(0, featured ? 180 : 122)}…`
+              : post.excerpt}
+          </p>
+          <span className="mt-5 inline-flex min-h-10 w-fit items-center gap-2 text-sm font-semibold text-slate-900 transition-colors group-hover:text-[#1d4ed8] dark:text-white dark:group-hover:text-blue-300">
+            {t("readMore")}
+            <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+          </span>
+        </div>
+      </Link>
+    </article>
+  );
 }

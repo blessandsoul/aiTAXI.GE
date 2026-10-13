@@ -1,9 +1,9 @@
 import { getPosts } from "@/features/blog/lib/api";
 
 const BASE_URL = "https://aitaxi.ge";
-const SITE_TITLE = "aiTAXI, Robotaxi Fleet Management";
+const SITE_TITLE = "aiTAXI by aiNOW — pre-launch fleet workflows";
 const SITE_DESC =
-  "Articles on robotaxi technology, autonomous taxi economics, fleet operations, and the Georgian taxi market from aiTAXI by aiNOW (Tbilisi, Georgia).";
+  "Planned fleet-dispatch and operator-workflow articles from aiTAXI by aiNOW.";
 
 function escape(s: string): string {
   return s
@@ -15,7 +15,7 @@ function escape(s: string): string {
 }
 
 export async function GET() {
-  const posts = await getPosts("en");
+  const posts = await getPosts("ka");
   const recent = posts.slice(0, 50);
   const lastBuild = recent[0]?.date
     ? new Date(recent[0].date).toUTCString()
@@ -23,7 +23,7 @@ export async function GET() {
 
   const items = recent
     .map((p) => {
-      const link = `${BASE_URL}/en/blog/${p.slug}`;
+      const link = `${BASE_URL}/blog/${p.slug}`;
       const pubDate = p.date ? new Date(p.date).toUTCString() : lastBuild;
       const desc = (p as { excerpt?: string; description?: string }).excerpt
         ?? (p as { excerpt?: string; description?: string }).description
@@ -44,7 +44,7 @@ export async function GET() {
     <title>${escape(SITE_TITLE)}</title>
     <link>${BASE_URL}</link>
     <description>${escape(SITE_DESC)}</description>
-    <language>en</language>
+    <language>ka</language>
     <lastBuildDate>${lastBuild}</lastBuildDate>
     <atom:link href="${BASE_URL}/rss.xml" rel="self" type="application/rss+xml" />
 ${items}

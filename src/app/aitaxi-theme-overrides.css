@@ -1,0 +1,32 @@
+/* aiTAXI adaptation: preserve the source rails/glass system and use the
+   verified yellow/gold product palette from src/config/site.ts. */
+.aitaxi-product {
+  --ainow-blue: #ffd400;
+  --ainow-blue-hover: #b88600;
+  --ainow-blue-subtle: #fff4b8;
+  --ainow-pink: #ffd400;
+  --ainow-emerald: #b88600;
+  --ainow-cyan: #ffd400;
+  --ainow-purple: #b88600;
+  --primary: #b88600;
+  --primary-foreground: #111318;
+  /* Tailwind v4 utilities read these scoped tokens, preserving native variants and opacity. */
+  --color-blue-50: #fff4b8; --color-blue-100: #fff4b8; --color-blue-200: #fff4b8; --color-blue-300: #fff4b8; --color-blue-400: #fff4b8; --color-blue-500: #b88600; --color-blue-600: #b88600; --color-blue-700: #b88600; --color-blue-800: #b88600; --color-blue-900: #b88600; --color-blue-950: #b88600;
+  --color-indigo-50: #fff4b8; --color-indigo-100: #fff4b8; --color-indigo-200: #fff4b8; --color-indigo-300: #fff4b8; --color-indigo-400: #fff4b8; --color-indigo-500: #b88600; --color-indigo-600: #b88600; --color-indigo-700: #b88600; --color-indigo-800: #b88600; --color-indigo-900: #b88600; --color-indigo-950: #b88600;
+  --color-purple-50: #fff4b8; --color-purple-100: #fff4b8; --color-purple-200: #fff4b8; --color-purple-300: #fff4b8; --color-purple-400: #fff4b8; --color-purple-500: #b88600; --color-purple-600: #b88600; --color-purple-700: #b88600; --color-purple-800: #b88600; --color-purple-900: #b88600; --color-purple-950: #b88600;
+  --color-violet-50: #fff4b8; --color-violet-100: #fff4b8; --color-violet-200: #fff4b8; --color-violet-300: #fff4b8; --color-violet-400: #fff4b8; --color-violet-500: #b88600; --color-violet-600: #b88600; --color-violet-700: #b88600; --color-violet-800: #b88600; --color-violet-900: #b88600; --color-violet-950: #b88600;
+  --color-pink-50: #fff4b8; --color-pink-100: #fff4b8; --color-pink-200: #fff4b8; --color-pink-300: #fff4b8; --color-pink-400: #fff4b8; --color-pink-500: #b88600; --color-pink-600: #b88600; --color-pink-700: #b88600; --color-pink-800: #b88600; --color-pink-900: #b88600; --color-pink-950: #b88600;
+  --color-emerald-50: #fff4b8; --color-emerald-100: #fff4b8; --color-emerald-200: #fff4b8; --color-emerald-300: #fff4b8; --color-emerald-400: #fff4b8; --color-emerald-500: #b88600; --color-emerald-600: #b88600; --color-emerald-700: #b88600; --color-emerald-800: #b88600; --color-emerald-900: #b88600; --color-emerald-950: #b88600;
+  --color-cyan-50: #fff4b8; --color-cyan-100: #fff4b8; --color-cyan-200: #fff4b8; --color-cyan-300: #fff4b8; --color-cyan-400: #fff4b8; --color-cyan-500: #b88600; --color-cyan-600: #b88600; --color-cyan-700: #b88600; --color-cyan-800: #b88600; --color-cyan-900: #b88600; --color-cyan-950: #b88600;
+  --color-teal-50: #fff4b8; --color-teal-100: #fff4b8; --color-teal-200: #fff4b8; --color-teal-300: #fff4b8; --color-teal-400: #fff4b8; --color-teal-500: #b88600; --color-teal-600: #b88600; --color-teal-700: #b88600; --color-teal-800: #b88600; --color-teal-900: #b88600; --color-teal-950: #b88600;
+  --color-sky-50: #fff4b8; --color-sky-100: #fff4b8; --color-sky-200: #fff4b8; --color-sky-300: #fff4b8; --color-sky-400: #fff4b8; --color-sky-500: #b88600; --color-sky-600: #b88600; --color-sky-700: #b88600; --color-sky-800: #b88600; --color-sky-900: #b88600; --color-sky-950: #b88600;
+  --color-rose-50: #fff4b8; --color-rose-100: #fff4b8; --color-rose-200: #fff4b8; --color-rose-300: #fff4b8; --color-rose-400: #fff4b8; --color-rose-500: #b88600; --color-rose-600: #b88600; --color-rose-700: #b88600; --color-rose-800: #b88600; --color-rose-900: #b88600; --color-rose-950: #b88600;
+}
+/* Keep source light accents, but let dark semantic roles win only in their real state. */
+.dark .aitaxi-product [class~="dark:text-white"] { color: #ffffff !important; }
+.dark .aitaxi-product .group:hover [class~="dark:group-hover:text-blue-400"],
+.dark .aitaxi-product .group:hover [class~="dark:group-hover:text-emerald-400"],
+.dark .aitaxi-product .group:hover [class~="dark:group-hover:text-pink-400"],
+.dark .aitaxi-product .group:hover [class~="dark:group-hover:text-purple-400"],
+.dark .aitaxi-product .group\/item:hover [class~="dark:group-hover/item:text-blue-400"] { color: #ffd400 !important; }
+.aitaxi-product [class~="bg-orange-500"][class~="text-white"] { background-color: #b88600 !important; }

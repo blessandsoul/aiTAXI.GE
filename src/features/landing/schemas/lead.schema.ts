@@ -13,13 +13,14 @@ export const leadFormSchema = z.object({
   budgetRange: z
     .enum(["small", "medium", "large", "enterprise"])
     .optional(),
-  message: z.string().max(500).optional(),
-  utmSource: z.string().optional(),
-  utmMedium: z.string().optional(),
-  utmCampaign: z.string().optional(),
-  utmContent: z.string().optional(),
+  message: z.string().max(3000).optional(),
+  utmSource: z.string().max(160).optional(),
+  utmMedium: z.string().max(160).optional(),
+  utmCampaign: z.string().max(160).optional(),
+  utmContent: z.string().max(160).optional(),
   utmTerm: z.string().optional(),
   source: z.string().optional(),
+  sourcePath: z.string().max(500).regex(/^\/(?!\/)/).optional(),
 });
 
 export type LeadFormData = z.infer<typeof leadFormSchema>;

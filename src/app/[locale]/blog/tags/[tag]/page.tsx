@@ -2,11 +2,19 @@ import { getTagBySlug, getAllTags } from '@/features/blog/lib/api'
 import { BlogCard } from '@/features/blog/components/BlogCard'
 import { getTranslations } from 'next-intl/server'
 import { Metadata } from 'next'
-import { permanentRedirect } from 'next/navigation'
+import { PRODUCT_OG_IMAGE, PRODUCT_OG_PATH } from "@/lib/product-og";
+import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { INDEXED_LOCALES, localeUrl } from '@/i18n/seo-locales'
+import { APP_NAME } from '@/lib/constants/app.constants'
+import { getAiNowHomeCopy } from '@/features/home/components/ainow/AiNowHomeCopy'
 
-const BASE_URL = 'https://aitaxi.ge'
-const LOCALES = ['ka', 'en', 'ru'] as const
+const LOCALES = INDEXED_LOCALES
+const BASE_URL = localeUrl('ka')
+
+// Tag pages are generated from the current finite tag registry.
+export const dynamic = 'force-static'
+export const dynamicParams = false
 
 export async function generateStaticParams() {
     const params: { locale: string; tag: string }[] = []
@@ -26,29 +34,26 @@ export async function generateMetadata({
 }): Promise<Metadata> {
     const { tag, locale } = await params
     const result = await getTagBySlug(tag, locale)
-    if (!result) return { title: 'Tag Not Found' }
+    if (!result) notFound()
 
     const { tag: tagName, posts } = result
     const t = await getTranslations({ locale, namespace: 'blog' })
 
-    const title = `${tagName}, ${t('title')} | aiTAXI`
+    const title = `${tagName}, ${t('title')} | ${APP_NAME}`
     const description =
         locale === 'ka'
-            ? `${posts.length} სტატია თემაზე "${tagName}". რობოტაქსი, ავტონომიური ტაქსი და ფლოტის მართვა.`
+            ? `${posts.length} სტატია თემაზე "${tagName}". ${getAiNowHomeCopy(locale).hero.description}`
             : locale === 'ru'
-                ? `${posts.length} статей по теме "${tagName}". Роботакси, беспилотное такси и управление автопарком.`
-                : `${posts.length} articles about "${tagName}". Robotaxi technology, autonomous taxis, and fleet operations.`
+                ? `${posts.length} статей по теме "${tagName}". ${getAiNowHomeCopy(locale).hero.description}`
+                : `${posts.length} articles about "${tagName}". ${getAiNowHomeCopy(locale).hero.description}`
 
-    const url =
-        locale === 'ka'
-            ? `${BASE_URL}/blog/tags/${tag}`
-            : `${BASE_URL}/${locale}/blog/tags/${tag}`
+    const url = localeUrl(locale, `/blog/tags/${tag}`)
 
     // IMPORTANT: tag slugs are locale-specific (ai-marketingi ≠ ai-marketing ≠ ии-маркетинг).
     // So cross-locale hreflang would point to 404s, omit languages entirely.
     // Only self-reference canonical; Google will treat each locale tag page as independent.
     return {
-        title,
+        title: { absolute: title },
         description,
         alternates: {
             canonical: url,
@@ -57,13 +62,15 @@ export async function generateMetadata({
             title,
             description,
             url,
-            siteName: 'aiTAXI',
+            siteName: APP_NAME,
             type: 'website',
+            images: [PRODUCT_OG_IMAGE],
         },
         twitter: {
             card: 'summary_large_image',
             title,
             description,
+            images: [PRODUCT_OG_PATH],
         },
         // Tag pages are thin aggregation pages, keep crawlable for link discovery
         // but out of the index to avoid "crawled, not indexed" noise.
@@ -78,39 +85,23 @@ export default async function TagPage({
 }) {
     const { tag, locale } = await params
     const result = await getTagBySlug(tag, locale)
-    // Tag slugs are locale-specific and churn as articles regenerate.
-    // Stale / cross-locale slugs 308-redirect to the tag index instead of 404.
-    if (!result) permanentRedirect(locale === 'ka' ? '/blog/tags' : `/${locale}/blog/tags`)
+    if (!result) notFound()
 
     const { tag: tagName, posts } = result
     const t = await getTranslations({ locale, namespace: 'blog' })
 
+    const tagsLabel = locale === 'ka' ? 'თემები' : 'Tags'
     const blogHref = locale === 'ka' ? '/blog' : `/${locale}/blog`
     const tagsHref = locale === 'ka' ? '/blog/tags' : `/${locale}/blog/tags`
-    const contactHref = locale === 'ka' ? '/contact' : `/${locale}/contact`
-    const homeHref = locale === 'ka' ? '/' : `/${locale}`
+    const servicesHref = locale === 'ka' ? '/services' : `/${locale}/services`
+    const startHref = locale === 'ka' ? '/start' : `/${locale}/start`
 
-    // Contextual CTA text based on tag and locale
-    const ctaTitle =
-        locale === 'ka'
-            ? `ამზადებთ თქვენს ტაქსოპარკს "${tagName}"-სთვის?`
-            : locale === 'ru'
-                ? `Готовите свой таксопарк к теме "${tagName}"?`
-                : `Preparing your taxi fleet for "${tagName}"?`
-    const ctaSubtitle =
-        locale === 'ka'
-            ? 'aiTAXI არის რობოტაქსის ფლოტის მართვის პლატფორმა aiNOW-სგან. ადრეული წვდომა ღიაა.'
-            : locale === 'ru'
-                ? 'aiTAXI, платформа управления роботакси от aiNOW. Открыт ранний доступ.'
-                : 'aiTAXI is a robotaxi fleet management platform by aiNOW. Early access is open.'
-    const ctaButton =
-        locale === 'ka'
-            ? 'მოითხოვე ადრეული წვდომა'
-            : locale === 'ru'
-                ? 'Запросить ранний доступ'
-                : 'Request early access'
+    const homeCopy = getAiNowHomeCopy(locale)
+    const ctaTitle = homeCopy.closingCta.title
+    const ctaSubtitle = homeCopy.closingCta.description
+    const ctaButton = homeCopy.hero.primaryCta
     const ctaSecondary =
-        locale === 'ka' ? 'მთავარი' : locale === 'ru' ? 'Главная' : 'Home'
+        locale === 'ka' ? 'სერვისები' : locale === 'ru' ? 'Услуги' : 'Services'
 
     // CollectionPage JSON-LD for AI Overviews / SEO
     const collectionJsonLd = {
@@ -125,7 +116,7 @@ export default async function TagPage({
         inLanguage: locale,
         isPartOf: {
             '@type': 'WebSite',
-            name: 'aiNOW',
+            name: APP_NAME,
             url: BASE_URL,
         },
         mainEntity: {
@@ -149,7 +140,7 @@ export default async function TagPage({
         itemListElement: [
             { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
             { '@type': 'ListItem', position: 2, name: 'Blog', item: `${BASE_URL}${blogHref}` },
-            { '@type': 'ListItem', position: 3, name: 'Tags', item: `${BASE_URL}${tagsHref}` },
+            { '@type': 'ListItem', position: 3, name: tagsLabel, item: `${BASE_URL}${tagsHref}` },
             { '@type': 'ListItem', position: 4, name: tagName },
         ],
     }
@@ -166,26 +157,26 @@ export default async function TagPage({
                 suppressHydrationWarning
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
             />
-            <div className="container mx-auto px-4 md:px-6 lg:px-8 py-20">
+            <div className="mx-auto max-w-6xl px-4 py-10 md:px-6 md:py-16 lg:px-8">
                 {/* Breadcrumb */}
-                <nav className="text-sm text-[#525252] mb-6 flex gap-2 justify-center">
-                    <Link href={blogHref} className="hover:text-neutral-900">
+                <nav className="text-sm text-slate-600 dark:text-slate-300 mb-6 flex flex-wrap gap-2 justify-center">
+                    <Link href={blogHref} className="hover:text-blue-600 dark:hover:text-blue-300">
                         {t('title')}
                     </Link>
                     <span>/</span>
-                    <Link href={tagsHref} className="hover:text-neutral-900">
-                        Tags
+                    <Link href={tagsHref} className="hover:text-blue-600 dark:hover:text-blue-300">
+                        {tagsLabel}
                     </Link>
                     <span>/</span>
-                    <span className="text-neutral-900">{tagName}</span>
+                    <span className="text-slate-900 dark:text-white">{tagName}</span>
                 </nav>
 
                 <div className="max-w-3xl mx-auto text-center mb-16 space-y-4">
-                    <h1 className="font-display text-4xl font-extrabold tracking-tight leading-tight sm:text-5xl md:text-6xl text-neutral-900 pb-1">
+                    <h1 className="font-display text-3xl font-extrabold tracking-tight leading-tight sm:text-4xl lg:text-5xl text-slate-900 dark:text-white pb-1">
                         {tagName}
                     </h1>
-                    <p className="text-xl text-[#525252]">
-                        {posts.length} {posts.length === 1 ? 'article' : 'articles'}
+                    <p className="text-lg text-slate-600 dark:text-slate-300">
+                        {locale === 'ka' ? `${posts.length} სტატია` : `${posts.length} ${posts.length === 1 ? 'article' : 'articles'}`}
                     </p>
                 </div>
 
@@ -197,24 +188,24 @@ export default async function TagPage({
                     </div>
                 ) : (
                     <div className="text-center py-20">
-                        <p className="text-[#525252]">{t('noPostsForTag')}</p>
+                        <p className="text-slate-600 dark:text-slate-300">{t('noPostsForTag')}</p>
                     </div>
                 )}
 
                 {/* Conversion CTA, turns tag-page traffic into leads */}
-                <div className="mt-20 max-w-4xl mx-auto rounded-2xl border border-[#ffc400]/20 bg-[#ffc400]/5 p-8 md:p-12 text-center">
-                    <h2 className="font-display text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3">{ctaTitle}</h2>
-                    <p className="text-[#525252] mb-6 max-w-2xl mx-auto">{ctaSubtitle}</p>
+                <div className="dodo-glass-card mt-12 max-w-4xl mx-auto p-5 sm:p-8 md:p-12 text-center">
+                    <h2 className="font-display text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-3">{ctaTitle}</h2>
+                    <p className="text-slate-600 dark:text-slate-300 mb-6 max-w-2xl mx-auto">{ctaSubtitle}</p>
                     <div className="flex flex-wrap gap-3 justify-center">
                         <Link
-                            href={contactHref}
-                            className="rounded-full px-6 py-3 bg-neutral-900 text-white font-semibold hover:bg-neutral-800 transition-colors"
+                            href={startHref}
+                            className="dodo-glass-box dodo-glass-pill inline-flex min-h-11 items-center px-6 py-3 text-slate-900 dark:text-white font-semibold"
                         >
                             {ctaButton}
                         </Link>
                         <Link
-                            href={homeHref}
-                            className="rounded-full px-6 py-3 border border-[#e5e5e5] bg-white text-neutral-900 font-semibold hover:border-[#ffc400]/40 transition-colors"
+                            href={servicesHref}
+                            className="dodo-glass-box dodo-glass-pill inline-flex min-h-11 items-center px-6 py-3 text-slate-900 dark:text-white font-semibold"
                         >
                             {ctaSecondary}
                         </Link>

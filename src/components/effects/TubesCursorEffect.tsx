@@ -6,12 +6,12 @@ import { cn } from '@/lib/utils';
 
 const THEME_COLORS = {
   light: {
-    tubes: ['#7c5cbf', '#9b6dd7', '#ffd54f'],
+    tubes: ['#7c5cbf', '#9b6dd7', '#c084fc'],
     lights: ['#818cf8', '#a78bfa', '#e879f9', '#60a5fa'],
   },
   dark: {
-    tubes: ['#a78bfa', '#ffd54f', '#e879f9'],
-    lights: ['#818cf8', '#ffd54f', '#f472b6', '#60a5fa'],
+    tubes: ['#a78bfa', '#c084fc', '#e879f9'],
+    lights: ['#818cf8', '#c084fc', '#f472b6', '#60a5fa'],
   },
 } as const;
 

@@ -198,13 +198,13 @@ export const SmokyButton = ({
       <div className="absolute inset-0 -z-1">
         <canvas
           ref={canvasRef}
-          className="absolute inset-0 h-full w-full transition-all duration-300 group-hover:scale-[1.15]"
+          className="absolute inset-0 h-full w-full transition duration-300 group-hover:scale-[1.15]"
         />
       </div>
 
       {/* Content, no dark overlay, just text on gradient */}
-      <div className="px-5 py-2.5 transition-all duration-300 sm:px-8 sm:py-3">
-        <span className="flex items-center text-white drop-shadow-md transition-all duration-300 group-hover:scale-[1.03]">
+      <div className="px-5 py-2.5 transition duration-300 sm:px-8 sm:py-3">
+        <span className="flex items-center text-white drop-shadow-md transition duration-300 group-hover:scale-[1.03]">
           {children}
         </span>
       </div>

@@ -34,9 +34,9 @@ export function Pagination({ page, totalPages, prevLabel, nextLabel }: Paginatio
         (n === 1 ? '/blog' : { pathname: '/blog', query: { page: String(n) } }) as never
 
     const arrowPill =
-        'rounded-full border border-[#e5e5e5] bg-white px-4 py-2 text-sm font-medium text-[#525252] transition-colors hover:border-[#ffc400]/40 hover:text-neutral-900'
+        'dodo-glass-box inline-flex min-h-10 items-center rounded-xl px-4 py-2 text-sm font-semibold text-slate-700 transition-[transform,border-color,box-shadow] hover:border-blue-300 hover:text-[#1d4ed8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:ring-offset-2 dark:text-slate-200 dark:hover:text-blue-200'
     const numPill =
-        'flex h-9 min-w-9 items-center justify-center rounded-full border px-2 text-sm font-medium transition-colors'
+        'dodo-glass-box flex min-h-10 min-w-10 items-center justify-center rounded-xl px-2 text-sm font-semibold transition-[transform,border-color,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:ring-offset-2'
 
     return (
         <nav aria-label="Pagination" className="mt-12 flex flex-wrap items-center justify-center gap-2">
@@ -55,7 +55,7 @@ export function Pagination({ page, totalPages, prevLabel, nextLabel }: Paginatio
                     <span
                         key={item}
                         aria-current="page"
-                        className={cn(numPill, 'border-neutral-900 bg-neutral-900 text-white')}
+                        className={cn(numPill, 'border-blue-600 bg-[#2563eb] text-white shadow-[0_8px_18px_-8px_rgba(37,99,235,0.55)]')}
                     >
                         {item}
                     </span>
@@ -65,7 +65,7 @@ export function Pagination({ page, totalPages, prevLabel, nextLabel }: Paginatio
                         href={href(item)}
                         className={cn(
                             numPill,
-                            'border-[#e5e5e5] bg-white text-[#525252] hover:border-[#ffc400]/40 hover:text-neutral-900',
+                            'text-slate-700 hover:border-blue-300 hover:text-[#1d4ed8] dark:text-slate-200 dark:hover:text-blue-200',
                         )}
                     >
                         {item}

@@ -10,11 +10,18 @@ export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
 
-        const title = (searchParams.get('title')?.slice(0, 120) || 'aiTAXI').trim();
+        const title = (searchParams.get('title')?.slice(0, 120) || 'aiNOW').trim();
         const date = searchParams.get('date') || '';
         const tags = (searchParams.get('tags')?.split(',').map(t => t.trim()).filter(Boolean)) || [];
-        const eyebrow = (tags[0] || 'aiTAXI Insights').toUpperCase();
-        const footerBadges = tags.slice(1, 4);
+        // The current OG renderer cannot shape Arabic/Persian text with the
+        // bundled font. Render a branded Latin card instead of a broken image;
+        // the article's HTML title and metadata remain localized.
+        const unsupportedScript = /[\u0600-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/u;
+        const imageTitle = unsupportedScript.test(title) ? 'aiNOW Insights' : title;
+        const imageTags = tags.filter((tag) => !unsupportedScript.test(tag));
+        const imageDate = unsupportedScript.test(date) ? '' : date;
+        const eyebrow = (imageTags[0] || 'aiNOW Insights').toUpperCase();
+        const footerBadges = imageTags.slice(1, 4);
 
         return new ImageResponse(
             (
@@ -33,14 +40,14 @@ export async function GET(request: Request) {
                     }}
                 >
                     {/* Ambient orbs */}
-                    <div style={{ position: 'absolute', top: '-15%', right: '-10%', width: '700px', height: '700px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,196,0,0.32) 0%, rgba(0,0,0,0) 65%)', filter: 'blur(40px)', display: 'flex' }} />
-                    <div style={{ position: 'absolute', bottom: '-15%', left: '-5%', width: '600px', height: '600px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,143,0,0.25) 0%, rgba(0,0,0,0) 65%)', filter: 'blur(40px)', display: 'flex' }} />
+                    <div style={{ position: 'absolute', top: '-15%', right: '-10%', width: '700px', height: '700px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(150,80,255,0.35) 0%, rgba(0,0,0,0) 65%)', filter: 'blur(40px)', display: 'flex' }} />
+                    <div style={{ position: 'absolute', bottom: '-15%', left: '-5%', width: '600px', height: '600px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,200,220,0.28) 0%, rgba(0,0,0,0) 65%)', filter: 'blur(40px)', display: 'flex' }} />
 
                     {/* Top row: brand pill */}
                     <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', zIndex: 10 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 18px', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '999px', background: 'rgba(255,255,255,0.04)' }}>
-                            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ffc400', display: 'flex' }} />
-                            <span style={{ fontSize: '18px', color: 'rgba(255,255,255,0.85)', fontWeight: 600, letterSpacing: '0.08em' }}>aiTAXI.ge</span>
+                            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22d3a5', display: 'flex' }} />
+                            <span style={{ fontSize: '18px', color: 'rgba(255,255,255,0.85)', fontWeight: 600, letterSpacing: '0.08em' }}>aiNOW.ge</span>
                         </div>
                     </div>
 
@@ -49,8 +56,8 @@ export async function GET(request: Request) {
                         <span style={{ fontSize: '20px', color: 'rgba(255,255,255,0.55)', fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '20px' }}>
                             {eyebrow}
                         </span>
-                        <h1 style={{ fontSize: '72px', fontWeight: 800, lineHeight: 1.08, letterSpacing: '-0.02em', margin: 0, backgroundImage: 'linear-gradient(120deg, #ffffff 0%, #ffe9a8 50%, #ffd54f 100%)', backgroundClip: 'text', color: 'transparent' }}>
-                            {title}
+                        <h1 style={{ fontSize: '72px', fontWeight: 800, lineHeight: 1.08, letterSpacing: '-0.02em', margin: 0, backgroundImage: 'linear-gradient(120deg, #ffffff 0%, #d8c4ff 50%, #b3f0ff 100%)', backgroundClip: 'text', color: 'transparent' }}>
+                            {imageTitle}
                         </h1>
                     </div>
 
@@ -64,11 +71,11 @@ export async function GET(request: Request) {
                             </div>
                         ) : (
                             <span style={{ fontSize: '18px', color: 'rgba(255,255,255,0.7)', fontWeight: 600, letterSpacing: '0.06em' }}>
-                                Robotaxi Fleet Management · Tbilisi, Georgia
+                                AI Agency in Georgia · aiNOW
                             </span>
                         )}
                         <span style={{ fontSize: '18px', color: 'rgba(255,255,255,0.55)', fontWeight: 500 }}>
-                            {date || 'aitaxi.ge'}
+                            {imageDate || 'ainow.ge'}
                         </span>
                     </div>
                 </div>
