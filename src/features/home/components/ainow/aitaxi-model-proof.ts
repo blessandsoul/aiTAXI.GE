@@ -16,6 +16,7 @@ export const AITAXI_MODEL_PROOF = {
       { value: "ფლოტი", label: "შესაბამისობის კონტექსტი", detail: "მუხტი, მანძილი და მანქანის თავსებადობა დაგეგმილი ლოგიკაა.", image: "/graphics-3d/products/aitaxi-fleet-workflow-v1.png" },
       { value: "გზა", label: "ხილული მარშრუტი", detail: "ოპერატორი ხედავს მომზადებულ მარშრუტსა და სტატუსს.", image: "/images/model-trust/aitaxi-decision-path-v1.png" },
       { value: "კონტროლი", label: "ოპერატორის დადასტურება", detail: "საბოლოო არჩევანს ოპერატორი აკეთებს.", image: "/images/model-trust/aitaxi-operator-workflow-v1.png" },
+      { value: "TikTok", label: "ვერიფიკაცია გავლილია", detail: "TikTok-მა aiNOW-ს ჩატის, რეკლამისა და გამოქვეყნების API-ებზე წვდომა დაუმტკიცა.", image: "/images/model-trust/tiktok-verified-glass-v1.png" },
     ],
   },
   en: {
@@ -35,6 +36,7 @@ export const AITAXI_MODEL_PROOF = {
       { value: "Fleet", label: "Fit context", detail: "Charge, distance and vehicle compatibility remain planned logic.", image: "/graphics-3d/products/aitaxi-fleet-workflow-v1.png" },
       { value: "Route", label: "Visible plan", detail: "The operator sees a prepared route and status context.", image: "/images/model-trust/aitaxi-decision-path-v1.png" },
       { value: "Control", label: "Operator confirmation", detail: "The operator makes the final choice.", image: "/images/model-trust/aitaxi-operator-workflow-v1.png" },
+      { value: "TikTok", label: "Verification completed", detail: "TikTok approved aiNOW's access to chat, advertising and publishing APIs.", image: "/images/model-trust/tiktok-verified-glass-v1.png" },
     ],
   },
   ru: {
@@ -54,6 +56,7 @@ export const AITAXI_MODEL_PROOF = {
       { value: "Парк", label: "Контекст соответствия", detail: "Заряд, расстояние и совместимость остаются планируемой логикой.", image: "/graphics-3d/products/aitaxi-fleet-workflow-v1.png" },
       { value: "Маршрут", label: "Видимый план", detail: "Оператор видит подготовленный маршрут и статус.", image: "/images/model-trust/aitaxi-decision-path-v1.png" },
       { value: "Контроль", label: "Подтверждение оператора", detail: "Окончательный выбор делает оператор.", image: "/images/model-trust/aitaxi-operator-workflow-v1.png" },
+      { value: "TikTok", label: "Верификация пройдена", detail: "TikTok одобрил aiNOW доступ к API чатов, рекламы и публикации.", image: "/images/model-trust/tiktok-verified-glass-v1.png" },
     ],
   },
 } as const;
