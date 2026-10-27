@@ -2698,7 +2698,3 @@ body:has(section.outer-section-node-offset:not(#hero):target, section.outer-sect
     inset -4px 4px 1px -3px rgba(16, 185, 129, 0.35),
     0 8px 24px -4px rgba(0, 0, 0, 0.45);
 }
-
-/* tiktok-trust-final: the fifth trust card spans the existing grid, not the mobile carousel. */
-.ainow-model-stage__trust-item:last-child .ainow-model-stage__trust-image { object-fit: contain; object-position: right center; }
-@media (min-width: 768px) { .ainow-model-stage__trust-item:last-child { grid-column: 1 / -1; } }
